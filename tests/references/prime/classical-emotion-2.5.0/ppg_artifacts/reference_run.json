@@ -1,0 +1,46 @@
+{
+  "system": "prime",
+  "model": "classical-emotion-2.5.0",
+  "steps": [
+    {
+      "step": "prepareDirectory",
+      "status": "ok",
+      "seconds": 0.0
+    },
+    {
+      "step": "extractMetaInfo",
+      "status": "ok",
+      "seconds": 0.01
+    },
+    {
+      "step": "computeArousal",
+      "status": "ok",
+      "seconds": 0.0
+    },
+    {
+      "step": "computeHeartDynamics",
+      "status": "ok",
+      "seconds": 0.0
+    },
+    {
+      "step": "computeCognitiveIndexes",
+      "status": "ok",
+      "seconds": 0.0
+    },
+    {
+      "step": "computeEmotions",
+      "status": "ok",
+      "seconds": 2.61
+    },
+    {
+      "step": "eventProcessor",
+      "status": "ok",
+      "seconds": 0.0
+    },
+    {
+      "step": "seedPlaybackAnnotations",
+      "status": "ok",
+      "seconds": 0.0
+    }
+  ]
+}

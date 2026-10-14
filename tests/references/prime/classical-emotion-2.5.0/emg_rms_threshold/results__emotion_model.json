@@ -1,0 +1,7 @@
+{
+  "model": "classical-emotion-2.5.0",
+  "model_name": "classical-emotion",
+  "model_version": "2.5.0",
+  "feature_set": "extended_nm_a",
+  "kind": "classical"
+}
