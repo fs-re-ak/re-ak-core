@@ -15,10 +15,13 @@ import shutil
 import sys
 
 import pytest
-from expectations import EXCEPTIONS, EXPECTATIONS
+from expectations import ALTERNATES, EXCEPTIONS, EXPECTATIONS
 
+from reak_core.eda import compute_arousal
+from reak_core.eeg import compute_cognition
 from reak_core.femg import compute_emotions
 from reak_core.io import Session, write_metainfo
+from reak_core.ppg import compute_heart_dynamics
 from reak_core.sync import process_feature_events, seed_playback_annotations
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -33,6 +36,9 @@ def run_core(root: str, model: str) -> None:
     session = Session.open(root)
     session.prepare()
     write_metainfo(session)
+    compute_heart_dynamics(session.root)
+    compute_arousal(session.root)
+    compute_cognition(session.root, apply_nlms=True)
     compute_emotions(session.root, model)
     process_feature_events(session.root)
     seed_playback_annotations(session.root)
@@ -69,7 +75,7 @@ def _comparisons():
 
 @pytest.mark.parametrize("output, model, case", list(_comparisons()))
 def test_core_matches_designated_reference(core_outputs, output, model, case):
-    system = EXPECTATIONS[output][0]
+    system = ALTERNATES.get(output, {}).get(case, EXPECTATIONS[output][0])
     changed_by = EXCEPTIONS.get(output, {}).get(case)
     if changed_by:
         pytest.skip(f"changed by {', '.join(changed_by)}")

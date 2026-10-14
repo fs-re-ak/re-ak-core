@@ -33,6 +33,14 @@ EXPECTATIONS: dict[str, tuple[str, tuple[str, ...], tuple[str, ...]]] = {
     "features/emotions/rmsSignals.csv": ("nk", ("D10",), BOTH),
     "features/emotions/emotionClassifierInputs.csv": ("new", ("D10",), BOTH),
     "features/emotions/relabeled-samples.csv": ("new", ("D10",), BOTH),
+    "results/Cognition.csv": ("nk", ("D4", "D5", "D23"), PRIMARY),
+    "features/cognition/powerBands.csv": ("nk", ("D4",), PRIMARY),
+    "features/cognition/artefactStats.csv": ("nk", (), PRIMARY),
+    "features/cognition/epochMetrics.csv": ("nk", (), PRIMARY),
+    "results/Arousal.csv": ("nk", (), PRIMARY),
+    "features/eda/SCR_events.csv": ("nk", (), PRIMARY),
+    "results/HeartDynamics.csv": ("nk", ("D11", "D12", "D13", "D14", "D15"), PRIMARY),
+    "features/ppg/ppg_resampled.csv": ("nk", ("D11", "D12"), PRIMARY),
 }
 
 # Invalid-sample marking and windowing (D6, D7, D24) change which windows are classified.
@@ -48,12 +56,34 @@ _INVALID_SAMPLES = {
 _NK_TIME_AXIS = {"timestamps_epoch_us": ("D1",), "timestamps_relative_ms": ("D1",)}
 _PRIME_NAMED_COLUMNS = {"eeg_named_columns": ("D2",)}
 
+# Cognition is computed on samples marked with D6 / D24 (the old 187 500 µV value and inf now behave differently).
+_COGNITION_INVALID = {
+    "exg_disconnects": ("D6",),
+    "exg_single_invalid": ("D6",),
+    "exg_dead_channel": ("D6",),  # the saturated NOSE channel now enters the NLMS decorrelation
+    "exg_inf_values": ("D24",),
+    "exg_full_scale": ("D6",),
+}
+
 EXCEPTIONS: dict[str, dict[str, tuple[str, ...]]] = {
     "results/Emotions.csv": {**_INVALID_SAMPLES, **_PRIME_NAMED_COLUMNS},
     "features/emotions/avgRms.csv": {**_INVALID_SAMPLES, **_PRIME_NAMED_COLUMNS},
+    "results/Cognition.csv": {**_COGNITION_INVALID, **_NK_TIME_AXIS},
+    "features/cognition/powerBands.csv": {**_COGNITION_INVALID, **_NK_TIME_AXIS},
+    "features/cognition/epochMetrics.csv": {**_COGNITION_INVALID, **_NK_TIME_AXIS},
+    "features/cognition/artefactStats.csv": {"exg_disconnects": ("D6",), "exg_inf_values": ("D24",)},
+    "results/HeartDynamics.csv": dict(_NK_TIME_AXIS),
+    "features/ppg/ppg_resampled.csv": dict(_NK_TIME_AXIS),
     # NucleusKit has no near-zero rule either, so that case matches.
     "features/emotions/rmsSignals.csv": {
         **{k: v for k, v in _INVALID_SAMPLES.items() if k != "exg_near_zero"},
         **_NK_TIME_AXIS,
     },
+}
+
+# Cases where the core must match another system than the designated one: arousal is the same code in
+# both systems, and only Prime reads µs and relative-ms clocks correctly (D1).
+ALTERNATES: dict[str, dict[str, str]] = {
+    "results/Arousal.csv": {"timestamps_epoch_us": "prime", "timestamps_relative_ms": "prime"},
+    "features/eda/SCR_events.csv": {"timestamps_epoch_us": "prime", "timestamps_relative_ms": "prime"},
 }
