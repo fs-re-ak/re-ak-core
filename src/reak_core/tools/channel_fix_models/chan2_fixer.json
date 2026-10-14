@@ -1,0 +1,26 @@
+{
+  "model": "LinearRegression",
+  "target_channel": 2,
+  "target_name": "CHEEK_R",
+  "input_channels": [
+    0,
+    1,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "coef": [
+    0.2607981849959118,
+    -0.2474925158613831,
+    0.2737977370155931,
+    0.1803415543205018,
+    -0.06912044196201857,
+    0.5431398117294872,
+    0.08053374211767567
+  ],
+  "intercept": 0.5717645204219926,
+  "trained_with_sklearn": "1.5.2",
+  "source": "NucleusKit hermes/tools/channel_fixer/models/chan2_fixer.joblib"
+}

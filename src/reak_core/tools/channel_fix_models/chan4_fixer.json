@@ -1,0 +1,26 @@
+{
+  "model": "LinearRegression",
+  "target_channel": 4,
+  "target_name": "EAR_R",
+  "input_channels": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    6,
+    7
+  ],
+  "coef": [
+    0.29515370584011674,
+    0.08406060141145139,
+    0.3014646426512628,
+    -0.14397301570977872,
+    -0.46464711971681055,
+    0.6940805774217936,
+    0.01109062792557311
+  ],
+  "intercept": 1.185924073301853,
+  "trained_with_sklearn": "1.5.2",
+  "source": "NucleusKit hermes/tools/channel_fixer/models/chan4_fixer.joblib"
+}

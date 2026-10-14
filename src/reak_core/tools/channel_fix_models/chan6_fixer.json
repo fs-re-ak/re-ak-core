@@ -1,0 +1,26 @@
+{
+  "model": "LinearRegression",
+  "target_channel": 6,
+  "target_name": "BROW_L",
+  "input_channels": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7
+  ],
+  "coef": [
+    -0.09329287522716553,
+    0.30845396308061934,
+    0.15810424839675635,
+    0.12462115337032198,
+    0.12086518454065004,
+    0.23346587658923723,
+    -0.0012268898645318438
+  ],
+  "intercept": -0.02185080304550535,
+  "trained_with_sklearn": "1.5.2",
+  "source": "NucleusKit hermes/tools/channel_fixer/models/chan6_fixer.joblib"
+}
