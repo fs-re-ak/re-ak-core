@@ -30,7 +30,9 @@ import numpy as np
 EXG_FS = 250.0  # Hermès sampling rate (Hz)
 EXG_CHANNELS = 8  # ch1..ch8 = AF8, AF7, CHEEK_R, CHEEK_L, EAR_R, AFz, BROW_L, NOSE
 EXG_PACKET_SAMPLES = 10  # samples per BLE packet; Vizia stamps a whole packet with its receive time
-DISCONNECT_UV = 187500.0  # ADC saturation value written on electrode disconnect
+DISCONNECT_UV = 187500.0  # full scale before the gain change (gain 24); still marked by NucleusKit and Prime
+FULL_SCALE_POS_UV = (2**23 - 1) * 2 * 4.5e6 / (12 * 2**24)  # 374 999.955 µV, ADC full scale at gain 12 (D6)
+FULL_SCALE_NEG_UV = -375000.0
 SHIMMER_FS = 51.2  # Shimmer sampling rate (Hz)
 START_EPOCH_S = 1791000000.0  # 2026-10-03, arbitrary but fixed
 

@@ -22,6 +22,8 @@ from .generator import (
     DISCONNECT_UV,
     ELECTRODES,
     EXG_FS,
+    FULL_SCALE_NEG_UV,
+    FULL_SCALE_POS_UV,
     SHIMMER_FS,
     Session,
     band_noise,
@@ -87,6 +89,17 @@ def _exg_time_gaps(session: Session, rng: np.random.Generator) -> None:
     keep = ~(((t >= 45.0) & (t < 45.4)) | ((t >= 70.0) & (t < 77.0)))
     session.exg_t = t[keep]
     session.exg = session.exg[keep]
+
+
+def _full_scale(session: Session, rng: np.random.Generator) -> None:
+    # ADC full scale at gain 12 (D6 marking criterion): a 3 s burst, isolated samples, one sample in a clean window,
+    # and values just inside / outside the 0.1 µV tolerance
+    session.exg[_exg_rows(session, 40.0, 43.0), 2] = FULL_SCALE_POS_UV
+    for t in (60.0, 61.3, 95.7):
+        session.exg[int(t * EXG_FS), 1] = FULL_SCALE_NEG_UV
+    session.exg[int(110.66 * EXG_FS), 5] = FULL_SCALE_POS_UV
+    session.exg[int(80.0 * EXG_FS), 0] = FULL_SCALE_NEG_UV + 0.05
+    session.exg[int(80.4 * EXG_FS), 0] = FULL_SCALE_NEG_UV + 0.5
 
 
 def _rms_threshold(session: Session, rng: np.random.Generator) -> None:
@@ -190,6 +203,7 @@ CASES: tuple[Case, ...] = (
         "ppg_artifacts", 1017, ("D11", "D12", "D13"), "Spike, clipping, 12 s of NaN, 15 s without pulse", _ppg_artifacts
     ),
     Case("shimmer_gap", 1018, ("D11", "D15"), "20 s of missing Shimmer rows", _shimmer_gap),
+    Case("exg_full_scale", 1019, ("D6", "D7"), "ADC full-scale samples (±375 000 µV, gain 12)", _full_scale),
 )
 
 

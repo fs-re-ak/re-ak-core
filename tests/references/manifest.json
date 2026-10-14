@@ -99,6 +99,23 @@
         "D7"
       ]
     },
+    "exg_full_scale": {
+      "description": "ADC full-scale samples (\u00b1375 000 \u00b5V, gain 12)",
+      "raw_sha256": {
+        "rawData/eeg.csv": "f36023cd3a01740a6035c60ee7eabcd755ad34a37f20a6f6a8c8210a2536e60f",
+        "rawData/event.csv": "e282f85321aa4292fc6b2a765a4e9fb727e6076d7359e09bcc5124d8ede2c233",
+        "rawData/shimmer.csv": "fa24a6d8a74e554055d7bfdbe2c954d62d868d6b5405ebce04a806512d47d620"
+      },
+      "recorded_with": {
+        "nk": "fad3728388059fb80b4bca045a2ebe5a8a227907",
+        "prime": "50e162d0cc046af6b4929853510d5f2316579361"
+      },
+      "seed": 1019,
+      "targets": [
+        "D6",
+        "D7"
+      ]
+    },
     "exg_inf_values": {
       "description": "inf / -inf cells in the EXG file",
       "raw_sha256": {
@@ -325,12 +342,12 @@
   "systems": {
     "nk": {
       "branch": "2026-10-open-core-references",
-      "commit": "addaf90c32306ab7566f0e148cdf53041b2ececd",
+      "commit": "fad3728388059fb80b4bca045a2ebe5a8a227907",
       "dirty": false
     },
     "prime": {
       "branch": "2026-10-open-core-references",
-      "commit": "72f8c54daa7dd8c7791bddf68fe4c31971492ef5",
+      "commit": "50e162d0cc046af6b4929853510d5f2316579361",
       "dirty": false
     }
   }
