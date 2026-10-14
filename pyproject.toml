@@ -42,7 +42,7 @@ reak_core = ["models/releases/**/*"]
 line-length = 120
 target-version = "py310"
 src = ["src", "tools", "tests"]
-extend-exclude = ["src/reak_core/models/releases"]
+extend-exclude = ["src/reak_core/models/releases", "src/reak_core/eda/cvxEDA.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
