@@ -1,10 +1,44 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Tooling configuration only for now; the reak_core package is added in Phase 3.
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "re-ak-core"
+version = "1.0.0a1"
+description = "RE-AK open processing core: Hermès EEG / fEMG and Shimmer EDA / PPG signal processing and emotion models"
+readme = "README.md"
+license = { text = "GPL-3.0-or-later" }
+requires-python = ">=3.10"
+authors = [{ name = "RE-AK Technologies Inc." }]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+# The emotion model releases were saved with scikit-learn 1.6.1: keep the 1.6 series.
+dependencies = [
+    "numpy>=2.0,<3",
+    "scipy>=1.13",
+    "pandas>=2.2",
+    "scikit-learn==1.6.*",
+    "joblib>=1.3",
+    "cvxopt>=1.3",
+    "neurokit2>=0.2.10",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.ruff]
 line-length = 120
 target-version = "py310"
-src = ["tools", "tests"]
+src = ["src", "tools", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]

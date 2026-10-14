@@ -180,6 +180,22 @@ def assert_no_local_paths(text: str, where: str) -> None:
 
 
 def collect(session: str, dest: str, outputs: tuple, replacements: dict) -> list[str]:
+    """Copy the listed outputs and the run report of a run into ``dest``, sanitized. Returns the stored paths."""
+    stored = collect_outputs(session, dest, outputs, replacements)
+    with open(os.path.join(session, "reference_run.json"), encoding="utf-8") as fh:
+        run = json.load(fh)
+    for step in run["steps"]:
+        step.pop("traceback", None)  # keep the error line only: tracebacks hold local paths
+        if "error" in step:
+            step["error"] = sanitize_text(step["error"], replacements)
+    text = json.dumps(run, indent=2)
+    assert_no_local_paths(text, "reference_run.json")
+    with open(os.path.join(dest, "reference_run.json"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(text + "\n")
+    return stored
+
+
+def collect_outputs(session: str, dest: str, outputs: tuple, replacements: dict) -> list[str]:
     """Copy the listed outputs of a run into ``dest`` (CSV gzipped), sanitized. Returns the stored paths."""
     stored = []
     if os.path.isdir(dest):
@@ -210,16 +226,6 @@ def collect(session: str, dest: str, outputs: tuple, replacements: dict) -> list
             with open(target, "w", encoding="utf-8", newline="\n") as fh:
                 fh.write(text)
         stored.append(rel)
-    with open(os.path.join(session, "reference_run.json"), encoding="utf-8") as fh:
-        run = json.load(fh)
-    for step in run["steps"]:
-        step.pop("traceback", None)  # keep the error line only: tracebacks hold local paths
-        if "error" in step:
-            step["error"] = sanitize_text(step["error"], replacements)
-    text = json.dumps(run, indent=2)
-    assert_no_local_paths(text, "reference_run.json")
-    with open(os.path.join(dest, "reference_run.json"), "w", encoding="utf-8", newline="\n") as fh:
-        fh.write(text + "\n")
     return stored
 
 
