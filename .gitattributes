@@ -1,2 +1,4 @@
 * text=auto
 *.gz binary
+src/reak_core/models/releases/** -text
+*.joblib binary

@@ -36,8 +36,11 @@ def _generated(tmp_path_factory):
 def session_copy(_generated, tmp_path):
     """Return a function giving a fresh, writable copy of a generated synthetic case."""
 
+    counter = {"n": 0}
+
     def copy(case: str) -> str:
-        dest = str(tmp_path / case)
+        counter["n"] += 1
+        dest = str(tmp_path / f"{case}-{counter['n']}")
         shutil.copytree(_generated(case), dest)
         return dest
 
