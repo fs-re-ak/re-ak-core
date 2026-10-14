@@ -49,7 +49,6 @@ Author(s):
 import logging
 import os
 
-import matplotlib.pyplot as plt
 import neurokit2 as nk
 import numpy as np
 import pandas as pd
@@ -57,6 +56,7 @@ from scipy import signal as sp_signal
 from scipy.interpolate import interp1d
 from scipy.ndimage import binary_dilation
 
+from reak_core._plotting import plt
 from reak_core.io.shimmer import load_ppg_signal
 from reak_core.sync.resample import resample_to_grid
 
