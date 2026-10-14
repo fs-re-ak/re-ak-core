@@ -1,0 +1,86 @@
+{
+  "name": "classical-emotion",
+  "version": "2.5.0",
+  "input": {
+    "channels": [
+      "Supraorbital_L",
+      "Supraorbital_R",
+      "Zygomatic_L",
+      "Zygomatic_R",
+      "Temporal_EEG",
+      "Glabella",
+      "Temporal_R",
+      "Nasolabial"
+    ],
+    "sample_rate_hz": 250,
+    "window_samples": 500
+  },
+  "labels": [
+    "ANGER",
+    "CONTEMPT",
+    "DISGUST",
+    "FEAR",
+    "HAPPINESS",
+    "NEUTRAL",
+    "SADNESS",
+    "SURPRISE"
+  ],
+  "capabilities": {
+    "channels": 8,
+    "window_seconds": 2.0,
+    "sample_rate": 250,
+    "supports_missing_channels": false,
+    "device": [
+      "cpu"
+    ],
+    "median_latency_ms": 0.7871999405324459
+  },
+  "runtime": {
+    "implementation": "exg_emotion.models.classical_v1:ClassicalEmotionModel"
+  },
+  "training": {
+    "dataset_version": "hermes-7ccc7bf4f8e6",
+    "experiment_id": "exp-0040",
+    "git_commit": null,
+    "model_family": "classical_v1"
+  },
+  "released_at": "2026-10-07T04:09:25.307863+00:00",
+  "sklearn_version": "1.6.1",
+  "reak_core": {
+    "postprocessing": {
+      "one_hot": false,
+      "high_rms": {
+        "enabled": true,
+        "threshold_uv": 200.0,
+        "max_gap_windows": 6
+      },
+      "low_confidence": {
+        "enabled": true,
+        "threshold": 0.3
+      }
+    },
+    "checksums": {
+      "INTEGRATION.md": "c47548486ea98dbf7ba097c4b3ec1575485da325c482fbe189c4a118f23c64c0",
+      "README.md": "c47548486ea98dbf7ba097c4b3ec1575485da325c482fbe189c4a118f23c64c0",
+      "config.json": "c74af088510eea925715326a287f8b812244ff900df34508d14f1dbd5bb87749",
+      "exg_emotion/__init__.py": "1917271bc3cfad500706bb5f824d097fa3452d2d4e04cf563b6f5b179b0be2e8",
+      "exg_emotion/core/__init__.py": "812d1e9d8eb769c758acc94d2937882171ac6b30ccabad27cac4171523fdebf6",
+      "exg_emotion/core/exceptions.py": "e998524c00c717e41336628ba8867b1c783adb8e28523d70749ac1578484ae2d",
+      "exg_emotion/core/interfaces.py": "bf6af120b16c7d57be8926092bc55f623aab295d94edb8d63f8f4074a9d2fb33",
+      "exg_emotion/core/types.py": "3744b6146b9ce2282fc99368d18ceacbe7395483e3583377319f06042299fba2",
+      "exg_emotion/core/validation.py": "06bc1805080c49b7a0a8e26d8933b84105e2cd11dc0bf6431e985562c5d00dad",
+      "exg_emotion/models/__init__.py": "1c74e91f2eb0bf39a7d68c18089a066923e735d6fb0c1b74e677d1fea4befd5a",
+      "exg_emotion/models/classical_v1/__init__.py": "bfaff6dd5380c4b331c7cd6356853215774b81c9f5a5e40d26a07290ee62cbf5",
+      "exg_emotion/models/classical_v1/features.py": "b39921e4bf4faa2e9c44ca9ac3055c98df5f4233018a267be3e21a0b212dea79",
+      "exg_emotion/models/classical_v1/model.py": "f0d9c62f5e2291dbda29e11086446c398c71ca2f80db0854f7a6ad4a6f4061e2",
+      "exg_emotion/runtime/__init__.py": "381d7237f879fab262997c3f2ec6b0ca30b8c004f2b03cf9c51fe0516b838a93",
+      "exg_emotion/runtime/loader.py": "358909c2f61fd5670ef863deb81840cd0258ccfe2dd98e043e7fdcd601ad5dfe",
+      "exg_emotion/runtime/predictor.py": "b1fe39ecbf596d1705096ab7793d1d633ad2dc541a92b550bf75d844c6ed36d3",
+      "exg_emotion/runtime/registry.py": "add2936b8b912494977b7bff9e71e4dcd881004cba8b7fac61f29582164a82d0",
+      "labels.json": "e9201bd373ce51f105f1a9e64c7e121bda8f356dfa696b006863cdbca395bd78",
+      "metrics.json": "2589f6bd415c4bced6285e2cb3ce696b82eecfa8b0755ab1c75dc6c28b32087a",
+      "pipeline.joblib": "3100e2fa6797efc8978b6da6762ee44552f38e53a9076eb3f864b51bf1c11c52",
+      "requirements.txt": "e759ba8c113e5dbbca09d1324f7fcaec96496bed6684ad5e288a966d1be6d1ff"
+    }
+  }
+}
