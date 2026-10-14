@@ -93,6 +93,7 @@ def main() -> int:
             "targets": list(case.targets),
             "description": case.description,
             "raw_sha256": hashes,
+            "recorded_with": {s: manifest["systems"][s]["commit"] for s in systems},
         }
         for system in systems:
             print(f"[record] {system} / {case_name}", file=sys.stderr)

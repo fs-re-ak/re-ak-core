@@ -90,12 +90,13 @@ def _exg_time_gaps(session: Session, rng: np.random.Generator) -> None:
 
 
 def _rms_threshold(session: Session, rng: np.random.Generator) -> None:
-    # Two 6 s plateaus of in-band (15–40 Hz) activity: channel RMS sum ≈ 190 µV and ≈ 210 µV
+    # Two 6 s plateaus with channel RMS sum ≈ 190 µV and ≈ 210 µV, in a band (26–34 Hz) well inside what both
+    # releases keep: 2.5.0 filters 15–40 Hz, 2.6.0 filters 20–110 Hz with a 60 Hz notch
     for start, total in ((30.0, 190.0), (90.0, 210.0)):
         rows = _exg_rows(session, start, start + 6.0)
         n = rows.stop - rows.start
         for ch in range(len(ELECTRODES)):
-            session.exg[rows, ch] += band_noise(rng, n, EXG_FS, 16.0, 38.0, total / len(ELECTRODES))
+            session.exg[rows, ch] += band_noise(rng, n, EXG_FS, 26.0, 34.0, total / len(ELECTRODES))
 
 
 def _truncated_last_line(session: Session, rng: np.random.Generator) -> None:

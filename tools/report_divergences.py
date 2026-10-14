@@ -46,7 +46,8 @@ def _emotion_summary(path: str) -> dict | None:
     df = refkit.load_output(file)
     values = df.drop(columns=["Timestamp"])
     null_rows = int(values.isna().all(axis=1).sum())
-    labels = values.idxmax(axis=1, skipna=True).where(~values.isna().all(axis=1))
+    valid = ~values.isna().all(axis=1)
+    labels = values[valid].idxmax(axis=1).reindex(values.index)
     return {"rows": len(df), "null_rows": null_rows, "labels": labels}
 
 

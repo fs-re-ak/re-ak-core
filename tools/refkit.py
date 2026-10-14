@@ -49,6 +49,7 @@ FULL_OUTPUTS = (
     "results/HeartDynamics.csv",
     "results/emotion_model.json",
     "features/metainfo.json",
+    "meta/metainfo.json",
     "features/cognition/powerBands.csv",
     "features/cognition/artefactStats.csv",
     "features/cognition/epochMetrics.csv",
@@ -76,6 +77,10 @@ EMOTION_OUTPUTS = (
 # JSON values that change on every run and are replaced by a placeholder when collected.
 VOLATILE_JSON_KEYS = {"processed_at", "generated_at", "created_at"}
 _UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", re.IGNORECASE)
+
+# Outputs longer than this are stored as a summary (shape and column statistics) instead of
+# the full table. Sessions last 150 s, so only a misread time axis (D1) gets there.
+MAX_STORED_ROWS = 50_000
 
 # Tolerances for a system against its own references (same code, same environment).
 RTOL = 1e-6
@@ -189,6 +194,14 @@ def collect(session: str, dest: str, outputs: tuple, replacements: dict) -> list
         assert_no_local_paths(text, rel)
         target = os.path.join(dest, rel.replace("/", "__"))
         if rel.endswith(".csv"):
+            frame = pd.read_csv(io.StringIO(text), na_values=["NULL"], keep_default_na=True)
+            if len(frame) > MAX_STORED_ROWS:
+                # A 150 s session never needs that many rows: the time axis was misread (D1).
+                with open(target + ".summary.json", "w", encoding="utf-8", newline="\n") as fh:
+                    json.dump(summarize(frame), fh, indent=2)
+                    fh.write("\n")
+                stored.append(rel)
+                continue
             target += ".gz"
             with gzip.GzipFile(target, "wb", mtime=0) as gz:  # mtime=0: byte-identical re-records
                 gz.write(text.encode("utf-8"))
@@ -219,8 +232,44 @@ def reference_dir(system: str, model: str, case_name: str, root: str = REFERENCE
 # ---------------------------------------------------------------------------
 
 
+def summarize(frame: pd.DataFrame) -> dict:
+    """Shape and per-column statistics of an output too large to store (see MAX_STORED_ROWS)."""
+    columns = {}
+    for col in frame.columns:
+        series = frame[col]
+        if pd.api.types.is_numeric_dtype(series):
+            values = series.to_numpy(dtype=float)
+            finite = values[np.isfinite(values)]
+            columns[col] = {
+                "nan": int(np.isnan(values).sum()),
+                "min": float(finite.min()) if finite.size else None,
+                "max": float(finite.max()) if finite.size else None,
+                "mean": float(finite.mean()) if finite.size else None,
+                "std": float(finite.std()) if finite.size else None,
+            }
+        else:
+            columns[col] = {"distinct": int(series.nunique(dropna=True)), "missing": int(series.isna().sum())}
+    return {"summary": True, "rows": len(frame), "columns": columns}
+
+
+def _compare_summaries(name: str, a: dict, b: dict, rtol: float, atol: float) -> list[Difference]:
+    if a["rows"] != b["rows"] or list(a["columns"]) != list(b["columns"]):
+        return [Difference(name, "shape", f"summary: {a['rows']} rows against {b['rows']} rows or columns differ")]
+    diffs = []
+    for col, sa in a["columns"].items():
+        sb = b["columns"][col]
+        for key, va in sa.items():
+            vb = sb.get(key)
+            same = va == vb or (
+                isinstance(va, float) and isinstance(vb, float) and abs(va - vb) <= atol + rtol * abs(vb)
+            )
+            if not same:
+                diffs.append(Difference(name, "values", f"summary of column {col}: {key} {va} against {vb}"))
+    return diffs
+
+
 def load_output(path: str):
-    """Load a stored (``.csv.gz`` / ``.json``) or live (``.csv`` / ``.json``) output."""
+    """Load a stored (``.csv.gz`` / ``.json`` / ``.summary.json``) or live (``.csv`` / ``.json``) output."""
     if path.endswith(".json"):
         with open(path, encoding="utf-8") as fh:
             return json.load(fh)
@@ -296,6 +345,7 @@ def compare_dirs(
         found = {}
         for rel in outputs or FULL_OUTPUTS:
             for candidate in (
+                os.path.join(root, rel.replace("/", "__") + ".summary.json"),
                 os.path.join(root, rel.replace("/", "__") + ".gz"),
                 os.path.join(root, rel.replace("/", "__")),
                 os.path.join(root, rel),
@@ -312,7 +362,15 @@ def compare_dirs(
             diffs.append(Difference(rel, "missing", "only in first" if rel in a else "only in second"))
             continue
         x, y = load_output(a[rel]), load_output(b[rel])
-        if isinstance(x, pd.DataFrame) and isinstance(y, pd.DataFrame):
+        is_summary = [isinstance(v, dict) and v.get("summary") is True for v in (x, y)]
+        if any(is_summary):
+            x = x if is_summary[0] else summarize(x) if isinstance(x, pd.DataFrame) else x
+            y = y if is_summary[1] else summarize(y) if isinstance(y, pd.DataFrame) else y
+            if isinstance(x, dict) and isinstance(y, dict) and x.get("summary") and y.get("summary"):
+                diffs.extend(_compare_summaries(rel, x, y, rtol, atol))
+            else:
+                diffs.append(Difference(rel, "schema", "table on one side, other content on the other"))
+        elif isinstance(x, pd.DataFrame) and isinstance(y, pd.DataFrame):
             diffs.extend(compare_frames(rel, x, y, rtol, atol))
         elif x != y:
             diffs.append(Difference(rel, "json", "JSON content differs"))
