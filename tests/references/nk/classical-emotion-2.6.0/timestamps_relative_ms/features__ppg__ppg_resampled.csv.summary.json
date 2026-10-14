@@ -1,0 +1,20 @@
+{
+  "summary": true,
+  "rows": 7679052,
+  "columns": {
+    "Timestamp": {
+      "nan": 0,
+      "min": 0.0,
+      "max": 149981.46484375,
+      "mean": 74990.732421875,
+      "std": 43295.92518868257
+    },
+    "Value": {
+      "nan": 7679052,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    }
+  }
+}

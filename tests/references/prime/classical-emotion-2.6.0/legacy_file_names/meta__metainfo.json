@@ -1,0 +1,9 @@
+{
+  "basepath": "<session>\\",
+  "duration": "150.0",
+  "eegReadable": "True",
+  "shimmerReadable": "True",
+  "povCameraPresent": "False",
+  "uwbValid": "False",
+  "gpsValid": "False"
+}

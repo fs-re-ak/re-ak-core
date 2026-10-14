@@ -1,0 +1,46 @@
+{
+  "system": "nk",
+  "model": "classical-emotion-2.6.0",
+  "steps": [
+    {
+      "step": "prepareDirectory",
+      "status": "ok",
+      "seconds": 0.0
+    },
+    {
+      "step": "extractMetaInfo",
+      "status": "ok",
+      "seconds": 0.1
+    },
+    {
+      "step": "computeHeartDynamics",
+      "status": "ok",
+      "seconds": 144.07
+    },
+    {
+      "step": "computeArousal",
+      "status": "ok",
+      "seconds": 103.77
+    },
+    {
+      "step": "computeCognitiveIndexes",
+      "status": "ok",
+      "seconds": 25.11
+    },
+    {
+      "step": "computeEmotions",
+      "status": "ok",
+      "seconds": 4.59
+    },
+    {
+      "step": "eventProcessor",
+      "status": "ok",
+      "seconds": 0.0
+    },
+    {
+      "step": "seedPlaybackAnnotations",
+      "status": "ok",
+      "seconds": 0.0
+    }
+  ]
+}

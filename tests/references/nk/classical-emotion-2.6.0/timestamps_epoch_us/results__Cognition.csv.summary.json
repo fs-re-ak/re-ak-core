@@ -1,0 +1,20 @@
+{
+  "summary": true,
+  "rows": 297981,
+  "columns": {
+    "Timestamp": {
+      "nan": 0,
+      "min": 0.0,
+      "max": 148990.0,
+      "mean": 74495.0,
+      "std": 43009.852640606274
+    },
+    "Engagement": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    }
+  }
+}

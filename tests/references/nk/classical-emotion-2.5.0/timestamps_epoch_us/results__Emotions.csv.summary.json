@@ -1,0 +1,69 @@
+{
+  "summary": true,
+  "rows": 297981,
+  "columns": {
+    "Timestamp": {
+      "nan": 0,
+      "min": 0.0,
+      "max": 148990.0,
+      "mean": 74495.0,
+      "std": 43009.852640606274
+    },
+    "Neutral": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    },
+    "Happiness": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    },
+    "Anger": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    },
+    "Surprise": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    },
+    "Contempt": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    },
+    "Disgust": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    },
+    "Fear": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    },
+    "Sadness": {
+      "nan": 297981,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null
+    }
+  }
+}
