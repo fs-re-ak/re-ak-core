@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Tooling configuration only for now; the reak_core package is added in Phase 3.
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+src = ["tools", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.isort]
+known-local-folder = ["refkit", "synthetic", "_common"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

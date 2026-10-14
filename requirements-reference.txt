@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Environment used to record tests/references (see tests/references/manifest.json).
+# The emotion model releases 2.5.0 and 2.6.0 were saved with scikit-learn 1.6.1: keep it pinned.
+# Python 3.12
+numpy==2.3.5
+scipy==1.17.0
+pandas==2.2.2
+scikit-learn==1.6.1
+joblib==1.4.2
+neurokit2==0.2.13
+cvxopt==1.3.3
+matplotlib==3.9.1.post1
+pytest==8.3.2
