@@ -19,12 +19,12 @@ Author(s):
 import logging
 import os
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import signal
 from scipy.signal import find_peaks
 
+from reak_core._plotting import plt
 from reak_core.eda.cvxEDA import cvxEDA
 from reak_core.io.shimmer import load_eda_signal
 from reak_core.sync.resample import resample_to_grid

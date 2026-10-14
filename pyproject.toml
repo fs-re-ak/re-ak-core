@@ -32,6 +32,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]
 
+[project.scripts]
+reak-core = "reak_core.__main__:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

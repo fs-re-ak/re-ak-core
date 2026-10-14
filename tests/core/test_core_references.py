@@ -3,8 +3,8 @@
 """
 The core against the Phase 2 references, case by case (see expectations.py).
 
-For every synthetic case, the core steps implemented so far run on a fresh copy of the session with
-the primary model (2.6.0); the emotion step then runs again with 2.5.0 on a copy. Each output is
+For every synthetic case, the default pipeline runs on a fresh copy of the session with the primary
+model (2.6.0), then again with 2.5.0 on a copy (only the emotion step recomputes). Each output is
 compared with the reference of the system the decisions designate.
 """
 
@@ -17,12 +17,7 @@ import sys
 import pytest
 from expectations import ALTERNATES, EXCEPTIONS, EXPECTATIONS
 
-from reak_core.eda import compute_arousal
-from reak_core.eeg import compute_cognition
-from reak_core.femg import compute_emotions
-from reak_core.io import Session, write_metainfo
-from reak_core.ppg import compute_heart_dynamics
-from reak_core.sync import process_feature_events, seed_playback_annotations
+from reak_core.pipeline import Pipeline
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -33,15 +28,9 @@ PRIMARY, SECONDARY = refkit.MODELS
 
 
 def run_core(root: str, model: str) -> None:
-    session = Session.open(root)
-    session.prepare()
-    write_metainfo(session)
-    compute_heart_dynamics(session.root)
-    compute_arousal(session.root)
-    compute_cognition(session.root, apply_nlms=True)
-    compute_emotions(session.root, model)
-    process_feature_events(session.root)
-    seed_playback_annotations(session.root)
+    """The default pipeline, as the wrappers will call it."""
+    result = Pipeline.default(emotion_model=model).run(root)
+    assert result.ok, [(s.name, s.error) for s in result.steps if s.status == "error"]
 
 
 @pytest.fixture(scope="module")
@@ -55,7 +44,7 @@ def core_outputs(tmp_path_factory):
         run_core(primary, PRIMARY)
         secondary = str(work / SECONDARY / case)
         shutil.copytree(primary, secondary)
-        compute_emotions(secondary, SECONDARY)
+        run_core(secondary, SECONDARY)  # earlier outputs are reused; emotions are recomputed
         for model, root in ((PRIMARY, primary), (SECONDARY, secondary)):
             dest = str(work / "collected" / model / case)
             replacements = {"<session>": root, "<source>": primary, "<home>": os.path.expanduser("~")}

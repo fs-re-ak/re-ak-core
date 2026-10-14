@@ -26,11 +26,11 @@ import logging
 import os
 import traceback
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.signal import butter, filtfilt, iirnotch, welch
 
+from reak_core._plotting import plt
 from reak_core.constants import EXG_SAMPLING_RATE
 from reak_core.eeg.nlms import CausalNLMSFilter, nlms_nan_safe
 from reak_core.io.exg import derive_eeg_channels, load_exg, mark_invalid
