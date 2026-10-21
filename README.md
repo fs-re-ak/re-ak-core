@@ -10,17 +10,58 @@ previous NucleusKit and Prime pipelines, measured on synthetic data.
 
 ## Install
 
-```bash
-pip install re-ak-core
-# development, from a clone of this repository
-pip install -e ".[dev]"
+Python 3.10, 3.11 or 3.12 (3.12 recommended). scikit-learn is pinned to the 1.6 series: the emotion models were
+saved with 1.6.1, so re-ak-core cannot share an environment with a newer scikit-learn. scipy is kept below 1.18,
+whose `filtfilt` changes the reference outputs at the last rounded decimal. Use a dedicated virtual environment.
+
+### From PyPI
+
+**Windows (PowerShell)**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install re-ak-core
+.\.venv\Scripts\reak-core.exe --version
 ```
 
-Python ≥ 3.10. scikit-learn is pinned to the 1.6 series: the emotion models were saved with 1.6.1, so re-ak-core
-cannot share an environment with a newer scikit-learn. scipy is kept below 1.18, whose `filtfilt` changes the
-reference outputs at the last rounded decimal.
+**macOS / Linux**
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install re-ak-core
+.venv/bin/reak-core --version
+```
+
+Nucleus-Kit users do not need this step: `pip install "nucleuskit-toolkit[gui]"` installs re-ak-core.
+
+### From source (development)
+
+```bash
+git clone https://github.com/fs-re-ak/re-ak-core.git
+cd re-ak-core
+python -m venv .venv
+.venv/Scripts/python -m pip install -e ".[dev]"   # macOS / Linux: .venv/bin/python
+.venv/Scripts/python -m pytest
+.venv/Scripts/ruff check
+```
+
+The full test suite takes several minutes: it runs the pipeline on the synthetic sessions of `tests/synthetic` and
+compares every output with the references. To reproduce the environment the references were recorded with, install
+`requirements-reference.txt` first.
+
+### Upgrade and uninstall
+
+```bash
+python -m pip install --upgrade re-ak-core
+python -m pip uninstall re-ak-core
+```
 
 ## Use
+
+With the environment activated (`.\.venv\Scripts\Activate.ps1` in PowerShell, `source .venv/bin/activate` on
+macOS / Linux), or by calling `.venv/Scripts/reak-core` / `.venv/bin/reak-core` directly:
 
 ```bash
 reak-core --session path/to/session            # default pipeline, model classical-emotion-2.6.0
