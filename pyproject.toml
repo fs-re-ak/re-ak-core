@@ -1,20 +1,28 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "re-ak-core"
-version = "1.0.0a1"
+version = "1.0.1"
 description = "RE-AK open processing core: Hermès EEG / fEMG and Shimmer EDA / PPG signal processing and emotion models"
 readme = "README.md"
-license = { text = "GPL-3.0-or-later" }
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 authors = [{ name = "RE-AK Technologies Inc." }]
+keywords = ["EEG", "EMG", "EDA", "PPG", "emotion recognition", "biosignals", "Hermes", "Shimmer"]
 classifiers = [
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
 ]
 # The emotion model releases were saved with scikit-learn 1.6.1: keep the 1.6 series.
@@ -29,6 +37,12 @@ dependencies = [
     "neurokit2>=0.2.10",
     "matplotlib>=3.11",
 ]
+
+[project.urls]
+Homepage = "https://github.com/fs-re-ak/re-ak-core"
+Source = "https://github.com/fs-re-ak/re-ak-core"
+Issues = "https://github.com/fs-re-ak/re-ak-core/issues"
+Changelog = "https://github.com/fs-re-ak/re-ak-core/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = ["pytest>=9", "ruff>=0.17"]

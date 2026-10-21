@@ -3,6 +3,17 @@
 All notable changes of `re-ak-core` (import package `reak_core`). Versions follow semantic versioning: a change
 that is not backward compatible in the public API or in the outputs requires a new major version.
 
+## 1.0.1
+
+First release published on PyPI (`pip install re-ak-core`); no 1.0.0 was released. It contains the
+1.0.0a1 pre-release below, with these packaging changes:
+
+- Dependency minimums raised to the validated versions: numpy 2.5, pandas 2.3, joblib 1.6, matplotlib 3.11.
+- scipy kept below 1.18: its `filtfilt` results differ by about 1e-6, enough to change values rounded to 3
+  decimals in `features/cognition/epochMetrics.csv`.
+- pandas stays on 2.x (neurokit2 0.2.13 requires `pandas<3`); scikit-learn stays on 1.6 for the model releases.
+- SPDX license metadata, project URLs and classifiers.
+
 ## 1.0.0a1 (pre-release)
 
 First version of the open processing core, extracted from NucleusKit-ProcessingPipeline 1.1 and Prime 3.1.0.
