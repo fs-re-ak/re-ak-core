@@ -60,8 +60,10 @@ class Pipeline:
 
     @classmethod
     def default(cls, **options) -> Pipeline:
-        """Built-in steps; ``options`` are :class:`RunContext` fields (``emotion_model``, ``apply_nlms``, …)."""
-        return cls(default_steps(), context=RunContext(**options))
+        """Built-in steps and the emotions report (D19); ``options`` are :class:`RunContext` fields."""
+        from reak_core.exporters import EmotionsReport
+
+        return cls(default_steps(), [EmotionsReport()], context=RunContext(**options))
 
     # -- composition ------------------------------------------------------------------------------
     def step_names(self) -> list[str]:

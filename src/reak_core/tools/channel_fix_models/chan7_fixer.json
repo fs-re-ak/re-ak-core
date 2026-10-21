@@ -1,0 +1,26 @@
+{
+  "model": "LinearRegression",
+  "target_channel": 7,
+  "target_name": "NOSE",
+  "input_channels": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "coef": [
+    -1.0114439802861797,
+    0.26258898211867354,
+    1.8428550499521124,
+    -0.33499447079302985,
+    0.1518199549651229,
+    1.034176694086796,
+    -0.09644661140234767
+  ],
+  "intercept": -1.3502395424305522,
+  "trained_with_sklearn": "1.5.2",
+  "source": "NucleusKit hermes/tools/channel_fixer/models/chan7_fixer.joblib"
+}

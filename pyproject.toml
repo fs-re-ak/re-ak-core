@@ -39,7 +39,7 @@ reak-core = "reak_core.__main__:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-reak_core = ["models/releases/**/*"]
+reak_core = ["models/releases/**/*", "tools/channel_fix_models/*.json"]
 
 [tool.ruff]
 line-length = 120

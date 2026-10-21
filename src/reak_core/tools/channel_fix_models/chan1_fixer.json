@@ -1,0 +1,26 @@
+{
+  "model": "LinearRegression",
+  "target_channel": 1,
+  "target_name": "AF7",
+  "input_channels": [
+    0,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "coef": [
+    0.5523076223110001,
+    -0.15845435521017864,
+    -0.1293947752570608,
+    0.03219541504934388,
+    0.038139974808544856,
+    0.6784229984752235,
+    0.007346920025967428
+  ],
+  "intercept": 0.5033289855264931,
+  "trained_with_sklearn": "1.5.2",
+  "source": "NucleusKit hermes/tools/channel_fixer/models/chan1_fixer.joblib"
+}
