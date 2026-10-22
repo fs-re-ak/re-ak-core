@@ -17,6 +17,6 @@ Author(s):
 
 import logging
 
-__version__ = "1.0.0a1"
+__version__ = "1.0.1"
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())

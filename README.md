@@ -5,20 +5,63 @@ Open core shared by both the NucleusKit toolkit and online processor
 PPG): engagement, emotions, arousal and heart dynamics on a shared 2 Hz timebase. It is the single implementation
 used by the free Nucleus-Kit toolkit (local processing) and by the re-akcas cloud processor.
 
-Status: **1.0.0a1, pre-release**. See [CHANGELOG.md](CHANGELOG.md) for every behaviour change compared with the
+Status: **1.0.1**. See [CHANGELOG.md](https://github.com/fs-re-ak/re-ak-core/blob/main/CHANGELOG.md) for every behaviour change compared with the
 previous NucleusKit and Prime pipelines, measured on synthetic data.
 
 ## Install
 
-```bash
-pip install "re-ak-core @ git+https://github.com/fs-re-ak/re-ak-core.git"
-# development
-pip install -e ".[dev]"
+Python 3.10, 3.11 or 3.12 (3.12 recommended). scikit-learn is pinned to the 1.6 series: the emotion models were
+saved with 1.6.1, so re-ak-core cannot share an environment with a newer scikit-learn. scipy is kept below 1.18,
+whose `filtfilt` changes the reference outputs at the last rounded decimal. Use a dedicated virtual environment.
+
+### From PyPI
+
+**Windows (PowerShell)**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install re-ak-core
+.\.venv\Scripts\reak-core.exe --version
 ```
 
-Python ≥ 3.10. scikit-learn is pinned to the 1.6 series: the emotion models were saved with 1.6.1.
+**macOS / Linux**
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install re-ak-core
+.venv/bin/reak-core --version
+```
+
+Nucleus-Kit users do not need this step: `pip install "nucleuskit-toolkit[gui]"` installs re-ak-core.
+
+### From source (development)
+
+```bash
+git clone https://github.com/fs-re-ak/re-ak-core.git
+cd re-ak-core
+python -m venv .venv
+.venv/Scripts/python -m pip install -e ".[dev]"   # macOS / Linux: .venv/bin/python
+.venv/Scripts/python -m pytest
+.venv/Scripts/ruff check
+```
+
+The full test suite takes several minutes: it runs the pipeline on the synthetic sessions of `tests/synthetic` and
+compares every output with the references. To reproduce the environment the references were recorded with, install
+`requirements-reference.txt` first.
+
+### Upgrade and uninstall
+
+```bash
+python -m pip install --upgrade re-ak-core
+python -m pip uninstall re-ak-core
+```
 
 ## Use
+
+With the environment activated (`.\.venv\Scripts\Activate.ps1` in PowerShell, `source .venv/bin/activate` on
+macOS / Linux), or by calling `.venv/Scripts/reak-core` / `.venv/bin/reak-core` directly:
 
 ```bash
 reak-core --session path/to/session            # default pipeline, model classical-emotion-2.6.0
@@ -62,7 +105,7 @@ Other packages add behaviour without modifying the core:
 | `src/reak_core/` | The package; model releases in `models/releases/` (checksummed, see each `manifest.json`) |
 | `tests/core/` | Unit tests and the comparison of the core with the references, output by output (`expectations.py`) |
 | `tests/synthetic/` | Deterministic synthetic session generator (Hermès EXG, Shimmer PPG / GSR, events) and the catalogue of cases |
-| `tests/references/` | Reference outputs of NucleusKit 1.1 and Prime 3.1.0 on those cases, and the measured differences between them ([README](tests/references/README.md)) |
+| `tests/references/` | Reference outputs of NucleusKit 1.1 and Prime 3.1.0 on those cases, and the measured differences between them ([README](https://github.com/fs-re-ak/re-ak-core/blob/main/tests/references/README.md)) |
 | `tools/` | Recording (`record_references.py`), comparison (`report_divergences.py`), CHANGELOG measurement (`write_changelog.py`) and the shared toolkit used by the non-regression tests of both systems (`refkit.py`) |
 | `requirements-reference.txt` | Pinned environment the references were recorded with |
 
@@ -74,7 +117,7 @@ Copyright (C) 2026 RE-AK Technologies Inc.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
-version. See [LICENSE](LICENSE) for the full text.
+version. See [LICENSE](https://github.com/fs-re-ak/re-ak-core/blob/main/LICENSE) for the full text.
 
 SPDX-License-Identifier: `GPL-3.0-or-later`. Every source file carries this identifier in its header; vendored
 third-party files keep their original header and license (`src/reak_core/eda/cvxEDA.py`: Luca Citi and Alberto
