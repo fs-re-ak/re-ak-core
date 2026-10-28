@@ -3,7 +3,7 @@
 """Shared timebase, resampling and events."""
 
 from reak_core.sync.events import build_annotations, process_feature_events, seed_playback_annotations
-from reak_core.sync.resample import resample_to_grid, resample_to_timebase
+from reak_core.sync.resample import resample_to_grid, resample_to_timebase, snap_to_timebase
 
 __all__ = [
     "build_annotations",
@@ -11,4 +11,5 @@ __all__ = [
     "resample_to_grid",
     "resample_to_timebase",
     "seed_playback_annotations",
+    "snap_to_timebase",
 ]
