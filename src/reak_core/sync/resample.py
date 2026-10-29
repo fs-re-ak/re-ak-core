@@ -7,6 +7,9 @@ Resampling onto regular time grids.
   keeping long disconnects as NaN.
 - :func:`resample_to_timebase` brings a result table onto the shared 2 Hz session timebase
   without interpolating through NaN gaps.
+- :func:`snap_to_timebase` is the nearest-neighbour counterpart: each output row copies the
+  nearest source row without blending.  Use this for one-hot / label tables (e.g. Emotions.csv)
+  where linear blending would introduce artificial fractional values.
 
 Author(s):
     RE-AK Technologies Inc., Fall 2026
@@ -107,6 +110,49 @@ def resample_to_grid(
         effective_fs,
     )
     return t_grid, resampled, gap_mask
+
+
+def snap_to_timebase(df: pd.DataFrame, target_interval: float = OUTPUT_STEP_S) -> pd.DataFrame:
+    """Resample a table with a ``Timestamp`` column onto ``0, step, 2*step, …`` using nearest-neighbour.
+
+    Each output row takes the value of whichever source row has the closest timestamp.  No values
+    are blended.  An output point whose nearest source point is more than one output step away
+    is considered outside the covered range and stays NaN — this preserves true gaps (e.g. signal
+    dropouts) without filling them.
+
+    Use this for one-hot / label tables (e.g. Emotions.csv) where linear interpolation would
+    introduce fractional values that drift with the headset clock, creating spurious low-frequency
+    oscillations in the output.
+    """
+    if "Timestamp" not in df.columns:
+        return df
+    src_ts = df["Timestamp"].to_numpy(dtype=float)
+    new_ts = np.arange(0, src_ts.max() + target_interval, target_interval)
+    resampled: dict[str, np.ndarray] = {"Timestamp": new_ts}
+
+    # For each output point, find the index of the nearest source row.
+    # np.searchsorted gives the insertion point; we check both neighbours.
+    right_idx = np.searchsorted(src_ts, new_ts, side="left")  # first src >= grid point
+    right_idx = np.clip(right_idx, 0, len(src_ts) - 1)
+    left_idx = np.clip(right_idx - 1, 0, len(src_ts) - 1)
+    dist_right = np.abs(src_ts[right_idx] - new_ts)
+    dist_left = np.abs(src_ts[left_idx] - new_ts)
+    nearest = np.where(dist_left <= dist_right, left_idx, right_idx)
+    nearest_dist = np.minimum(dist_left, dist_right)
+
+    # A grid point with no source row within one step is outside coverage → NaN.
+    out_of_range = nearest_dist > target_interval
+
+    for col in df.columns:
+        if col == "Timestamp":
+            continue
+        y = df[col].to_numpy(dtype=float)
+        values = y[nearest].copy()
+        values[out_of_range] = np.nan
+        # Also propagate NaN from the source row itself.
+        values[np.isnan(y[nearest])] = np.nan
+        resampled[col] = values
+    return pd.DataFrame(resampled)
 
 
 def resample_to_timebase(df: pd.DataFrame, target_interval: float = OUTPUT_STEP_S) -> pd.DataFrame:

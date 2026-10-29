@@ -27,7 +27,9 @@ EXPECTATIONS: dict[str, tuple[str, tuple[str, ...], tuple[str, ...]]] = {
     "features/events/playback_annotations.json": ("nk", (), PRIMARY),
     "features/events/processedFeatureEvents.csv": ("prime", ("D3", "D16"), PRIMARY),
     "features/metainfo.json": ("new", ("D25",), PRIMARY),
-    "results/Emotions.csv": ("prime", ("D8", "D9"), BOTH),
+    # D26: nearest-neighbour resampling for one-hot labels removes clock-drift triangles.
+    # References regenerated from the core (Prime and NK still use linear interpolation there).
+    "results/Emotions.csv": ("prime", ("D8", "D9", "D26"), BOTH),
     "results/emotion_model.json": ("prime", ("D10",), BOTH),
     "features/emotions/avgRms.csv": ("prime", ("D8", "D10"), BOTH),
     "features/emotions/rmsSignals.csv": ("nk", ("D10",), BOTH),

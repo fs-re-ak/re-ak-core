@@ -34,7 +34,7 @@ from reak_core.femg.signal import prepare, windows
 from reak_core.io.exg import load_exg
 from reak_core.models import EMOTION_COLUMNS, EmotionModel, load_model
 from reak_core.models.base import EmotionWindowResult
-from reak_core.sync.resample import resample_to_timebase
+from reak_core.sync.resample import snap_to_timebase
 
 logger = logging.getLogger(__name__)
 
@@ -213,7 +213,7 @@ def compute_emotions(
     avg = model_df[["Timestamp", "PredictedLabel", "PredictedConfidence"]].copy()
     avg.insert(1, "AvgRMS", model_df[RMS_COLUMNS].mean(axis=1))
     avg.to_csv(os.path.join(session_root, AVG_RMS), index=False)
-    resample_to_timebase(emo_df).to_csv(os.path.join(session_root, EMOTIONS_CSV), na_rep="NULL", index=False)
+    snap_to_timebase(emo_df).to_csv(os.path.join(session_root, EMOTIONS_CSV), na_rep="NULL", index=False)
     write_sidecar(session_root, model)
 
     n_null = sum(1 for w in all_windows if w.is_null)

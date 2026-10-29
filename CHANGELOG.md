@@ -3,6 +3,23 @@
 All notable changes of `re-ak-core` (import package `reak_core`). Versions follow semantic versioning: a change
 that is not backward compatible in the public API or in the outputs requires a new major version.
 
+## Unreleased
+
+### Fixed
+
+- `results/Emotions.csv` no longer shows a slow triangular oscillation whose period (typically
+  ~6–7 minutes) was set by the headset clock drift, not by any physiological signal.
+  **Root cause**: the Hermes headset writes one timestamp per 10 samples (~40 ms bursts with zeros
+  in between), so the classifier window times step by ~0.5015 s rather than exactly 0.5 s.
+  Resampling those one-hot labels onto the strict 2 Hz output grid with linear interpolation blended
+  adjacent labels — e.g. Sadness 0.905 / Neutral 0.095 — and the blend weight drifted at a rate
+  determined by the fractional mismatch, producing the triangle.
+  **Fix**: `Emotions.csv` is now written via the new `snap_to_timebase` (nearest-neighbour), which
+  copies the label of the closest classifier window without blending. Continuous signals (Arousal,
+  Cognition, HeartDynamics) still use linear interpolation through `resample_to_timebase`.
+  This changes `results/Emotions.csv`; the stored Prime references have been updated accordingly.
+  NucleusKit and Prime will need corresponding updates to match this output.
+
 ## 1.0.1
 
 First release published on PyPI (`pip install re-ak-core`); no 1.0.0 was released. It contains the
