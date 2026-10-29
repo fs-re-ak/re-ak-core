@@ -5,7 +5,7 @@ Open core shared by both the NucleusKit toolkit and online processor
 PPG): engagement, emotions, arousal and heart dynamics on a shared 2 Hz timebase. It is the single implementation
 used by the free Nucleus-Kit toolkit (local processing) and by the re-akcas cloud processor.
 
-Status: **1.0.1**. See [CHANGELOG.md](https://github.com/fs-re-ak/re-ak-core/blob/main/CHANGELOG.md) for every behaviour change compared with the
+Status: **1.0.2**. See [CHANGELOG.md](https://github.com/fs-re-ak/re-ak-core/blob/main/CHANGELOG.md) for every behaviour change compared with the
 previous NucleusKit and Prime pipelines, measured on synthetic data.
 
 ## Install

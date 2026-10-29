@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "re-ak-core"
-version = "1.0.1"
+version = "1.0.2"
 description = "RE-AK open processing core: Hermès EEG / fEMG and Shimmer EDA / PPG signal processing and emotion models"
 readme = "README.md"
 license = "GPL-3.0-or-later"

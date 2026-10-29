@@ -1,9 +1,11 @@
 # Changelog
 
 All notable changes of `re-ak-core` (import package `reak_core`). Versions follow semantic versioning: a change
-that is not backward compatible in the public API or in the outputs requires a new major version.
+that is not backward compatible in the public API or in the output format (files, columns, units) requires a new
+major version. A bug fix that corrects output values without changing their format is a patch release, and is
+listed under "Fixed" with the affected files.
 
-## Unreleased
+## 1.0.2
 
 ### Fixed
 
@@ -17,8 +19,13 @@ that is not backward compatible in the public API or in the outputs requires a n
   **Fix**: `Emotions.csv` is now written via the new `snap_to_timebase` (nearest-neighbour), which
   copies the label of the closest classifier window without blending. Continuous signals (Arousal,
   Cognition, HeartDynamics) still use linear interpolation through `resample_to_timebase`.
-  This changes `results/Emotions.csv`; the stored Prime references have been updated accordingly.
-  NucleusKit and Prime will need corresponding updates to match this output.
+  This changes the values in `results/Emotions.csv` (same columns): sessions reprocessed with 1.0.2 differ from
+  1.0.1 outputs. The stored NucleusKit and Prime references have been updated accordingly.
+
+### Added
+
+- `reak_core.sync.snap_to_timebase`: nearest-neighbour resampling onto an output timebase, for categorical or
+  one-hot signals.
 
 ## 1.0.1
 
