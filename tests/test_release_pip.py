@@ -180,7 +180,7 @@ def test_answering_no_stops_before_pypi_and_resumes(tmp_path: Path, monkeypatch:
 
 def test_version_on_pypi_asks_for_the_new_one_and_opens_a_pr(tmp_path, monkeypatch, capsys) -> None:
     world = FakeWorld(tmp_path, monkeypatch, version="1.0.2")
-    (tmp_path / "CHANGELOG.md").write_text("# Changelog\r\n\r\n## 1.0.2\r\n\r\n- Old.\r\n", encoding="utf-8", newline="")
+    (tmp_path / "CHANGELOG.md").write_bytes(b"# Changelog\r\n\r\n## 1.0.2\r\n\r\n- Old.\r\n")
     world.answers = ["1.0.3"]
     assert rp.release(tmp_path) == 0
 
