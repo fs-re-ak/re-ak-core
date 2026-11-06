@@ -106,10 +106,24 @@ Other packages add behaviour without modifying the core:
 | `tests/core/` | Unit tests and the comparison of the core with the references, output by output (`expectations.py`) |
 | `tests/synthetic/` | Deterministic synthetic session generator (Hermès EXG, Shimmer PPG / GSR, events) and the catalogue of cases |
 | `tests/references/` | Reference outputs of NucleusKit 1.1 and Prime 3.1.0 on those cases, and the measured differences between them ([README](https://github.com/fs-re-ak/re-ak-core/blob/main/tests/references/README.md)) |
-| `tools/` | Recording (`record_references.py`), comparison (`report_divergences.py`), CHANGELOG measurement (`write_changelog.py`) and the shared toolkit used by the non-regression tests of both systems (`refkit.py`) |
+| `tools/` | Recording (`record_references.py`), comparison (`report_divergences.py`), CHANGELOG measurement (`write_changelog.py`) the shared toolkit used by the non-regression tests of both systems (`refkit.py`) and the release script (`release_pip.py`) |
 | `requirements-reference.txt` | Pinned environment the references were recorded with |
 
 No real participant data is stored in this repository.
+
+## Releasing (maintainers)
+
+Run this at the repository root, on an up-to-date `main`:
+
+```bat
+.\deploy_pip_package.bat
+```
+
+When the current version is already on PyPI, the script first shows the latest tag and asks for the new version, then opens the release notes in an editor (a draft of the commit subjects since that tag). It runs ruff and pytest, opens the pull request with the version files and the CHANGELOG section, and merges it, only if it changes nothing else. Then it continues with the release, so one run goes from the new version to PyPI.
+
+For the release itself, the script checks versions, CHANGELOG and dependencies, pushes the tag that uploads to TestPyPI, tests that package in a throwaway venv, then asks for confirmation before creating the GitHub release that uploads to PyPI. When a run needs an approval on GitHub, it prints the link and waits. Run it again after any failure or Ctrl+C: it continues from what is already done. `.\deploy_pip_package.bat --dry-run` only runs the checks.
+
+It needs `git`, an authenticated `gh`, Python 3.11 or newer and the `dev` extra. The upload itself is done by `.github/workflows/publish.yml` with Trusted Publishing, so no token is stored.
 
 ## License
 
