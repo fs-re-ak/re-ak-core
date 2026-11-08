@@ -88,6 +88,38 @@ def test_second_run_reuses_outputs_unless_forced(session_copy):
     assert {forced[n] for n in ("heart_dynamics", "arousal", "cognition", "emotions")} == {"ok"}
 
 
+def test_force_rewrites_pipeline_outputs_and_keeps_foreign_files(session_copy):
+    """A forced run must overwrite pipeline outputs but leave unrelated files untouched."""
+    root = session_copy("baseline")
+    Pipeline.default().run(root)
+
+    # Plant foreign files the pipeline does not own — they must survive the forced run.
+    foreign_results = os.path.join(root, "results", "_custom_export.csv")
+    foreign_features = os.path.join(root, "features", "_custom_annotation.json")
+    with open(foreign_results, "w", encoding="utf-8") as fh:
+        fh.write("custom,data\n1,2\n")
+    with open(foreign_features, "w", encoding="utf-8") as fh:
+        fh.write('{"note": "custom"}\n')
+
+    # Record the mtime of a pipeline output before the forced run.
+    emotions_path = os.path.join(root, "results", "Emotions.csv")
+    mtime_before = os.path.getmtime(emotions_path)
+
+    import time
+    time.sleep(0.05)  # ensure the filesystem clock advances
+
+    Pipeline.default(force=True).run(root)
+
+    # Pipeline outputs must have been rewritten (newer mtime).
+    assert os.path.getmtime(emotions_path) > mtime_before, "Emotions.csv should be newer after forced run"
+
+    # Foreign files must still exist with their original content.
+    assert os.path.isfile(foreign_results), "custom results file was deleted by force run"
+    assert os.path.isfile(foreign_features), "custom features file was deleted by force run"
+    with open(foreign_results, encoding="utf-8") as fh:
+        assert fh.read() == "custom,data\n1,2\n", "custom results file was modified"
+
+
 def test_extension_step_and_exporter(session_copy):
     root = session_copy("baseline")
     exporter = CollectingExporter()

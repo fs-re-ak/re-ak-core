@@ -71,11 +71,18 @@ def _forced(outputs: tuple[str, ...], fn: Callable[[str], object]) -> Callable[[
 HEART_OUTPUTS = ("results/HeartDynamics.csv",)
 AROUSAL_OUTPUTS = ("results/Arousal.csv",)
 COGNITION_OUTPUTS = ("results/Cognition.csv", "features/cognition/powerBands.csv")
+# These auxiliary feature files are regenerated when powerBands.csv is missing; under force they
+# must also be removed so the EEG is fully recomputed rather than loaded from cache.
+_COGNITION_AUX = (
+    "features/cognition/filteredEEG.csv",
+    "features/cognition/eegArtefactPlot.png",
+)
 
 
 def _cognition(session: Session, context: RunContext) -> dict:
     if context.force:
         _remove(session, COGNITION_OUTPUTS)
+        _remove(session, _COGNITION_AUX)
     compute_cognition(session.root, apply_nlms=context.apply_nlms)
     missing = [p for p in COGNITION_OUTPUTS[:1] if not os.path.isfile(session.path(p))]
     return {"_status": "skipped", "missing": missing} if missing else {"nlms": context.apply_nlms}
