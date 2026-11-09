@@ -85,6 +85,12 @@ The modules can also be used one by one: `reak_core.io` (loading, invalid sample
 (`compute_emotions`), `reak_core.eeg` (`compute_cognition`), `reak_core.eda` (`compute_arousal`), `reak_core.ppg`
 (`compute_heart_dynamics`), `reak_core.models` (`load_model`), `reak_core.tools` (channel fixer, PPG fixer).
 
+## Documentation
+
+The current processing description is in [`doc/`](doc/overview.md): session layout, the 2 Hz timebase, invalid EXG
+samples, and one page each for heart, arousal, cognition, emotions and events. Behaviour changes compared with
+Nucleus-Kit 1.1 and Prime 3.1.0 are measured in [CHANGELOG.md](CHANGELOG.md).
+
 ## Extend
 
 Other packages add behaviour without modifying the core:

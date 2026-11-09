@@ -42,8 +42,8 @@ First release published on PyPI (`pip install re-ak-core`); no 1.0.0 was release
 
 First version of the open processing core, extracted from NucleusKit-ProcessingPipeline 1.1 and Prime 3.1.0.
 `reak_core` 1.0 is the new reference: where the two systems disagreed, the open-core decisions (D1–D25) chose the
-behaviour, and every resulting change is measured below. 1.0.0 will be tagged after NucleusKit and Prime consume
-the core and after a validation on real recordings.
+behaviour, and every resulting change is measured below. No 1.0.0 package was published. Nucleus-Kit has consumed
+this core since 2.0.0 and Prime since 4.0.0. The first release on PyPI is 1.0.1, in the section above.
 
 ### Added
 
