@@ -5,6 +5,15 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
+## 1.0.3
+
+- docs(pipeline): describe the processing that 1.0.2 runs
+- pipeline: honor force for cognition aux files; add foreign-file preservation test
+- build(release): merge the bump pull request and continue in one run
+- docs(readme): describe the version prompt of the release script
+- build(release): ask for the new version and open the bump pull request
+- build: add deploy_pip_package.bat to release on TestPyPI then PyPI
+
 ## 1.0.2
 
 ### Fixed
