@@ -5,6 +5,20 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
+## Unreleased
+
+### Added
+
+- `reak_core.online`: causal, streaming processing of one Hermes stream for live displays
+  (`doc/pipeline_online.md`).
+  - `OnlineEmotionClassifier`: running per-subject calibration and a past-only high-RMS rule.
+  - `OnlineEngagement`: calibrated 0–1 score from `PercentileMinMaxNormalizer`.
+  - `SampleClock`, `CausalSosFilter`, `Windower`.
+  - Offline outputs are unchanged.
+- `CausalNLMSFilter(output_channels=...)`: decorrelate only some channels; the values for those channels are identical.
+- `ClassicalReleaseModel.set_amplitude_stats`, `gated_prior_stats`, `amplitude_calibration`, `emg_indices`: inject
+  per-subject calibration computed outside `set_subject_context`.
+
 ## 1.0.3
 
 - docs(pipeline): describe the processing that 1.0.2 runs

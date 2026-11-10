@@ -91,6 +91,57 @@ class ClassicalReleaseModel(EmotionModel):
     def set_subject_context(self, windows: np.ndarray) -> None:
         self._predictor.set_subject_context(windows)
 
+    # -- Online calibration (reak_core.online) ------------------------------------------------------
+
+    @property
+    def amplitude_calibration(self) -> str:
+        """``"gated_prior"`` (2.6.0) or ``"mean_std"`` (earlier releases)."""
+        return str(getattr(self._predictor._model, "_amplitude_calibration", None) or "mean_std")
+
+    @property
+    def emg_indices(self) -> list[int]:
+        """Hardware indexes of the EMG channels used by the WL block (7 channels)."""
+        return [i for i in range(len(CHANNEL_NAMES)) if i != _TEMPORAL_EEG_IDX]
+
+    def gated_prior_stats(self, rms: np.ndarray, wl: np.ndarray) -> tuple[np.ndarray, ...]:
+        """Release's gated-p95 + prior calibration computed from per-window RMS ``(n, 8)`` and WL ``(n, 7)``.
+
+        Same math as ``set_subject_context`` on the windows these features came from; it is the release's
+        own code, so online and offline calibrations stay consistent. Returns ``(rms_loc, rms_scale,
+        wl_loc, wl_scale)``.
+        """
+        from exg_emotion.models.classical_v1.gated_prior import (  # type: ignore[import-not-found]
+            _gated_p95_block,
+            apply_prior,
+        )
+
+        inner = self._predictor._model
+        rms_loc, _, n_rms, p95_rms = _gated_p95_block(np.asarray(rms, dtype=np.float64), inner._gate_k)
+        wl_loc, _, n_wl, p95_wl = _gated_p95_block(np.asarray(wl, dtype=np.float64), inner._gate_k)
+        gated = {
+            "n_active_rms": n_rms,
+            "n_active_wl": n_wl,
+            "rest_rms": rms_loc,
+            "rest_wl": wl_loc,
+            "p95_rms": p95_rms,
+            "p95_wl": p95_wl,
+        }
+        return apply_prior(gated, inner._prior_rms, inner._prior_wl, n0=inner._prior_n0)
+
+    def set_amplitude_stats(
+        self, rms_loc: np.ndarray, rms_scale: np.ndarray, wl_loc: np.ndarray, wl_scale: np.ndarray
+    ) -> None:
+        """Inject per-subject RMS / WL location and scale (replaces :meth:`set_subject_context`)."""
+        inner = self._predictor._model
+        if hasattr(inner, "set_amplitude_stats"):
+            inner.set_amplitude_stats(rms_loc, rms_scale, wl_loc, wl_scale)
+            return
+        # 2.5.0 has no setter; its features use the same attributes as (x - mean) / (std + 1e-12).
+        inner._subject_mean = np.asarray(rms_loc, dtype=np.float64)
+        inner._subject_std = np.asarray(rms_scale, dtype=np.float64)
+        inner._subject_wl_mean = np.asarray(wl_loc, dtype=np.float64)
+        inner._subject_wl_std = np.asarray(wl_scale, dtype=np.float64)
+
     def predict(self, samples: np.ndarray) -> EmotionWindowResult:
         prediction = self._predictor.predict(samples)
         probabilities = {_LABEL_MAP.get(k, k.title()): float(v) for k, v in prediction.probabilities.items()}
