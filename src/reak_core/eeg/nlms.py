@@ -104,9 +104,13 @@ class CausalNLMSFilter:
         n_channels: int = 8,
         fs: float = 250.0,
         predictor_mask: np.ndarray | None = None,
+        output_channels: list[int] | None = None,
     ) -> None:
         self._n_ch = n_channels
         self._fs = fs
+        # Channels whose output is decorrelated; the others pass through unchanged. Each channel's weights
+        # only depend on the raw input, so computing a subset gives exactly the same values for that subset.
+        self._outputs = list(range(n_channels)) if output_channels is None else sorted(set(output_channels))
 
         if predictor_mask is None:
             self._predictor_idx = [[j for j in range(n_channels) if j != i] for i in range(n_channels)]
@@ -133,12 +137,12 @@ class CausalNLMSFilter:
         """
         batch = np.asarray(batch, dtype=np.float64)
         n_samples = batch.shape[0]
-        out = np.empty_like(batch)
+        out = batch.copy()
 
         for t in range(n_samples):
             x = batch[t]  # (n_channels,)
 
-            for i in range(self._n_ch):
+            for i in self._outputs:
                 pidx = self._predictor_idx[i]
                 xi = float(x[i])
 
