@@ -12,7 +12,10 @@ import numpy as np
 import pandas as pd
 
 from reak_core.sync import (
+    build_annotations,
+    pair_zone_events,
     process_feature_events,
+    recording_zones,
     resample_to_grid,
     resample_to_timebase,
     seed_playback_annotations,
@@ -162,3 +165,111 @@ def test_playback_annotations_seeded_once(session_copy):
         doc = json.load(fh)
     assert [p["t"] for p in doc["points"]] == [30.0, 75.0, 120.0]
     assert seed_playback_annotations(root) is False
+
+
+T0 = 1_780_000_000.0  # Unix time of the first EXG sample
+
+
+def _write_session(root, events, exg_seconds=100.0):
+    raw = root / "rawData"
+    raw.mkdir(parents=True)
+    with open(raw / "event.csv", "w", encoding="utf-8", newline="") as fh:
+        fh.write("Timestamp,Event,Values\n")
+        for t, name, value in events:
+            fh.write(f"{T0 + t:.3f},{name},{value}\n")
+    t = T0 + np.arange(0.0, exg_seconds, 1 / 250)
+    np.savetxt(raw / "eeg.csv", np.column_stack([t] + [np.zeros_like(t)] * 8), delimiter=",", fmt="%.3f")
+    return str(root)
+
+
+def test_zone_tags_pair_by_id_and_overlap():
+    rows = [
+        (0.0, "RECORDING_ONSET", "{}"),
+        (10.0, "ZONE_START", "a1|test_01"),
+        (20.0, "ZONE_START", "b2|test_02"),
+        (30.0, "ZONE_STOP", "a1|test_01"),
+        (35.0, "NOTE", "hello"),
+        (40.0, "ZONE_STOP", "b2|renamed"),
+    ]
+    zones, used = pair_zone_events(rows)
+    assert [(z["zone_id"], z["label"], z["t0"], z["t1"]) for z in zones] == [
+        ("a1", "test_01", 10.0, 30.0),
+        ("b2", "test_02", 20.0, 40.0),
+    ]
+    assert used == {1, 2, 3, 5}
+
+
+def test_annotations_turn_zone_tags_into_zones_and_keep_unpaired_as_points():
+    rows = [
+        (100.0, "RECORDING_ONSET", "{}"),
+        (110.0, "ZONE_START", "a1|test_01"),
+        (120.0, "ZONE_STOP", "a1|test_01"),
+        (125.0, "ZONE_START", "c3|test_03"),
+        (130.0, "Button pressed", ""),
+    ]
+    doc = build_annotations(rows)
+    assert [(z["t0"], z["t1"], z["label"]) for z in doc["zones"]] == [(10.0, 20.0, "test_01")]
+    assert [(p["t"], p["label"]) for p in doc["points"]] == [(25.0, "ZONE_START"), (30.0, "Button pressed")]
+
+
+def test_annotations_without_zone_tags_are_unchanged():
+    rows = [(100.0, "RECORDING_ONSET"), (130.0, "Button pressed"), (150.0, "RECIPE_CONFIG")]
+    doc = build_annotations(rows)
+    assert doc["zones"] == []
+    assert [(p["t"], p["label"]) for p in doc["points"]] == [(30.0, "Button pressed")]
+
+
+def test_recording_zones_use_the_results_time_base(tmp_path):
+    root = _write_session(
+        tmp_path / "s",
+        [
+            (-2.0, "RECORDING_ONSET", "{}"),
+            (-5.0, "ZONE_STOP", "z0|before"),  # started before the recording
+            (10.0, "ZONE_START", "z1|test_01"),
+            (12.5, "ZONE_START", "z2|test_02"),
+            (30.0, "ZONE_STOP", "z1|test_01"),
+            (40.0, "ZONE_STOP", "z0|before"),
+            (90.0, "ZONE_START", "z3|test_03"),  # still open at the end
+        ],
+    )
+    zones = recording_zones(root)
+    assert [(z["zone_id"], z["label"], z["start_s"], z["end_s"]) for z in zones] == [
+        ("z0", "before", 0.0, 40.0),
+        ("z1", "test_01", 10.0, 30.0),
+        ("z2", "test_02", 12.5, 99.996),
+        ("z3", "test_03", 90.0, 99.996),
+    ]
+
+
+def test_recording_zones_without_zone_tags_do_not_read_the_exg(tmp_path):
+    raw = tmp_path / "rawData"
+    raw.mkdir()
+    (raw / "event.csv").write_text(f"{T0},RECORDING_ONSET,{{}}\n{T0 + 1},NOTE,x\n", encoding="utf-8")
+    assert recording_zones(str(tmp_path)) == []
+    assert recording_zones(str(tmp_path / "missing")) == []
+
+
+def test_recording_zones_need_unix_clocks(tmp_path):
+    raw = tmp_path / "rawData"
+    raw.mkdir()
+    (raw / "event.csv").write_text("1.0,ZONE_START,a|x\n5.0,ZONE_STOP,a|x\n", encoding="utf-8")
+    np.savetxt(raw / "eeg.csv", np.column_stack([np.arange(0, 10, 0.004)] + [np.zeros(2500)] * 8), delimiter=",")
+    assert recording_zones(str(tmp_path)) is None
+
+
+def test_quoted_zone_tag_value_from_vizia(tmp_path):
+    root = _write_session(tmp_path / "s", [(1.0, "ZONE_START", '"z1|a, b"'), (2.0, "ZONE_STOP", '"z1|a, b"')])
+    assert [(z["label"], z["start_s"], z["end_s"]) for z in recording_zones(root)] == [("a, b", 1.0, 2.0)]
+
+
+def test_recording_zones_from_api_rows(tmp_path):
+    """Prime's daemon downloads the events from the session API into ``rawEvents.csv``."""
+    raw = tmp_path / "rawData"
+    raw.mkdir()
+    (raw / "rawEvents.csv").write_text(
+        f"{(T0 + 2) * 1000:.0f}, 'ZONE_START', z1|test_01\n{(T0 + 6) * 1000:.0f}, 'ZONE_STOP', z1|test_01\n",
+        encoding="utf-8",
+    )
+    t = T0 + np.arange(0.0, 10.0, 1 / 250)
+    np.savetxt(raw / "eeg.csv", np.column_stack([t * 1000] + [np.zeros_like(t)] * 8), delimiter=",", fmt="%.1f")
+    assert [(z["label"], z["start_s"], z["end_s"]) for z in recording_zones(str(tmp_path))] == [("test_01", 2.0, 6.0)]

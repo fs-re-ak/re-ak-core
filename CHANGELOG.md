@@ -18,6 +18,16 @@ listed under "Fixed" with the affected files.
 - `CausalNLMSFilter(output_channels=...)`: decorrelate only some channels; the values for those channels are identical.
 - `ClassicalReleaseModel.set_amplitude_stats`, `gated_prior_stats`, `amplitude_calibration`, `emg_indices`: inject
   per-subject calibration computed outside `set_subject_context`.
+- Recorded zones (`reak_core.sync`, `doc/pipeline_events.md`): `ZONE_START` / `ZONE_STOP` tags with the same zone id
+  (`Values` = `<zoneId>|<name>`, as sent by Prime's live zones) make one zone.
+  - `recording_zones(session_root)`: the zones in seconds from the first EXG sample (the results time base), read
+    from any raw event file.
+  - `pair_zone_events`, `ZONE_START`, `ZONE_STOP`.
+
+### Changed
+
+- `playback_annotations.json`: paired zone tags are seeded as `zones` instead of two points. Sessions without zone
+  tags get the same file as before; an unpaired zone tag stays a point.
 
 ## 1.0.3
 
