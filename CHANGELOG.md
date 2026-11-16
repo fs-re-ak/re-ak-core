@@ -5,7 +5,7 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
-## Unreleased
+## 1.1.0
 
 ### Added
 
