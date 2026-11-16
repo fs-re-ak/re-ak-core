@@ -1,15 +1,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 RE-AK Technologies Inc.
 """
-Classical-emotion releases (2.5.0, 2.6.0) as :class:`EmotionModel`.
+Classical-emotion releases (2.5.0, 2.6.0, 2.7.0, 2.8.0) as :class:`EmotionModel`.
 
 Each release ships its own ``exg_emotion`` runtime, and its ``pipeline.joblib`` references that
 package by name. Loading a release therefore puts its folder first on ``sys.path`` and evicts any
 ``exg_emotion`` module loaded from another release, exactly as NucleusKit and Prime do, so the
 release code that runs is the code the model was exported with.
 
-The model performs per-subject normalisation: :meth:`set_subject_context` must be called with all
-valid windows of a recording before the first :meth:`predict`, and :meth:`reset` between recordings.
+Per-subject calibration depends on the release: 2.5.0 / 2.6.0 need :meth:`set_subject_context`
+before the first :meth:`predict`; 2.8.0 needs it for the floor baseline; 2.7.0 is calibration-free.
+Call :meth:`reset` between recordings.
 
 Author(s):
     RE-AK Technologies Inc., Fall 2026
@@ -56,23 +57,41 @@ def _activate(release_dir: Path) -> None:
     sys.path.insert(0, str(release_dir.resolve()))
 
 
+def _feature_columns_for(feature_set: str) -> list[str]:
+    """Column names for ``emotionClassifierInputs.csv`` for the active release's feature set."""
+    if feature_set == "extended_nm_a_rmsunit":
+        from exg_emotion.models.classical_v1.features import (  # type: ignore[import-not-found]
+            RMSUNIT_FEATURE_NAMES,
+        )
+
+        return list(RMSUNIT_FEATURE_NAMES)
+    if feature_set == "extended_nm_a_floor":
+        from exg_emotion.models.classical_v1.features import (  # type: ignore[import-not-found]
+            FLOOR_FEATURE_NAMES,
+        )
+
+        return list(FLOOR_FEATURE_NAMES)
+    return list(FEATURE_COLUMNS)
+
+
 class ClassicalReleaseModel(EmotionModel):
     """A classical-emotion release loaded from its folder."""
 
     def __init__(self, predictor, release: Release) -> None:  # noqa: ANN001
         self._predictor = predictor
         self.release = release
+        feature_set = str(release.config().get("feature_set", ""))
         self.info = ModelInfo(
             key=release.key,
             name=release.name,
             version=release.version,
-            feature_set=str(release.config().get("feature_set", "")),
+            feature_set=feature_set,
             kind="classical",
             release_dir=release.path,
         )
         self.preprocess = release.preprocess()
         self.postprocess = release.postprocess()
-        self.feature_columns = list(FEATURE_COLUMNS)
+        self.feature_columns = _feature_columns_for(feature_set)
 
     @classmethod
     def load(cls, release: Release) -> ClassicalReleaseModel:
@@ -87,6 +106,8 @@ class ClassicalReleaseModel(EmotionModel):
         inner._subject_std = None
         inner._subject_wl_mean = None
         inner._subject_wl_std = None
+        if hasattr(inner, "_floor_baselines"):
+            inner._floor_baselines = None
 
     def set_subject_context(self, windows: np.ndarray) -> None:
         self._predictor.set_subject_context(windows)
@@ -95,7 +116,7 @@ class ClassicalReleaseModel(EmotionModel):
 
     @property
     def amplitude_calibration(self) -> str:
-        """``"gated_prior"`` (2.6.0) or ``"mean_std"`` (earlier releases)."""
+        """``"gated_prior"`` (2.6.0), ``"floor_baseline"`` (2.8.0), ``"none"`` (2.7.0), or ``"mean_std"``."""
         return str(getattr(self._predictor._model, "_amplitude_calibration", None) or "mean_std")
 
     @property
@@ -150,7 +171,7 @@ class ClassicalReleaseModel(EmotionModel):
         try:
             features = np.asarray(self._predictor._model._window_features(samples)[0], dtype=np.float64)
         except Exception:  # noqa: BLE001 — features are diagnostic only
-            features = np.full(len(FEATURE_COLUMNS), np.nan)
+            features = np.full(len(self.feature_columns), np.nan)
         return EmotionWindowResult(
             probabilities=probabilities,
             label=label,

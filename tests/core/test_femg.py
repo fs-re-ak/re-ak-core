@@ -30,10 +30,23 @@ def test_default_model_and_aliases():
     assert resolve_key(None) == DEFAULT_MODEL == "classical-emotion-2.6.0"
     assert resolve_key("standard-latest") == "classical-emotion-2.6.0"
     assert resolve_key("classical-emotion") == "classical-emotion-2.5.0"
-    assert {"classical-emotion-2.5.0", "classical-emotion-2.6.0"} <= set(available_models())
+    assert {
+        "classical-emotion-2.5.0",
+        "classical-emotion-2.6.0",
+        "classical-emotion-2.7.0",
+        "classical-emotion-2.8.0",
+    } <= set(available_models())
 
 
-@pytest.mark.parametrize("key", ["classical-emotion-2.5.0", "classical-emotion-2.6.0"])
+@pytest.mark.parametrize(
+    "key",
+    [
+        "classical-emotion-2.5.0",
+        "classical-emotion-2.6.0",
+        "classical-emotion-2.7.0",
+        "classical-emotion-2.8.0",
+    ],
+)
 def test_releases_verify_and_declare_sklearn(key):
     release = builtin_releases()[key]
     release.verify()
@@ -55,11 +68,19 @@ def test_tampered_release_is_rejected(tmp_path):
 
 def test_release_preprocessing_and_postprocessing():
     m25, m26 = load_model("classical-emotion-2.5.0"), load_model("classical-emotion-2.6.0")
+    m27, m28 = load_model("classical-emotion-2.7.0"), load_model("classical-emotion-2.8.0")
     assert (m25.preprocess.bandpass_low, m25.preprocess.bandpass_high, m25.preprocess.notch_hz) == (15.0, 40.0, None)
     assert (m26.preprocess.bandpass_low, m26.preprocess.bandpass_high, m26.preprocess.notch_hz) == (20.0, 110.0, 60.0)
+    assert (m27.preprocess.bandpass_low, m27.preprocess.bandpass_high, m27.preprocess.notch_hz) == (20.0, 110.0, 60.0)
+    assert (m28.preprocess.bandpass_low, m28.preprocess.bandpass_high, m28.preprocess.notch_hz) == (20.0, 110.0, 60.0)
     assert not m25.postprocess.one_hot and m25.postprocess.low_confidence_enabled
     assert m26.postprocess.one_hot and not m26.postprocess.low_confidence_enabled
+    assert m27.postprocess.one_hot and not m27.postprocess.low_confidence_enabled
+    assert m28.postprocess.one_hot and not m28.postprocess.low_confidence_enabled
     assert m25.postprocess.high_rms_threshold_uv == m26.postprocess.high_rms_threshold_uv == 200.0
+    assert m27.postprocess.high_rms_threshold_uv == m28.postprocess.high_rms_threshold_uv == 200.0
+    assert m27.info.feature_set == "extended_nm_a_rmsunit" and len(m27.feature_columns) == 19
+    assert m28.info.feature_set == "extended_nm_a_floor" and len(m28.feature_columns) == 27
 
 
 def test_interpolation_only_bridges_channels_with_valid_samples():
@@ -115,6 +136,31 @@ def test_existing_outputs_are_kept_unless_forced(session_copy):
     assert compute_emotions(root).skipped
     assert not compute_emotions(root, force=True).skipped
     assert not compute_emotions(root, "classical-emotion-2.5.0").skipped  # other model: recomputed
+
+
+@pytest.mark.parametrize(
+    ("key", "feature_set", "n_features"),
+    [
+        ("classical-emotion-2.7.0", "extended_nm_a_rmsunit", 19),
+        ("classical-emotion-2.8.0", "extended_nm_a_floor", 27),
+    ],
+)
+def test_outputs_and_schema_for_2_7_and_2_8(session_copy, key, feature_set, n_features):
+    root, run = _run(session_copy, "baseline", key)
+    assert run.model == key and run.windows == 297 and run.null_windows == 0
+    emotions = pd.read_csv(os.path.join(root, "results", "Emotions.csv"), na_values=["NULL"])
+    assert list(emotions.columns) == ["Timestamp"] + EMOTION_COLUMNS
+    np.testing.assert_allclose(emotions[EMOTION_COLUMNS].dropna().sum(axis=1), 1.0, atol=1e-9)
+    inputs = pd.read_csv(os.path.join(root, "features", "emotions", "emotionClassifierInputs.csv"))
+    feature_cols = list(inputs.columns[1 : 1 + n_features])
+    assert len(feature_cols) == n_features
+    assert list(inputs.columns[1 + n_features : 1 + n_features + 2]) == ["PredictedLabel", "PredictedConfidence"]
+    assert (inputs["PredictedLabel"] != "Fear").all()
+    with open(os.path.join(root, "results", "emotion_model.json"), encoding="utf-8") as fh:
+        sidecar = json.load(fh)
+    assert sidecar["model"] == key and sidecar["feature_set"] == feature_set
+    assert sidecar["model_name"] == "classical-emotion"
+    assert sidecar["kind"] == "classical"
 
 
 def test_high_rms_heuristic_threshold_is_a_parameter(session_copy):
