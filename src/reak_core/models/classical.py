@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 RE-AK Technologies Inc.
 """
-Classical-emotion releases (2.5.0, 2.6.0, 2.7.0, 2.8.0) as :class:`EmotionModel`.
+Classical-emotion releases (2.5.0, 2.6.0, 2.7.0, 2.8.0, 2.9.0) as :class:`EmotionModel`.
 
 Each release ships its own ``exg_emotion`` runtime, and its ``pipeline.joblib`` references that
 package by name. Loading a release therefore puts its folder first on ``sys.path`` and evicts any
@@ -9,8 +9,9 @@ package by name. Loading a release therefore puts its folder first on ``sys.path
 release code that runs is the code the model was exported with.
 
 Per-subject calibration depends on the release: 2.5.0 / 2.6.0 need :meth:`set_subject_context`
-before the first :meth:`predict`; 2.8.0 needs it for the floor baseline; 2.7.0 is calibration-free.
-Call :meth:`reset` between recordings.
+before the first :meth:`predict`; 2.8.0 needs it for the floor baseline; 2.9.0 needs it for the
+session-neutral p20 (its live path is the release's causal update, driven by
+``reak_core.online``); 2.7.0 is calibration-free. Call :meth:`reset` between recordings.
 
 Author(s):
     RE-AK Technologies Inc., Fall 2026
@@ -71,14 +72,54 @@ def _feature_columns_for(feature_set: str) -> list[str]:
         )
 
         return list(FLOOR_FEATURE_NAMES)
+    # 2.9.0 (session_neutral_log_rms) uses the same 25 columns as extended_nm_a:
+    # log(RMS) - N, log(WL) - N, then the scale-free block.
     return list(FEATURE_COLUMNS)
+
+
+class _SessionNeutralPredictor:
+    """``SessionNeutralModel`` behind the ``Predictor`` surface used by the wrapper."""
+
+    def __init__(self, model) -> None:  # noqa: ANN001
+        self._model = model
+
+    def set_subject_context(self, windows: np.ndarray) -> None:
+        self._model.set_subject_context(windows)
+
+    def predict(self, samples: np.ndarray):  # noqa: ANN201
+        return self._model.predict(samples)
+
+
+def _session_neutral_features(model):  # noqa: ANN001
+    """Feature vector of one window, using the release's own 2.9.0 functions.
+
+    Bound at load time so a later release activation cannot replace them.
+    """
+    from exg_emotion.analysis.session_neutral_290 import (  # type: ignore[import-not-found]
+        amplitude_block,
+        assemble,
+        clip_amplitude,
+        scale_free_block,
+    )
+
+    def features(samples: np.ndarray) -> np.ndarray:
+        window = np.asarray(samples, dtype=np.float64)
+        clipped, _ = clip_amplitude(window.reshape(1, *window.shape), model.ood_log_rms)
+        vector = assemble(
+            amplitude_block(clipped, model.n_rms.reshape(1, -1), model.n_wl.reshape(1, -1)),
+            scale_free_block(clipped),
+        )
+        return np.asarray(vector[0], dtype=np.float64)
+
+    return features
 
 
 class ClassicalReleaseModel(EmotionModel):
     """A classical-emotion release loaded from its folder."""
 
-    def __init__(self, predictor, release: Release) -> None:  # noqa: ANN001
+    def __init__(self, predictor, release: Release, feature_fn=None) -> None:  # noqa: ANN001
         self._predictor = predictor
+        self._feature_fn = feature_fn
         self.release = release
         feature_set = str(release.config().get("feature_set", ""))
         self.info = ModelInfo(
@@ -96,12 +137,23 @@ class ClassicalReleaseModel(EmotionModel):
     @classmethod
     def load(cls, release: Release) -> ClassicalReleaseModel:
         _activate(release.path)
+        impl = str(release.manifest.get("runtime", {}).get("implementation", ""))
+        if impl.endswith(":SessionNeutralModel"):
+            from exg_emotion.models.classical_v1.session_neutral import (  # type: ignore[import-not-found]
+                SessionNeutralModel,
+            )
+
+            model = SessionNeutralModel.from_release_dir(release.path)
+            return cls(_SessionNeutralPredictor(model), release, feature_fn=_session_neutral_features(model))
         from exg_emotion.runtime.predictor import Predictor  # type: ignore[import-not-found]
 
         return cls(Predictor.from_release_dir(release.path), release)
 
     def reset(self) -> None:
         inner = self._predictor._model
+        if hasattr(inner, "reset_causal"):
+            inner.reset_causal()
+            return
         inner._subject_mean = None
         inner._subject_std = None
         inner._subject_wl_mean = None
@@ -116,8 +168,14 @@ class ClassicalReleaseModel(EmotionModel):
 
     @property
     def amplitude_calibration(self) -> str:
-        """``"gated_prior"`` (2.6.0), ``"floor_baseline"`` (2.8.0), ``"none"`` (2.7.0), or ``"mean_std"``."""
-        return str(getattr(self._predictor._model, "_amplitude_calibration", None) or "mean_std")
+        """``"gated_prior"`` (2.6.0), ``"floor_baseline"`` (2.8.0), ``"session_neutral_p20"`` (2.9.0),
+        ``"none"`` (2.7.0), or ``"mean_std"``.
+        """
+        inner = self._predictor._model
+        declared = getattr(inner, "_amplitude_calibration", None)
+        if declared:
+            return str(declared)
+        return str(self.release.config().get("amplitude_calibration") or "mean_std")
 
     @property
     def emg_indices(self) -> list[int]:
@@ -154,6 +212,8 @@ class ClassicalReleaseModel(EmotionModel):
     ) -> None:
         """Inject per-subject RMS / WL location and scale (replaces :meth:`set_subject_context`)."""
         inner = self._predictor._model
+        if hasattr(inner, "reset_causal"):
+            return
         if hasattr(inner, "set_amplitude_stats"):
             inner.set_amplitude_stats(rms_loc, rms_scale, wl_loc, wl_scale)
             return
@@ -169,7 +229,10 @@ class ClassicalReleaseModel(EmotionModel):
         label = _LABEL_MAP.get(prediction.label, prediction.label.title())
         channel_rms = np.sqrt(np.mean(np.asarray(samples, dtype=np.float64) ** 2, axis=1))
         try:
-            features = np.asarray(self._predictor._model._window_features(samples)[0], dtype=np.float64)
+            if self._feature_fn is not None:
+                features = np.asarray(self._feature_fn(samples), dtype=np.float64)
+            else:
+                features = np.asarray(self._predictor._model._window_features(samples)[0], dtype=np.float64)
         except Exception:  # noqa: BLE001 — features are diagnostic only
             features = np.full(len(self.feature_columns), np.nan)
         return EmotionWindowResult(
