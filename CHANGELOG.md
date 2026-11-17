@@ -13,6 +13,9 @@ listed under "Fixed" with the affected files.
   (`extended_nm_a_floor`, 27 features, floor-only amplitude) as selectable built-in releases. Alias
   `standard-latest` still resolves to 2.6.0. Both use the same 20–110 Hz + 60 Hz notch filter and one-hot
   post-processing as 2.6.0.
+- classical-emotion **2.9.0** (`session_neutral_log_rms`, 25 features) as a selectable built-in release.
+  Offline sessions use `set_subject_context`. Live streams use the release's causal neutral, stored per
+  headset so one loaded model can be shared. Fear is emitted. Alias `standard-latest` stays 2.6.0.
 
 ## 1.1.0
 

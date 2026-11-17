@@ -41,7 +41,7 @@ for packet in stream:                      # raw µV, shape (n, 8), first_sample
 | Step | Offline | Online |
 |---|---|---|
 | Filters | Notch and bandpass, zero-phase over the whole recording | The same cascade run twice forward (same magnitude response, \|H\|²); the first 1 s after a (re)start is skipped |
-| Amplitude calibration | Every valid window of the recording | Ring buffer of the last 600 valid windows (5 min), recomputed at each window with the release's own math (gated p95 + prior for 2.6.0). Status `calibrating` until 60 windows (30 s) |
+| Amplitude calibration | Every valid window of the recording | 2.5.0–2.8.0: ring buffer of the last 600 valid windows (5 min), recomputed at each window with the release's own math (gated p95 + prior for 2.6.0). 2.9.0: the release's causal neutral, kept per headset (`advance_to` the window start, then predict, then `push`). Status `calibrating` until 60 windows (30 s); 2.9.0 still pushes those windows |
 | High-RMS rule | Nearest clean window on either side within 6 windows | Latest clean window **before** it within 6 windows, otherwise Neutral |
 
 **Measured on the synthetic baseline session:**

@@ -1,0 +1,65 @@
+{
+  "HAPPINESS": {
+    "threshold": 0.53,
+    "fbeta": 0.7518796992481205,
+    "precision": 0.8264462809917356,
+    "recall": 0.5524861878453039,
+    "t_precision_0.60": 0.05,
+    "t_precision_0.70": 0.05,
+    "t_precision_0.80": 0.5
+  },
+  "ANGER": {
+    "threshold": 0.05,
+    "fbeta": 0.24087591240875914,
+    "precision": 0.2558139534883721,
+    "recall": 0.1952662721893491,
+    "t_precision_0.60": null,
+    "t_precision_0.70": null,
+    "t_precision_0.80": null
+  },
+  "DISGUST": {
+    "threshold": 0.43,
+    "fbeta": 0.6715063520871142,
+    "precision": 0.7789473684210526,
+    "recall": 0.4327485380116959,
+    "t_precision_0.60": 0.25,
+    "t_precision_0.70": 0.35,
+    "t_precision_0.80": 0.53
+  },
+  "FEAR": {
+    "threshold": 0.21,
+    "fbeta": 0.22988505747126436,
+    "precision": 0.2962962962962963,
+    "recall": 0.12121212121212122,
+    "t_precision_0.60": 0.63,
+    "t_precision_0.70": 0.63,
+    "t_precision_0.80": 0.63
+  },
+  "SURPRISE": {
+    "threshold": 0.24,
+    "fbeta": 0.3150057273768614,
+    "precision": 0.3142857142857143,
+    "recall": 0.3179190751445087,
+    "t_precision_0.60": 0.68,
+    "t_precision_0.70": null,
+    "t_precision_0.80": null
+  },
+  "SADNESS": {
+    "threshold": 0.05,
+    "fbeta": 0.25773195876288657,
+    "precision": 0.2597402597402597,
+    "recall": 0.25,
+    "t_precision_0.60": 0.43,
+    "t_precision_0.70": null,
+    "t_precision_0.80": null
+  },
+  "CONTEMPT": {
+    "threshold": 0.29,
+    "fbeta": 0.7567983581323756,
+    "precision": 0.7412060301507538,
+    "recall": 0.8263305322128851,
+    "t_precision_0.60": 0.05,
+    "t_precision_0.70": 0.19,
+    "t_precision_0.80": 0.52
+  }
+}

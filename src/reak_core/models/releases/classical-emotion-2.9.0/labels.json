@@ -1,0 +1,11 @@
+[
+  "NEUTRAL",
+  "HAPPINESS",
+  "ANGER",
+  "DISGUST",
+  "FEAR",
+  "SURPRISE",
+  "SADNESS",
+  "CONTEMPT_LEFT",
+  "CONTEMPT_RIGHT"
+]
