@@ -196,6 +196,44 @@ def test_online_emotions_high_rms_rule_is_past_only(model):
     assert reasons.index("high_rms_neutral") > reasons.index("high_rms_borrowed")
 
 
+def test_online_290_streams_keep_separate_neutrals(session_copy):
+    data = load_exg(session_copy("baseline")).data[: 40 * 250]
+    other = np.random.default_rng(0).normal(scale=30.0, size=data.shape)
+    shared = load_model("classical-emotion-2.9.0")
+    headset_a = OnlineEmotionClassifier(shared, min_calibration_windows=10)
+    headset_b = OnlineEmotionClassifier(shared, min_calibration_windows=10)
+    from_a = []
+    for start in range(0, len(data), BLOCK):
+        headset_b.push(other[start : start + BLOCK], start)
+        from_a += headset_a.push(data[start : start + BLOCK], start)
+    solo = OnlineEmotionClassifier(shared, min_calibration_windows=10)
+    from_solo = _replay(solo, data)
+    assert [(r.sample, r.status, r.label) for r in from_a] == [(r.sample, r.status, r.label) for r in from_solo]
+    assert any(r.status == "ok" for r in from_a)
+
+
+def test_online_290_checkpoint_restores_neutral(session_copy):
+    """A reload keeps the causal neutral. Filters and the windower still restart, as for the other releases."""
+    data = load_exg(session_copy("baseline")).data[: 50 * 250]
+    model = load_model("classical-emotion-2.9.0")
+    first = OnlineEmotionClassifier(model, min_calibration_windows=10)
+    _replay(first, data[: 40 * 250])
+    snapshot = first.state_dict()
+    assert snapshot["session_neutral"]["hist_end"]
+    left = OnlineEmotionClassifier(model, min_calibration_windows=10)
+    right = OnlineEmotionClassifier(model, min_calibration_windows=10)
+    left.load_state_dict(snapshot)
+    right.load_state_dict(snapshot)
+    block = data[40 * 250 : 45 * 250]
+    from_left = left.push(block, 40 * 250)
+    from_right = right.push(block, 40 * 250)
+    assert [(r.sample, r.status, r.label) for r in from_left] == [
+        (r.sample, r.status, r.label) for r in from_right
+    ]
+    assert any(r.status == "ok" for r in from_left)
+    assert len(left._neutral_state["hist_end"]) > len(snapshot["session_neutral"]["hist_end"])
+
+
 def test_online_emotions_checkpoint_round_trip(session_copy, model):
     data = load_exg(session_copy("baseline")).data[: 60 * 250]
     a = OnlineEmotionClassifier(model, min_calibration_windows=20)

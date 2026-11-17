@@ -1,0 +1,64 @@
+{
+  "feature_set": "session_neutral_log_rms",
+  "amplitude_calibration": "session_neutral_p20",
+  "n0": 60.0,
+  "quantile": 0.2,
+  "beta": 0.5,
+  "suppress_fear": false,
+  "merge_contempt": true,
+  "exclude_subjects": [
+    "P004",
+    "P008",
+    "P009"
+  ],
+  "bandpass_hz": [
+    20.0,
+    110.0
+  ],
+  "notch_hz": 60.0,
+  "notch_q": 30.0,
+  "labels": [
+    "NEUTRAL",
+    "HAPPINESS",
+    "ANGER",
+    "DISGUST",
+    "FEAR",
+    "SURPRISE",
+    "SADNESS",
+    "CONTEMPT_LEFT",
+    "CONTEMPT_RIGHT"
+  ],
+  "temperature": 1.644652690682661,
+  "class_thresholds": {
+    "HAPPINESS": 0.53,
+    "ANGER": 0.05,
+    "DISGUST": 0.43,
+    "FEAR": 0.21,
+    "SURPRISE": 0.24,
+    "SADNESS": 0.05,
+    "CONTEMPT": 0.29
+  },
+  "ood_clip_log_rms": {
+    "Supraorbital_L": 4.046402451337543,
+    "Supraorbital_R": 4.234095658347232,
+    "Zygomatic_L": 4.255463347644701,
+    "Zygomatic_R": 4.0108240172148575,
+    "Temporal_EEG": 3.988276834391496,
+    "Glabella": 4.911656409548121,
+    "Temporal_R": 4.052029039025313,
+    "Nasolabial": 4.7007424397577005
+  },
+  "prior_global": {
+    "Supraorbital_L": 1.5664829275036587,
+    "Supraorbital_R": 1.5006674403228333,
+    "Zygomatic_L": 1.7294504665121289,
+    "Zygomatic_R": 1.6677509226672718,
+    "Temporal_EEG": 1.8666253004001332,
+    "Glabella": 1.3963547691975877,
+    "Temporal_R": 1.5378285967100995,
+    "Nasolabial": 1.625441894519759
+  },
+  "not_production": true,
+  "released": true,
+  "released_at": "2026-11-16T23:55:55.136720+00:00"
+}

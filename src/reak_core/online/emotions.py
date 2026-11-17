@@ -8,11 +8,14 @@ the offline computation, all forced by causality:
 
 - Filters: the release's notch and bandpass run forward only (``sosfilt`` with state) instead of
   zero-phase over the whole recording. RMS, WL and MDF depend on magnitude, so the change is small.
-- Calibration: the per-subject amplitude statistics come from a ring buffer of the last
-  ``calibration_windows`` valid windows (default 600 = 5 min at 2 Hz), recomputed at every window with
-  the release's own math (gated p95 + cold-start prior for 2.6.0, mean / std before), instead of every
-  window of the recording. No label is emitted until ``min_calibration_windows`` windows (default 60 =
-  30 s) have been seen.
+- Calibration: for 2.5.0–2.8.0 the per-subject amplitude statistics come from a ring buffer of the
+  last ``calibration_windows`` valid windows (default 600 = 5 min at 2 Hz), recomputed at every window
+  with the release's own math (gated p95 + cold-start prior for 2.6.0, mean / std otherwise), instead
+  of every window of the recording. 2.9.0 does not use that buffer: each classifier keeps the release's
+  causal neutral (``advance_to`` the window start, predict, then ``push`` the finished window) so two
+  headsets can share one loaded model. No label is emitted until ``min_calibration_windows`` windows
+  (default 60 = 30 s) have been seen; 2.9.0 still pushes those windows so the neutral is not left on
+  the prior.
 - High-RMS artifact rule: a window whose summed RMS exceeds the threshold takes the label of the latest
   clean window within ``max_gap`` windows **before** it (never after), otherwise Neutral.
 
@@ -107,6 +110,7 @@ class OnlineEmotionClassifier:
         self._clock = SampleClock(max_fill_samples)
         self._filter = CausalSosFilter(self._sos, N_CHANNELS)
         self._windower = Windower(WINDOW_SAMPLES, STEP_SAMPLES, warmup=FILTER_WARMUP_SAMPLES)
+        self._session_neutral = self.model.amplitude_calibration == "session_neutral_p20"
         self.reset()
 
     # -- Lifecycle ----------------------------------------------------------------------------------
@@ -121,6 +125,7 @@ class OnlineEmotionClassifier:
         self._clock.reset()
         self._filter.reset()
         self._windower.reset()
+        self._neutral_state: dict | None = None
 
     @property
     def n_calibration_windows(self) -> int:
@@ -167,11 +172,16 @@ class OnlineEmotionClassifier:
         wl = np.sum(np.abs(np.diff(window[self._emg], axis=1)), axis=1)
         self._rms.append(rms)
         self._wl.append(wl)
-        if not self.calibrated:
-            return OnlineEmotionResult(status="calibrating", channel_rms=rms, **base)
-        self._update_stats()
-        self.model.set_amplitude_stats(*self._stats)
-        result = self.model.predict(window)
+        if self._session_neutral:
+            result = self._predict_session_neutral(window, start)
+            if result is None:
+                return OnlineEmotionResult(status="calibrating", channel_rms=rms, **base)
+        else:
+            if not self.calibrated:
+                return OnlineEmotionResult(status="calibrating", channel_rms=rms, **base)
+            self._update_stats()
+            self.model.set_amplitude_stats(*self._stats)
+            result = self.model.predict(window)
         label = result.label
         confidence = _confidence(result, self.post.one_hot)
         intensities = dict(zip(EMOTION_COLUMNS, _intensities(result, self.post.one_hot)))
@@ -214,6 +224,49 @@ class OnlineEmotionClassifier:
             out.intensities = {c: (1.0 if c == "Neutral" else 0.0) for c in EMOTION_COLUMNS}
             out.relabel_reason = "high_rms_neutral"
 
+    def _predict_session_neutral(self, window: np.ndarray, start: int):
+        """Score one window with this headset's causal neutral, then store the finished window.
+
+        The loaded model is shared across headsets, so this classifier installs its own neutral
+        before the call and copies it back afterwards. ``advance_to`` runs before ``push``, so the
+        window being scored is not part of its own update. Returns ``None`` while still calibrating;
+        the window is pushed either way.
+        """
+        inner = self.model._predictor._model
+        self._install_neutral(inner)
+        try:
+            t_start = start / self.fs
+            t_end = (start + window.shape[1]) / self.fs
+            inner.advance_to(t_start)
+            result = self.model.predict(window) if self.calibrated else None
+            inner.push(window, t_end)
+            return result
+        finally:
+            self._neutral_state = self._capture_neutral(inner)
+
+    def _install_neutral(self, inner) -> None:  # noqa: ANN001
+        state = self._neutral_state
+        if state is None:
+            inner.reset_causal()
+            return
+        inner.n_rms = np.asarray(state["n_rms"], dtype=np.float64)
+        inner.n_wl = np.asarray(state["n_wl"], dtype=np.float64)
+        inner._hist_rms = [np.asarray(row, dtype=np.float64) for row in state["hist_rms"]]
+        inner._hist_wl = [np.asarray(row, dtype=np.float64) for row in state["hist_wl"]]
+        inner._hist_end = [float(t) for t in state["hist_end"]]
+        inner._bucket = int(state["bucket"])
+
+    @staticmethod
+    def _capture_neutral(inner) -> dict:  # noqa: ANN001
+        return {
+            "n_rms": np.asarray(inner.n_rms, dtype=np.float64).tolist(),
+            "n_wl": np.asarray(inner.n_wl, dtype=np.float64).tolist(),
+            "hist_rms": [np.asarray(row, dtype=np.float64).tolist() for row in inner._hist_rms],
+            "hist_wl": [np.asarray(row, dtype=np.float64).tolist() for row in inner._hist_wl],
+            "hist_end": [float(t) for t in inner._hist_end],
+            "bucket": int(inner._bucket),
+        }
+
     def _update_stats(self) -> None:
         rms = np.stack(self._rms)
         wl = np.stack(self._wl)
@@ -226,11 +279,14 @@ class OnlineEmotionClassifier:
 
     def state_dict(self) -> dict:
         """Calibration history, JSON-serialisable. Filters and windows restart after a reload."""
-        return {
+        state = {
             "model": self.model.info.key,
             "rms": np.stack(self._rms).tolist() if self._rms else [],
             "wl": np.stack(self._wl).tolist() if self._wl else [],
         }
+        if self._neutral_state is not None:
+            state["session_neutral"] = self._neutral_state
+        return state
 
     def load_state_dict(self, state: dict) -> None:
         if state.get("model") != self.model.info.key:
@@ -238,3 +294,5 @@ class OnlineEmotionClassifier:
         self.reset()
         self._rms.extend(np.asarray(r, dtype=np.float64) for r in state.get("rms", []))
         self._wl.extend(np.asarray(w, dtype=np.float64) for w in state.get("wl", []))
+        neutral = state.get("session_neutral")
+        self._neutral_state = neutral if isinstance(neutral, dict) else None
