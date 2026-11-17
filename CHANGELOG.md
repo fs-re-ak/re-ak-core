@@ -5,6 +5,15 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
+## Unreleased
+
+### Added
+
+- classical-emotion **2.7.0** (`extended_nm_a_rmsunit`, 19 features, no session calibration) and **2.8.0**
+  (`extended_nm_a_floor`, 27 features, floor-only amplitude) as selectable built-in releases. Alias
+  `standard-latest` still resolves to 2.6.0. Both use the same 20–110 Hz + 60 Hz notch filter and one-hot
+  post-processing as 2.6.0.
+
 ## 1.1.0
 
 ### Added

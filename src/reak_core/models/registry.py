@@ -9,7 +9,8 @@ Built-in releases live in ``reak_core/models/releases/<key>/`` (``manifest.json`
 registered under the model key.
 
 Aliases: ``standard-latest`` is the default model of the core (decision D9, 2.6.0);
-``classical-emotion`` is the historical NucleusKit alias for 2.5.0.
+``classical-emotion`` is the historical NucleusKit alias for 2.5.0. Built-in releases also
+include 2.7.0 and 2.8.0 as selectable keys; the default alias is unchanged.
 
 Author(s):
     RE-AK Technologies Inc., Fall 2026
