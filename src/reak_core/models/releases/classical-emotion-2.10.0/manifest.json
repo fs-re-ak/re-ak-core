@@ -1,0 +1,107 @@
+{
+  "name": "classical-emotion",
+  "version": "2.10.0",
+  "deployed": false,
+  "released": true,
+  "production_alias": "classical-emotion:2.6.0",
+  "input": {
+    "channels": [
+      "Supraorbital_L",
+      "Supraorbital_R",
+      "Zygomatic_L",
+      "Zygomatic_R",
+      "Temporal_EEG",
+      "Glabella",
+      "Temporal_R",
+      "Nasolabial"
+    ],
+    "sample_rate_hz": 250,
+    "window_samples": 500
+  },
+  "labels": [
+    "NEUTRAL",
+    "HAPPINESS",
+    "ANGER",
+    "DISGUST",
+    "FEAR",
+    "SURPRISE",
+    "SADNESS",
+    "CONTEMPT"
+  ],
+  "capabilities": {
+    "channels": 8,
+    "window_seconds": 2.0,
+    "sample_rate": 250,
+    "supports_missing_channels": false,
+    "device": [
+      "cpu"
+    ],
+    "suppress_fear": false
+  },
+  "runtime": {
+    "implementation": "exg_emotion.models.classical_v1.session_neutral:SessionNeutralModel"
+  },
+  "training": {
+    "experiment_id": "classical-emotion-2.10.0",
+    "git_commit": "0473d7187f7bda24e2f4e772675481f6627d4bd0",
+    "model_family": "classical_v1",
+    "exclude_subjects": [
+      "P004",
+      "P007",
+      "P008",
+      "P009",
+      "P013",
+      "P018"
+    ],
+    "fs002_session_units": true
+  },
+  "released_at": "2026-11-18T20:08:57.111378+00:00",
+  "git": "0473d7187f7bda24e2f4e772675481f6627d4bd0",
+  "sklearn_version": "1.6.1",
+  "reak_core": {
+    "postprocessing": {
+      "one_hot": true,
+      "high_rms": {
+        "enabled": true,
+        "threshold_uv": 200.0,
+        "max_gap_windows": 6
+      },
+      "low_confidence": {
+        "enabled": false,
+        "threshold": 0.3
+      }
+    },
+    "checksums": {
+      "config.json": "b040b2c61c181b55e0baf19ac15869ddca29eac37df2e059b6fcd2f350e0a425",
+      "exg_emotion/__init__.py": "bb0a72c8cc88380f65946c3069b9886932c50b2764bd1bfe09f32a4f6322e8d1",
+      "exg_emotion/analysis/__init__.py": "81117cd9db3d830682f09ed7a0b014b49e366069e8a1f704db5611725d9be108",
+      "exg_emotion/analysis/session_neutral_290.py": "2fd76b1474486c4851afdedf43030d54548b6818ff47bbde905dccd58807197b",
+      "exg_emotion/core/__init__.py": "b840bf855fa27395a9ba785fc7fb000b6d3cb726e5a2f51a45df3cc42ca02150",
+      "exg_emotion/core/exceptions.py": "1427583e3c2ec186053e7dad3be8c75ecfe1b55171eabbfea2864ed1cb3c1e09",
+      "exg_emotion/core/interfaces.py": "0b3f117347acaae3cee099e1165a4a63142ef8cadba6c4fdcf06a11718314da9",
+      "exg_emotion/core/types.py": "9af7416d5fe5e68074515ef0d28ac0f45dcc09eb15447f34551f4d2453844b8c",
+      "exg_emotion/core/validation.py": "38fbbe597453e849c5d8536e6c87d632ee589017cf4b130201492ad6f87f8cff",
+      "exg_emotion/models/__init__.py": "a3823fe46b05bcfe3587b6e7c3ccdb3f47dfa764ec55a63df8a90f1510cafb9e",
+      "exg_emotion/models/classical_v1/__init__.py": "65ec271f62d6162f507f2b20b6aca0d6b1087ccba564a8721c9229f1dd392675",
+      "exg_emotion/models/classical_v1/features.py": "54eac316292c61b5d7e71544e1f24d8ace87c7bf89c739796b5ec99ccaa93dca",
+      "exg_emotion/models/classical_v1/floor_baseline.py": "03b1a4e2c293f595e050ae718a6e5719cb534d704e39cc16bf0a709d0499342a",
+      "exg_emotion/models/classical_v1/gated_prior.py": "019b61498fc99638f98c7df3e2677b47df6d6089661447f0b23b388a86b13fc7",
+      "exg_emotion/models/classical_v1/model.py": "dd9c67cfee70916462c6edaca905a782207583c3ed97357f9632c4eed0945493",
+      "exg_emotion/models/classical_v1/session_neutral.py": "387f59bcc7e04a42def6f0cc681801c31dc06656c4db895fa59dd848bb7eb2a6",
+      "exg_emotion/runtime/__init__.py": "e54ae692ae8ec915b10484b925051fe00c44f96458ca212a5d0bcb0c13e920e2",
+      "exg_emotion/runtime/loader.py": "659079004a5b992a1296b603f8b7816221132ca5003bd9d9d20746d018d01b08",
+      "exg_emotion/runtime/predictor.py": "32371660d245f8d11d4e39e1b51a464685bb9abf15496f3a568c9676a85d1fa6",
+      "exg_emotion/runtime/registry.py": "43962036015a57d56541317821a668346c02132faa513b89420f46bd7da0e0f7",
+      "INTEGRATION.md": "f071a058ca396d213b40de9fa7897b4e578cdd2b87491193b305e697ef7b5828",
+      "labels.json": "889f6b44ef0dfdbcb707c0c4e5e731535279a3f0d1e10d0247e6f2b1ab985d9a",
+      "metrics.json": "8c9f34098759b4a74ff8da193496f298794716233eac20bab39b773236b65c05",
+      "MODEL.md": "5e73cee247063e3f0553e9df4277f9611424339b000ca9d9b12b4f9fdbb08023",
+      "pipeline.joblib": "a4211e394088990cbfaa15f0784c98764b7ee7653e5bf0cbd6150b8b849219ce",
+      "README.md": "f071a058ca396d213b40de9fa7897b4e578cdd2b87491193b305e697ef7b5828",
+      "requirements.txt": "e759ba8c113e5dbbca09d1324f7fcaec96496bed6684ad5e288a966d1be6d1ff",
+      "temperature.json": "85b2d5233fac571d8be7a3bed3db1a4094b11ea1686fdb14abeaddad0e355810",
+      "thresholds.json": "d15f1bce167126900697bd4e70302fb8a1f5c17e23c0ab2f3e838ad8b86da5c3",
+      "wl_prior.json": "2caef721ead6f868b9038d7944c1afeca0dbf01dd91396b9912cb98022353ada"
+    }
+  }
+}
