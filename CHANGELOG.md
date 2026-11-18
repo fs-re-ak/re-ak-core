@@ -14,6 +14,9 @@ listed under "Fixed" with the affected files.
 
 ### Added
 
+- classical-emotion **2.11.0** (`extended_nm_a_rmsunit`, 19 features, no session calibration) as a
+  selectable built-in release. Same calibration-free RMS unit-vector recipe as 2.7.0, with fear
+  emitted and an adjusted training set (FS002 sessions). Alias `standard-latest` stays 2.6.0.
 - classical-emotion **2.10.0** (`session_neutral_log_rms`, 25 features) as a selectable built-in release.
   Same session-neutral recipe and live causal path as 2.9.0, with an adjusted training set. Fear is
   emitted. Alias `standard-latest` stays 2.6.0.

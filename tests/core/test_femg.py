@@ -37,6 +37,7 @@ def test_default_model_and_aliases():
         "classical-emotion-2.8.0",
         "classical-emotion-2.9.0",
         "classical-emotion-2.10.0",
+        "classical-emotion-2.11.0",
     } <= set(available_models())
 
 
@@ -49,6 +50,7 @@ def test_default_model_and_aliases():
         "classical-emotion-2.8.0",
         "classical-emotion-2.9.0",
         "classical-emotion-2.10.0",
+        "classical-emotion-2.11.0",
     ],
 )
 def test_releases_verify_and_declare_sklearn(key):
@@ -74,6 +76,7 @@ def test_release_preprocessing_and_postprocessing():
     m25, m26 = load_model("classical-emotion-2.5.0"), load_model("classical-emotion-2.6.0")
     m27, m28 = load_model("classical-emotion-2.7.0"), load_model("classical-emotion-2.8.0")
     m29, m210 = load_model("classical-emotion-2.9.0"), load_model("classical-emotion-2.10.0")
+    m211 = load_model("classical-emotion-2.11.0")
     assert (m25.preprocess.bandpass_low, m25.preprocess.bandpass_high, m25.preprocess.notch_hz) == (15.0, 40.0, None)
     assert (m26.preprocess.bandpass_low, m26.preprocess.bandpass_high, m26.preprocess.notch_hz) == (20.0, 110.0, 60.0)
     assert (m27.preprocess.bandpass_low, m27.preprocess.bandpass_high, m27.preprocess.notch_hz) == (20.0, 110.0, 60.0)
@@ -84,20 +87,29 @@ def test_release_preprocessing_and_postprocessing():
         110.0,
         60.0,
     )
+    assert (m211.preprocess.bandpass_low, m211.preprocess.bandpass_high, m211.preprocess.notch_hz) == (
+        20.0,
+        110.0,
+        60.0,
+    )
     assert not m25.postprocess.one_hot and m25.postprocess.low_confidence_enabled
     assert m26.postprocess.one_hot and not m26.postprocess.low_confidence_enabled
     assert m27.postprocess.one_hot and not m27.postprocess.low_confidence_enabled
     assert m28.postprocess.one_hot and not m28.postprocess.low_confidence_enabled
     assert m29.postprocess.one_hot and not m29.postprocess.low_confidence_enabled
     assert m210.postprocess.one_hot and not m210.postprocess.low_confidence_enabled
+    assert m211.postprocess.one_hot and not m211.postprocess.low_confidence_enabled
     assert m25.postprocess.high_rms_threshold_uv == m26.postprocess.high_rms_threshold_uv == 200.0
     assert m27.postprocess.high_rms_threshold_uv == m28.postprocess.high_rms_threshold_uv == 200.0
     assert m29.postprocess.high_rms_threshold_uv == m210.postprocess.high_rms_threshold_uv == 200.0
+    assert m211.postprocess.high_rms_threshold_uv == 200.0
     assert m27.info.feature_set == "extended_nm_a_rmsunit" and len(m27.feature_columns) == 19
     assert m28.info.feature_set == "extended_nm_a_floor" and len(m28.feature_columns) == 27
     assert m29.info.feature_set == "session_neutral_log_rms" and len(m29.feature_columns) == 25
     assert m210.info.feature_set == "session_neutral_log_rms" and len(m210.feature_columns) == 25
+    assert m211.info.feature_set == "extended_nm_a_rmsunit" and len(m211.feature_columns) == 19
     assert m29.amplitude_calibration == m210.amplitude_calibration == "session_neutral_p20"
+    assert m211.amplitude_calibration == "none"
 
 
 def test_interpolation_only_bridges_channels_with_valid_samples():
@@ -162,6 +174,7 @@ def test_existing_outputs_are_kept_unless_forced(session_copy):
         ("classical-emotion-2.8.0", "extended_nm_a_floor", 27, False),
         ("classical-emotion-2.9.0", "session_neutral_log_rms", 25, True),
         ("classical-emotion-2.10.0", "session_neutral_log_rms", 25, True),
+        ("classical-emotion-2.11.0", "extended_nm_a_rmsunit", 19, True),
     ],
 )
 def test_outputs_and_schema_for_selectable_releases(session_copy, key, feature_set, n_features, emits_fear):

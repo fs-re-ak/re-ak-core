@@ -4,7 +4,7 @@
 **Entry point:** `compute_emotions(session_root, model=None)`  
 **Primary output:** `results/Emotions.csv`
 
-Moment-to-moment emotion intensities from the 8-channel Hermes EXG recording. The default model is the alias `standard-latest`, which resolves to **classical-emotion 2.6.0** (decision D9). `classical-emotion` remains the alias for 2.5.0. Selectable releases also include **2.7.0**, **2.8.0**, **2.9.0** and **2.10.0**. All six are loaded from `reak_core.models.releases` after their manifest checksums match. Their README and INTEGRATION files still describe copying the release folder into another project; that text is part of the checksummed release and is not the install path.
+Moment-to-moment emotion intensities from the 8-channel Hermes EXG recording. The default model is the alias `standard-latest`, which resolves to **classical-emotion 2.6.0** (decision D9). `classical-emotion` remains the alias for 2.5.0. Selectable releases also include **2.7.0**, **2.8.0**, **2.9.0**, **2.10.0** and **2.11.0**. All seven are loaded from `reak_core.models.releases` after their manifest checksums match. Their README and INTEGRATION files still describe copying the release folder into another project; that text is part of the checksummed release and is not the install path.
 
 ## Input and invalid samples
 
@@ -14,7 +14,7 @@ Preparation, in `reak_core.femg.signal`:
 
 1. Mark invalid samples.
 2. Interpolate them per channel, only so the filter does not spread gaps. A channel with no valid sample is left as it is.
-3. Apply the release filter to the whole recording, zero-phase. 2.6.0, 2.7.0, 2.8.0, 2.9.0 and 2.10.0 declare a 60 Hz notch and a 20–110 Hz bandpass. 2.5.0 does not declare a band, so the fallback is 15–40 Hz and no notch.
+3. Apply the release filter to the whole recording, zero-phase. 2.6.0, 2.7.0, 2.8.0, 2.9.0, 2.10.0 and 2.11.0 declare a 60 Hz notch and a 20–110 Hz bandpass. 2.5.0 does not declare a band, so the fallback is 15–40 Hz and no notch.
 4. Put the invalid samples back to missing.
 5. Slide a 2.0 s window (500 samples) every 0.5 s (125 samples). **A window that contains any non-finite sample is null.** This replaces the 1.1 rule that nullified a window only when more than 10% of its samples were missing.
 
@@ -27,6 +27,7 @@ Preparation, in `reak_core.femg.signal`:
 | classical-emotion 2.8.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Floor-only log-ratio amplitude (27 features). Fear is not emitted. Do not apply NLMS |
 | classical-emotion 2.9.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Session-neutral log RMS (25 features): `N = w * p20 + (1 - w) * prior`. Fear is emitted. Loaded with `SessionNeutralModel`, not `Predictor`. Do not apply NLMS |
 | classical-emotion 2.10.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Same session-neutral recipe as 2.9.0 with an adjusted training set (FS002 sessions added; extra subject exclusions). Fear is emitted. Do not apply NLMS |
+| classical-emotion 2.11.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Same calibration-free RMS L2 unit vector as 2.7.0 (19 features), with fear emitted and FS002 sessions in training. Do not apply NLMS |
 | classical-emotion 2.5.0 | 15–40 Hz, no notch | Class probabilities | Confidence used by the heuristics is the highest merged probability |
 
 Columns, in order: `Neutral`, `Happiness`, `Anger`, `Surprise`, `Contempt`, `Disgust`, `Fear`, `Sadness`.
