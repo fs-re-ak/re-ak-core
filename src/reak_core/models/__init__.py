@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 RE-AK Technologies Inc.
-"""Emotion models: contract, built-in classical-emotion releases (2.5.0–2.9.0) and registry."""
+"""Emotion models: contract, built-in classical-emotion releases (2.5.0–2.11.0) and registry."""
 
 from reak_core.models.base import (
     EMOTION_COLUMNS,

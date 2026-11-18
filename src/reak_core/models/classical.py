@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 RE-AK Technologies Inc.
 """
-Classical-emotion releases (2.5.0, 2.6.0, 2.7.0, 2.8.0, 2.9.0) as :class:`EmotionModel`.
+Classical-emotion releases (2.5.0, 2.6.0, 2.7.0, 2.8.0, 2.9.0, 2.10.0, 2.11.0) as :class:`EmotionModel`.
 
 Each release ships its own ``exg_emotion`` runtime, and its ``pipeline.joblib`` references that
 package by name. Loading a release therefore puts its folder first on ``sys.path`` and evicts any
@@ -9,9 +9,9 @@ package by name. Loading a release therefore puts its folder first on ``sys.path
 release code that runs is the code the model was exported with.
 
 Per-subject calibration depends on the release: 2.5.0 / 2.6.0 need :meth:`set_subject_context`
-before the first :meth:`predict`; 2.8.0 needs it for the floor baseline; 2.9.0 needs it for the
-session-neutral p20 (its live path is the release's causal update, driven by
-``reak_core.online``); 2.7.0 is calibration-free. Call :meth:`reset` between recordings.
+before the first :meth:`predict`; 2.8.0 needs it for the floor baseline; 2.9.0 and 2.10.0 need it
+for the session-neutral p20 (their live path is the release's causal update, driven by
+``reak_core.online``); 2.7.0 and 2.11.0 are calibration-free. Call :meth:`reset` between recordings.
 
 Author(s):
     RE-AK Technologies Inc., Fall 2026
@@ -72,7 +72,7 @@ def _feature_columns_for(feature_set: str) -> list[str]:
         )
 
         return list(FLOOR_FEATURE_NAMES)
-    # 2.9.0 (session_neutral_log_rms) uses the same 25 columns as extended_nm_a:
+    # 2.9.0 / 2.10.0 (session_neutral_log_rms) use the same 25 columns as extended_nm_a:
     # log(RMS) - N, log(WL) - N, then the scale-free block.
     return list(FEATURE_COLUMNS)
 
@@ -91,7 +91,7 @@ class _SessionNeutralPredictor:
 
 
 def _session_neutral_features(model):  # noqa: ANN001
-    """Feature vector of one window, using the release's own 2.9.0 functions.
+    """Feature vector of one window, using the release's own session-neutral functions.
 
     Bound at load time so a later release activation cannot replace them.
     """
@@ -168,8 +168,8 @@ class ClassicalReleaseModel(EmotionModel):
 
     @property
     def amplitude_calibration(self) -> str:
-        """``"gated_prior"`` (2.6.0), ``"floor_baseline"`` (2.8.0), ``"session_neutral_p20"`` (2.9.0),
-        ``"none"`` (2.7.0), or ``"mean_std"``.
+        """``"gated_prior"`` (2.6.0), ``"floor_baseline"`` (2.8.0), ``"session_neutral_p20"`` (2.9.0 / 2.10.0),
+        ``"none"`` (2.7.0 / 2.11.0), or ``"mean_std"``.
         """
         inner = self._predictor._model
         declared = getattr(inner, "_amplitude_calibration", None)

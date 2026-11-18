@@ -11,11 +11,11 @@ the offline computation, all forced by causality:
 - Calibration: for 2.5.0–2.8.0 the per-subject amplitude statistics come from a ring buffer of the
   last ``calibration_windows`` valid windows (default 600 = 5 min at 2 Hz), recomputed at every window
   with the release's own math (gated p95 + cold-start prior for 2.6.0, mean / std otherwise), instead
-  of every window of the recording. 2.9.0 does not use that buffer: each classifier keeps the release's
-  causal neutral (``advance_to`` the window start, predict, then ``push`` the finished window) so two
-  headsets can share one loaded model. No label is emitted until ``min_calibration_windows`` windows
-  (default 60 = 30 s) have been seen; 2.9.0 still pushes those windows so the neutral is not left on
-  the prior.
+  of every window of the recording. 2.9.0 / 2.10.0 do not use that buffer: each classifier keeps the
+  release's causal neutral (``advance_to`` the window start, predict, then ``push`` the finished
+  window) so two headsets can share one loaded model. No label is emitted until
+  ``min_calibration_windows`` windows (default 60 = 30 s) have been seen; session-neutral releases
+  still push those windows so the neutral is not left on the prior.
 - High-RMS artifact rule: a window whose summed RMS exceeds the threshold takes the label of the latest
   clean window within ``max_gap`` windows **before** it (never after), otherwise Neutral.
 
