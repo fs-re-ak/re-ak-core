@@ -1,0 +1,4411 @@
+{
+  "mean_accuracy": 0.44920554545327174,
+  "std_accuracy": 0.18061426300655364,
+  "mean_f1_macro": 0.33614269076371106,
+  "std_f1_macro": 0.16203128154951868,
+  "mean_accuracy_headline_21": 0.49124793787122206,
+  "std_accuracy_headline_21": 0.17691177789658374,
+  "n_folds": 30,
+  "n_headline": 24,
+  "label_classes": [
+    "NEUTRAL",
+    "HAPPINESS",
+    "ANGER",
+    "DISGUST",
+    "FEAR",
+    "SURPRISE",
+    "SADNESS",
+    "CONTEMPT"
+  ],
+  "pooled_confusion": [
+    [
+      163,
+      8,
+      16,
+      17,
+      3,
+      17,
+      5,
+      27
+    ],
+    [
+      26,
+      120,
+      1,
+      8,
+      2,
+      11,
+      10,
+      29
+    ],
+    [
+      36,
+      3,
+      84,
+      50,
+      13,
+      45,
+      8,
+      1
+    ],
+    [
+      21,
+      3,
+      37,
+      99,
+      4,
+      13,
+      10,
+      9
+    ],
+    [
+      18,
+      8,
+      24,
+      5,
+      26,
+      69,
+      15,
+      11
+    ],
+    [
+      42,
+      17,
+      53,
+      15,
+      18,
+      86,
+      8,
+      9
+    ],
+    [
+      30,
+      4,
+      20,
+      11,
+      5,
+      21,
+      62,
+      13
+    ],
+    [
+      36,
+      34,
+      3,
+      9,
+      0,
+      12,
+      4,
+      104
+    ]
+  ],
+  "per_fold": [
+    {
+      "fold_idx": 0,
+      "test_subject": "F001",
+      "accuracy": 0.7941176470588235,
+      "f1_macro": 0.7970452069716776,
+      "n_test": 68,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          1,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          8,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          6
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 8
+        },
+        "HAPPINESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.8571428571428571,
+          "recall": 0.6666666666666666,
+          "f1": 0.75,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.3333333333333333,
+          "recall": 0.1111111111111111,
+          "f1": 0.16666666666666666,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.3888888888888889,
+          "recall": 0.7777777777777778,
+          "f1": 0.5185185185185185,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 1.0,
+          "recall": 0.8888888888888888,
+          "f1": 0.9411764705882353,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 6
+        }
+      }
+    },
+    {
+      "fold_idx": 1,
+      "test_subject": "FS002_S02",
+      "accuracy": 0.8222222222222222,
+      "f1_macro": 0.49720893141945777,
+      "n_test": 45,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          7,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          9,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.9,
+          "recall": 1.0,
+          "f1": 0.9473684210526316,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "ANGER": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "FEAR": {
+          "precision": 1.0,
+          "recall": 0.2222222222222222,
+          "f1": 0.3636363636363636,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.5333333333333333,
+          "recall": 0.8888888888888888,
+          "f1": 0.6666666666666667,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      }
+    },
+    {
+      "fold_idx": 2,
+      "test_subject": "FS002_S03",
+      "accuracy": 0.6666666666666666,
+      "f1_macro": 0.43616071428571435,
+      "n_test": 45,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          1,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          2,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          7,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "ANGER": {
+          "precision": 1.0,
+          "recall": 0.5555555555555556,
+          "f1": 0.7142857142857143,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "FEAR": {
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "f1": 0.4,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.4,
+          "recall": 0.6666666666666666,
+          "f1": 0.5,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 1.0,
+          "recall": 0.7777777777777778,
+          "f1": 0.8750000000000001,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      }
+    },
+    {
+      "fold_idx": 3,
+      "test_subject": "FS002_S04",
+      "accuracy": 0.7555555555555555,
+      "f1_macro": 0.4787447478991597,
+      "n_test": 45,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          7,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          9,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 1.0,
+          "recall": 0.7777777777777778,
+          "f1": 0.8750000000000001,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "ANGER": {
+          "precision": 0.875,
+          "recall": 0.7777777777777778,
+          "f1": 0.823529411764706,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "FEAR": {
+          "precision": 0.8,
+          "recall": 0.4444444444444444,
+          "f1": 0.5714285714285714,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.4375,
+          "recall": 0.7777777777777778,
+          "f1": 0.56,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      }
+    },
+    {
+      "fold_idx": 4,
+      "test_subject": "FS002_S05",
+      "accuracy": 0.5555555555555556,
+      "f1_macro": 0.3576887293992557,
+      "n_test": 45,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          2,
+          0,
+          1,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          2,
+          3,
+          2,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.9,
+          "recall": 1.0,
+          "f1": 0.9473684210526316,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "ANGER": {
+          "precision": 1.0,
+          "recall": 0.2222222222222222,
+          "f1": 0.3636363636363636,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "FEAR": {
+          "precision": 0.5714285714285714,
+          "recall": 0.4444444444444444,
+          "f1": 0.5,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.23076923076923078,
+          "recall": 0.3333333333333333,
+          "f1": 0.27272727272727276,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.7777777777777778,
+          "recall": 0.7777777777777778,
+          "f1": 0.7777777777777778,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      }
+    },
+    {
+      "fold_idx": 5,
+      "test_subject": "FS002_S06",
+      "accuracy": 0.2903225806451613,
+      "f1_macro": 0.1597222222222222,
+      "n_test": 31,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          2,
+          3,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          6,
+          1,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          1,
+          5,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "FEAR": {
+          "precision": 0.6666666666666666,
+          "recall": 0.2222222222222222,
+          "f1": 0.3333333333333333,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.45454545454545453,
+          "recall": 0.5555555555555556,
+          "f1": 0.5,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.4,
+          "recall": 0.5,
+          "f1": 0.4444444444444445,
+          "support": 4
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      }
+    },
+    {
+      "fold_idx": 6,
+      "test_subject": "FS002_S07",
+      "accuracy": 0.48717948717948717,
+      "f1_macro": 0.2928405572755418,
+      "n_test": 39,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          2,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          3,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          2,
+          3,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          2,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "ANGER": {
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "f1": 0.4,
+          "support": 6
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "FEAR": {
+          "precision": 0.5714285714285714,
+          "recall": 0.4444444444444444,
+          "f1": 0.5,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.75,
+          "recall": 0.6666666666666666,
+          "f1": 0.7058823529411765,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.7,
+          "recall": 0.7777777777777778,
+          "f1": 0.7368421052631577,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      }
+    },
+    {
+      "fold_idx": 7,
+      "test_subject": "JS001",
+      "accuracy": 0.6666666666666666,
+      "f1_macro": 0.5285777109887017,
+      "n_test": 60,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          6,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          3,
+          2,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.7499999999999999,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.875,
+          "recall": 0.7777777777777778,
+          "f1": 0.823529411764706,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.6153846153846154,
+          "recall": 0.8888888888888888,
+          "f1": 0.7272727272727274,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "SURPRISE": {
+          "precision": 0.4,
+          "recall": 0.2222222222222222,
+          "f1": 0.2857142857142857,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "CONTEMPT": {
+          "precision": 0.8,
+          "recall": 0.8888888888888888,
+          "f1": 0.8421052631578948,
+          "support": 9
+        }
+      }
+    },
+    {
+      "fold_idx": 8,
+      "test_subject": "P001",
+      "accuracy": 0.5492957746478874,
+      "f1_macro": 0.4834813534166983,
+      "n_test": 71,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          7,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          4,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0,
+          0,
+          2,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 1.0,
+          "recall": 0.7777777777777778,
+          "f1": 0.8750000000000001,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.45,
+          "recall": 1.0,
+          "f1": 0.6206896551724138,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.6666666666666666,
+          "recall": 0.8888888888888888,
+          "f1": 0.761904761904762,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 1.0,
+          "recall": 0.4444444444444444,
+          "f1": 0.6153846153846153,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "SADNESS": {
+          "precision": 0.38095238095238093,
+          "recall": 0.8888888888888888,
+          "f1": 0.5333333333333333,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.75,
+          "recall": 0.3333333333333333,
+          "f1": 0.46153846153846156,
+          "support": 9
+        }
+      }
+    },
+    {
+      "fold_idx": 9,
+      "test_subject": "P002",
+      "accuracy": 0.20588235294117646,
+      "f1_macro": 0.13159501317396055,
+      "n_test": 68,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          1,
+          0,
+          0,
+          1,
+          2,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3,
+          6,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          8,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          1,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          2,
+          4,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          1,
+          2,
+          3,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          9,
+          1,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.25,
+          "recall": 0.1111111111111111,
+          "f1": 0.15384615384615383,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "DISGUST": {
+          "precision": 0.42105263157894735,
+          "recall": 0.8888888888888888,
+          "f1": 0.5714285714285714,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "SURPRISE": {
+          "precision": 0.14814814814814814,
+          "recall": 0.4444444444444444,
+          "f1": 0.2222222222222222,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.1,
+          "recall": 0.1111111111111111,
+          "f1": 0.10526315789473685,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 11
+        }
+      }
+    },
+    {
+      "fold_idx": 10,
+      "test_subject": "p003",
+      "accuracy": 0.3389830508474576,
+      "f1_macro": 0.3534904970760234,
+      "n_test": 59,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          5,
+          0,
+          3,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          0,
+          0,
+          1,
+          2,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          6,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.7142857142857143,
+          "recall": 0.5555555555555556,
+          "f1": 0.6250000000000001,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.6666666666666666,
+          "recall": 0.4444444444444444,
+          "f1": 0.5333333333333333,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.9,
+          "recall": 1.0,
+          "f1": 0.9473684210526316,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.25,
+          "recall": 0.2,
+          "f1": 0.22222222222222224,
+          "support": 5
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.3333333333333333,
+          "f1": 0.5,
+          "support": 3
+        }
+      }
+    },
+    {
+      "fold_idx": 11,
+      "test_subject": "P005",
+      "accuracy": 0.4791666666666667,
+      "f1_macro": 0.29932598039215685,
+      "n_test": 48,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          7,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          3,
+          0,
+          3,
+          0,
+          2,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.36,
+          "recall": 1.0,
+          "f1": 0.5294117647058824,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.875,
+          "recall": 0.7777777777777778,
+          "f1": 0.823529411764706,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.42857142857142855,
+          "recall": 0.3333333333333333,
+          "f1": 0.375,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 4
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 5
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "support": 8
+        }
+      }
+    },
+    {
+      "fold_idx": 12,
+      "test_subject": "P006",
+      "accuracy": 0.19672131147540983,
+      "f1_macro": 0.10544871794871793,
+      "n_test": 61,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.16071428571428573,
+          "recall": 1.0,
+          "f1": 0.27692307692307694,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.3333333333333333,
+          "recall": 0.1111111111111111,
+          "f1": 0.16666666666666666,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 1.0,
+          "recall": 0.1111111111111111,
+          "f1": 0.19999999999999998,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 5
+        },
+        "SURPRISE": {
+          "precision": 1.0,
+          "recall": 0.1111111111111111,
+          "f1": 0.19999999999999998,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 4
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        }
+      }
+    },
+    {
+      "fold_idx": 13,
+      "test_subject": "P010",
+      "accuracy": 0.29508196721311475,
+      "f1_macro": 0.2675480769230769,
+      "n_test": 61,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          4,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          4
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0,
+          2,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          1,
+          0,
+          2,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          3,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          2,
+          1,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2,
+          4
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 1.0,
+          "recall": 0.4444444444444444,
+          "f1": 0.6153846153846153,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.8181818181818182,
+          "recall": 1.0,
+          "f1": 0.9,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "DISGUST": {
+          "precision": 0.14285714285714285,
+          "recall": 0.1111111111111111,
+          "f1": 0.125,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 5
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "CONTEMPT": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "support": 8
+        }
+      }
+    },
+    {
+      "fold_idx": 14,
+      "test_subject": "P011",
+      "accuracy": 0.58,
+      "f1_macro": 0.4976363183600026,
+      "n_test": 50,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0,
+          2,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          6,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          3,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.7499999999999999,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.6666666666666666,
+          "recall": 0.8888888888888888,
+          "f1": 0.761904761904762,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "DISGUST": {
+          "precision": 0.5454545454545454,
+          "recall": 0.75,
+          "f1": 0.631578947368421,
+          "support": 8
+        },
+        "FEAR": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 1
+        },
+        "SURPRISE": {
+          "precision": 0.3333333333333333,
+          "recall": 0.16666666666666666,
+          "f1": 0.2222222222222222,
+          "support": 6
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.4444444444444444,
+          "f1": 0.6153846153846153,
+          "support": 9
+        }
+      }
+    },
+    {
+      "fold_idx": 15,
+      "test_subject": "P012",
+      "accuracy": 0.36666666666666664,
+      "f1_macro": 0.3214285714285714,
+      "n_test": 60,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          2,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          3,
+          0,
+          3,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          4,
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.5,
+          "recall": 0.4,
+          "f1": 0.4444444444444445,
+          "support": 5
+        },
+        "HAPPINESS": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "support": 7
+        },
+        "ANGER": {
+          "precision": 0.10526315789473684,
+          "recall": 0.2222222222222222,
+          "f1": 0.14285714285714285,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.5,
+          "recall": 0.375,
+          "f1": 0.42857142857142855,
+          "support": 8
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "SURPRISE": {
+          "precision": 0.3,
+          "recall": 0.375,
+          "f1": 0.33333333333333326,
+          "support": 8
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 5
+        },
+        "CONTEMPT": {
+          "precision": 0.8333333333333334,
+          "recall": 0.4166666666666667,
+          "f1": 0.5555555555555556,
+          "support": 12
+        }
+      }
+    },
+    {
+      "fold_idx": 16,
+      "test_subject": "P014",
+      "accuracy": 0.6346153846153846,
+      "f1_macro": 0.6326590076590077,
+      "n_test": 52,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          5,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          2,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.8333333333333334,
+          "recall": 0.5555555555555556,
+          "f1": 0.6666666666666667,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "support": 6
+        },
+        "ANGER": {
+          "precision": 0.38461538461538464,
+          "recall": 0.625,
+          "f1": 0.4761904761904762,
+          "support": 8
+        },
+        "DISGUST": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "support": 3
+        },
+        "FEAR": {
+          "precision": 0.5,
+          "recall": 0.8,
+          "f1": 0.6153846153846154,
+          "support": 5
+        },
+        "SURPRISE": {
+          "precision": 0.6153846153846154,
+          "recall": 0.8888888888888888,
+          "f1": 0.7272727272727274,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 4
+        }
+      }
+    },
+    {
+      "fold_idx": 17,
+      "test_subject": "P015",
+      "accuracy": 0.5869565217391305,
+      "f1_macro": 0.40563456151691446,
+      "n_test": 46,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          6,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          9
+        ],
+        [
+          0,
+          0,
+          6,
+          1,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.75,
+          "recall": 0.6666666666666666,
+          "f1": 0.7058823529411765,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "SURPRISE": {
+          "precision": 0.5714285714285714,
+          "recall": 0.6666666666666666,
+          "f1": 0.6153846153846153,
+          "support": 6
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "CONTEMPT": {
+          "precision": 0.18181818181818182,
+          "recall": 0.5,
+          "f1": 0.26666666666666666,
+          "support": 4
+        }
+      }
+    },
+    {
+      "fold_idx": 18,
+      "test_subject": "P016",
+      "accuracy": 0.4262295081967213,
+      "f1_macro": 0.3222789020934303,
+      "n_test": 61,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          2,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          3,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          1,
+          0,
+          0,
+          0,
+          0,
+          2
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 1.0,
+          "recall": 0.2222222222222222,
+          "f1": 0.3636363636363636,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.4090909090909091,
+          "recall": 1.0,
+          "f1": 0.5806451612903226,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.15,
+          "recall": 0.3333333333333333,
+          "f1": 0.20689655172413793,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.6428571428571429,
+          "recall": 1.0,
+          "f1": 0.782608695652174,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2
+        },
+        "SURPRISE": {
+          "precision": 1.0,
+          "recall": 0.1111111111111111,
+          "f1": 0.19999999999999998,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.2857142857142857,
+          "f1": 0.4444444444444445,
+          "support": 7
+        }
+      }
+    },
+    {
+      "fold_idx": 19,
+      "test_subject": "P017",
+      "accuracy": 0.42028985507246375,
+      "f1_macro": 0.3578753042025353,
+      "n_test": 69,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          8,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          8,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          2,
+          0,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          1,
+          0,
+          0,
+          1,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          3,
+          0,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.8,
+          "recall": 0.8888888888888888,
+          "f1": 0.8421052631578948,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.5625,
+          "recall": 1.0,
+          "f1": 0.72,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.08333333333333333,
+          "recall": 0.1111111111111111,
+          "f1": 0.09523809523809525,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.14285714285714285,
+          "recall": 0.2222222222222222,
+          "f1": 0.17391304347826086,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.14285714285714285,
+          "recall": 0.14285714285714285,
+          "f1": 0.14285714285714285,
+          "support": 7
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.888888888888889,
+          "support": 10
+        }
+      }
+    },
+    {
+      "fold_idx": 20,
+      "test_subject": "P019",
+      "accuracy": 0.5,
+      "f1_macro": 0.3639407267923892,
+      "n_test": 58,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          3,
+          0,
+          2,
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          8,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          2,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          6
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.5294117647058824,
+          "recall": 1.0,
+          "f1": 0.6923076923076924,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        },
+        "ANGER": {
+          "precision": 0.2857142857142857,
+          "recall": 0.2857142857142857,
+          "f1": 0.2857142857142857,
+          "support": 7
+        },
+        "DISGUST": {
+          "precision": 1.0,
+          "recall": 0.8888888888888888,
+          "f1": 0.9411764705882353,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "SURPRISE": {
+          "precision": 0.4444444444444444,
+          "recall": 0.5,
+          "f1": 0.47058823529411764,
+          "support": 8
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "CONTEMPT": {
+          "precision": 0.46153846153846156,
+          "recall": 0.6,
+          "f1": 0.5217391304347826,
+          "support": 10
+        }
+      }
+    },
+    {
+      "fold_idx": 21,
+      "test_subject": "P020",
+      "accuracy": 0.2692307692307692,
+      "f1_macro": 0.1953525641025641,
+      "n_test": 52,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          9
+        ],
+        [
+          0,
+          0,
+          2,
+          7,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          2,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.2857142857142857,
+          "recall": 0.2222222222222222,
+          "f1": 0.25,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.1111111111111111,
+          "recall": 0.16666666666666666,
+          "f1": 0.13333333333333333,
+          "support": 6
+        },
+        "FEAR": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "support": 2
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "CONTEMPT": {
+          "precision": 0.3448275862068966,
+          "recall": 1.0,
+          "f1": 0.5128205128205129,
+          "support": 10
+        }
+      }
+    },
+    {
+      "fold_idx": 22,
+      "test_subject": "P021",
+      "accuracy": 0.3380281690140845,
+      "f1_macro": 0.2812914639540026,
+      "n_test": 71,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          3,
+          2,
+          0,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          1,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          2,
+          0,
+          4,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          9
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.9,
+          "recall": 1.0,
+          "f1": 0.9473684210526316,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        },
+        "DISGUST": {
+          "precision": 0.25,
+          "recall": 0.2222222222222222,
+          "f1": 0.23529411764705882,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "SURPRISE": {
+          "precision": 0.13793103448275862,
+          "recall": 0.4444444444444444,
+          "f1": 0.21052631578947367,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "support": 12
+        }
+      }
+    },
+    {
+      "fold_idx": 23,
+      "test_subject": "TB001",
+      "accuracy": 0.5645161290322581,
+      "f1_macro": 0.4214716478696742,
+      "n_test": 62,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          5,
+          0,
+          2,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          0,
+          0,
+          0,
+          1,
+          0,
+          4
+        ],
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          7
+        ]
+      ],
+      "train_excluded": false,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.391304347826087,
+          "recall": 1.0,
+          "f1": 0.5625,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.6666666666666666,
+          "recall": 0.8888888888888888,
+          "f1": 0.761904761904762,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 1.0,
+          "recall": 0.25,
+          "f1": 0.4,
+          "support": 8
+        },
+        "DISGUST": {
+          "precision": 0.9,
+          "recall": 1.0,
+          "f1": 0.9473684210526316,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2
+        },
+        "CONTEMPT": {
+          "precision": 0.5384615384615384,
+          "recall": 1.0,
+          "f1": 0.7000000000000001,
+          "support": 7
+        }
+      }
+    },
+    {
+      "fold_idx": 24,
+      "test_subject": "P004",
+      "accuracy": 0.24528301886792453,
+      "f1_macro": 0.11826923076923077,
+      "n_test": 53,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          2,
+          0,
+          0,
+          6,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          7,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          7,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          2,
+          5,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          6,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "train_excluded": true,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.6666666666666666,
+          "recall": 0.2222222222222222,
+          "f1": 0.3333333333333333,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "ANGER": {
+          "precision": 0.3333333333333333,
+          "recall": 0.2222222222222222,
+          "f1": 0.26666666666666666,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.20930232558139536,
+          "recall": 1.0,
+          "f1": 0.3461538461538462,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        }
+      }
+    },
+    {
+      "fold_idx": 25,
+      "test_subject": "P007",
+      "accuracy": 0.31343283582089554,
+      "f1_macro": 0.2929563492063492,
+      "n_test": 67,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          5,
+          0,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          5,
+          3,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          3,
+          1,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          1,
+          0,
+          1,
+          3,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          6,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "train_excluded": true,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.21739130434782608,
+          "recall": 0.5555555555555556,
+          "f1": 0.3125,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 1.0,
+          "recall": 0.3333333333333333,
+          "f1": 0.5,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.30434782608695654,
+          "recall": 0.7777777777777778,
+          "f1": 0.43750000000000006,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.2727272727272727,
+          "recall": 0.3333333333333333,
+          "f1": 0.3,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 1.0,
+          "recall": 0.4,
+          "f1": 0.5714285714285715,
+          "support": 5
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.125,
+          "f1": 0.2222222222222222,
+          "support": 8
+        }
+      }
+    },
+    {
+      "fold_idx": 26,
+      "test_subject": "P008",
+      "accuracy": 0.1875,
+      "f1_macro": 0.07579318448883667,
+      "n_test": 64,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8
+        ]
+      ],
+      "train_excluded": true,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.10810810810810811,
+          "recall": 0.4444444444444444,
+          "f1": 0.17391304347826086,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "CONTEMPT": {
+          "precision": 0.3076923076923077,
+          "recall": 0.7272727272727273,
+          "f1": 0.43243243243243246,
+          "support": 11
+        }
+      }
+    },
+    {
+      "fold_idx": 27,
+      "test_subject": "P009",
+      "accuracy": 0.34,
+      "f1_macro": 0.2562878787878788,
+      "n_test": 50,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          3,
+          0,
+          1,
+          1,
+          2,
+          1,
+          0
+        ],
+        [
+          3,
+          0,
+          1,
+          0,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          2
+        ]
+      ],
+      "train_excluded": true,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.2857142857142857,
+          "recall": 1.0,
+          "f1": 0.4444444444444445,
+          "support": 6
+        },
+        "HAPPINESS": {
+          "precision": 1.0,
+          "recall": 0.3333333333333333,
+          "f1": 0.5,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.5,
+          "recall": 0.125,
+          "f1": 0.2,
+          "support": 8
+        },
+        "DISGUST": {
+          "precision": 0.5,
+          "recall": 0.14285714285714285,
+          "f1": 0.22222222222222224,
+          "support": 7
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3
+        },
+        "SURPRISE": {
+          "precision": 0.2222222222222222,
+          "recall": 0.5714285714285714,
+          "f1": 0.32,
+          "support": 7
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1
+        },
+        "CONTEMPT": {
+          "precision": 1.0,
+          "recall": 0.2222222222222222,
+          "f1": 0.3636363636363636,
+          "support": 9
+        }
+      }
+    },
+    {
+      "fold_idx": 28,
+      "test_subject": "P013",
+      "accuracy": 0.2923076923076923,
+      "f1_macro": 0.17013071895424836,
+      "n_test": 65,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          10
+        ]
+      ],
+      "train_excluded": true,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.0625,
+          "recall": 0.1111111111111111,
+          "f1": 0.08,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.8888888888888888,
+          "recall": 0.8888888888888888,
+          "f1": 0.8888888888888888,
+          "support": 9
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "SURPRISE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        },
+        "CONTEMPT": {
+          "precision": 0.25,
+          "recall": 0.9090909090909091,
+          "f1": 0.392156862745098,
+          "support": 11
+        }
+      }
+    },
+    {
+      "fold_idx": 29,
+      "test_subject": "P018",
+      "accuracy": 0.3076923076923077,
+      "f1_macro": 0.18239583333333334,
+      "n_test": 65,
+      "latency_median_ms": 0.0,
+      "latency_p95_ms": 0.0,
+      "confusion_matrix": [
+        [
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          2,
+          1,
+          0,
+          0,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          2,
+          3,
+          0,
+          0
+        ],
+        [
+          5,
+          1,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          1,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          7,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0
+        ]
+      ],
+      "train_excluded": true,
+      "per_class": {
+        "NEUTRAL": {
+          "precision": 0.391304347826087,
+          "recall": 1.0,
+          "f1": 0.5625,
+          "support": 9
+        },
+        "HAPPINESS": {
+          "precision": 0.35294117647058826,
+          "recall": 0.75,
+          "f1": 0.48,
+          "support": 8
+        },
+        "ANGER": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "DISGUST": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        },
+        "FEAR": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 9
+        },
+        "SURPRISE": {
+          "precision": 0.3125,
+          "recall": 0.625,
+          "f1": 0.4166666666666667,
+          "support": 8
+        },
+        "SADNESS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "CONTEMPT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        }
+      }
+    }
+  ],
+  "exclude_pids": [
+    "P004",
+    "P007",
+    "P008",
+    "P009",
+    "P013",
+    "P018"
+  ],
+  "suppress_fear": false,
+  "feature_set": "extended_nm_a_rmsunit",
+  "sample_policy": "classical-emotion-2.10.0",
+  "protocol": "extended_nm_a_rmsunit",
+  "n_train_windows": 1327,
+  "n_excluded_windows": 364,
+  "exclude_subjects": [
+    "P004",
+    "P007",
+    "P008",
+    "P009",
+    "P013",
+    "P018"
+  ],
+  "summary": {
+    "exclude_pids": [
+      "P004",
+      "P007",
+      "P008",
+      "P009",
+      "P013",
+      "P018"
+    ],
+    "n_windows": 1691,
+    "n_subjects": 30,
+    "n_included": 24,
+    "candidate": {
+      "label": "2.12.0 rmsunit on 2.10 samples",
+      "feature_set": "extended_nm_a_rmsunit",
+      "suppress_fear": false,
+      "mean_acc_all": 0.44920554545327174,
+      "mean_acc_headline": 0.49124793787122206,
+      "n_folds": 30,
+      "n_headline": 24
+    },
+    "sample_policy": "classical-emotion-2.10.0",
+    "production_alias_unchanged": true
+  },
+  "note": "2.7.0 rmsunit features on 2.10.0 windows. FEAR kept. Production alias not retargeted."
+}

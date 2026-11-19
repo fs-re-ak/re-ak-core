@@ -1,0 +1,68 @@
+{
+  "dataset_dir": "dataset",
+  "labels": [
+    "NEUTRAL",
+    "HAPPINESS",
+    "ANGER",
+    "DISGUST",
+    "FEAR",
+    "SURPRISE",
+    "SADNESS",
+    "CONTEMPT_LEFT",
+    "CONTEMPT_RIGHT"
+  ],
+  "classifier": "logistic_regression",
+  "scale_features": true,
+  "seed": 42,
+  "classifier_params": {
+    "C": 1.0,
+    "max_iter": 1000,
+    "solver": "lbfgs"
+  },
+  "split_strategy": "loso",
+  "feature_set": "extended_nm_a_rmsunit",
+  "amplitude_calibration": "none",
+  "suppress_fear": false,
+  "bandpass_hz": [
+    20.0,
+    110.0
+  ],
+  "notch_hz": 60.0,
+  "require_label_match": true,
+  "use_instruction_label": true,
+  "input_channels": [
+    "Supraorbital_L",
+    "Supraorbital_R",
+    "Zygomatic_L",
+    "Zygomatic_R",
+    "Temporal_EEG",
+    "Glabella",
+    "Temporal_R",
+    "Nasolabial"
+  ],
+  "drop_channels": [],
+  "sample_rate_hz": 250,
+  "window_samples": 500,
+  "architecture": "flat",
+  "apply_nlms": false,
+  "merge_contempt": true,
+  "exclude_subjects": [
+    "P004",
+    "P007",
+    "P008",
+    "P009",
+    "P013",
+    "P018"
+  ],
+  "fs002_pids": [
+    "FS002_S02",
+    "FS002_S03",
+    "FS002_S04",
+    "FS002_S05",
+    "FS002_S06",
+    "FS002_S07"
+  ],
+  "sample_policy": "classical-emotion-2.10.0",
+  "mean_rms_floor": 6.0,
+  "contempt_half_sample": true
+}
