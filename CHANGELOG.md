@@ -5,6 +5,19 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
+## Unreleased
+
+### Added
+
+- classical-emotion **2.12.0** and **2.13.0** (`extended_nm_a_rmsunit`, 19 features, no session
+  calibration) as built-in releases. Both emit fear. 2.12.0 uses the 2.10.0 sample policy; 2.13.0
+  additionally drops non-NEUTRAL windows below Neutral Q3 mean RMS.
+
+### Changed
+
+- Alias `standard-latest` (and `DEFAULT_MODEL`) now resolves to **classical-emotion 2.12.0**. Exact
+  release keys still select that release; `classical-emotion` remains 2.5.0.
+
 ## 1.3.0
 
 * feat(models): add classical-emotion 2.11.0 as a selectable release
@@ -14,24 +27,6 @@ listed under "Fixed" with the affected files.
 
 * feat(models): add classical-emotion 2.9.0 for offline and live use
 * feat(models): add classical-emotion 2.7.0 and 2.8.0 as selectable releases
-
-## Unreleased
-
-### Added
-
-- classical-emotion **2.11.0** (`extended_nm_a_rmsunit`, 19 features, no session calibration) as a
-  selectable built-in release. Same calibration-free RMS unit-vector recipe as 2.7.0, with fear
-  emitted and an adjusted training set (FS002 sessions). Alias `standard-latest` stays 2.6.0.
-- classical-emotion **2.10.0** (`session_neutral_log_rms`, 25 features) as a selectable built-in release.
-  Same session-neutral recipe and live causal path as 2.9.0, with an adjusted training set. Fear is
-  emitted. Alias `standard-latest` stays 2.6.0.
-- classical-emotion **2.7.0** (`extended_nm_a_rmsunit`, 19 features, no session calibration) and **2.8.0**
-  (`extended_nm_a_floor`, 27 features, floor-only amplitude) as selectable built-in releases. Alias
-  `standard-latest` still resolves to 2.6.0. Both use the same 20–110 Hz + 60 Hz notch filter and one-hot
-  post-processing as 2.6.0.
-- classical-emotion **2.9.0** (`session_neutral_log_rms`, 25 features) as a selectable built-in release.
-  Offline sessions use `set_subject_context`. Live streams use the release's causal neutral, stored per
-  headset so one loaded model can be shared. Fear is emitted. Alias `standard-latest` stays 2.6.0.
 
 ## 1.1.0
 

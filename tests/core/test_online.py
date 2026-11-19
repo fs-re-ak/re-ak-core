@@ -29,7 +29,8 @@ BLOCK = 250  # 1 s packets, as Vizia publishes them
 
 @pytest.fixture(scope="module")
 def model():
-    return load_model()
+    # Online agreement tests pin 2.6.0: they freeze gated-prior stats and compare to offline.
+    return load_model("classical-emotion-2.6.0")
 
 
 def _replay(processor, data: np.ndarray, block: int = BLOCK) -> list:
