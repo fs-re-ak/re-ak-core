@@ -5,6 +5,10 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
+## 1.4.0
+
+- feat(models): add classical-emotion 2.12.0 and 2.13.0; default to 2.12.0
+
 ## Unreleased
 
 ### Added
