@@ -18,12 +18,13 @@ Author(s):
 from __future__ import annotations
 
 import csv
+import io
 import json
 import logging
 import os
 import uuid
 
-from reak_core.io.events import find_events_file, load_raw_events, write_events
+from reak_core.io.events import decode_event_text, find_events_file, load_raw_events, write_events
 from reak_core.io.exg import find_exg_file, load_exg_matrix
 
 logger = logging.getLogger(__name__)
@@ -84,17 +85,18 @@ def _read_event_rows(path: str, lenient: bool = False) -> list[tuple[float, str,
     if not os.path.isfile(path):
         return None
     rows = []
-    with open(path, newline="", encoding="utf-8", errors="replace") as fh:
-        for raw in csv.reader(fh, skipinitialspace=lenient):
-            if len(raw) < 2:
-                continue
-            name, value = raw[1].strip(), ",".join(raw[2:]).strip()
-            if lenient:
-                name, value = name.strip("'\""), value.strip("'")
-            try:
-                rows.append((float(raw[0].strip().strip("'")), name, value))
-            except ValueError:
-                continue
+    with open(path, "rb") as raw_fh:
+        text = decode_event_text(raw_fh.read())
+    for raw in csv.reader(io.StringIO(text), skipinitialspace=lenient):
+        if len(raw) < 2:
+            continue
+        name, value = raw[1].strip(), ",".join(raw[2:]).strip()
+        if lenient:
+            name, value = name.strip("'\""), value.strip("'")
+        try:
+            rows.append((float(raw[0].strip().strip("'")), name, value))
+        except ValueError:
+            continue
     return rows or None
 
 

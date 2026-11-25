@@ -15,6 +15,7 @@ Author(s):
 from __future__ import annotations
 
 import csv
+import io
 import logging
 import os
 
@@ -23,6 +24,10 @@ logger = logging.getLogger(__name__)
 EVENT_FILENAMES: tuple[str, ...] = ("rawEvents.csv", "events_0.csv", "event.csv")
 """Raw event files, in discovery order."""
 
+# UTF-8 first; cp1252 covers Windows downloads that wrote French accents with the
+# locale codec (é → 0xe9). latin-1 is a last-resort never-fail decode.
+_EVENT_TEXT_ENCODINGS: tuple[str, ...] = ("utf-8-sig", "utf-8", "cp1252", "latin-1")
+
 
 def find_events_file(session_root: str) -> str | None:
     for name in EVENT_FILENAMES:
@@ -30,6 +35,16 @@ def find_events_file(session_root: str) -> str | None:
         if os.path.exists(path):
             return path
     return None
+
+
+def decode_event_text(data: bytes) -> str:
+    """Decode raw event file bytes, preferring UTF-8 then Windows/legacy codecs."""
+    for encoding in _EVENT_TEXT_ENCODINGS:
+        try:
+            return data.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return data.decode("latin-1")
 
 
 def _correct_timestamps(rock_ref: float | None, pc_ref: float | None, events: list) -> None:
@@ -46,27 +61,29 @@ def read_raw_events(path: str) -> list[list] | None:
         return None
     events: list[list] = []
     pc_ref = rock_ref = None
-    with open(path, encoding="utf-8", errors="replace") as fh:
-        no_timestamp_header = True
-        for row in csv.reader(fh):
-            row = [cell.strip("'").strip() for cell in row]  # Vizia used to insert quotes in event types
-            if len(row) > 3:
-                row[2] = ",".join(row[2:])
-                row = row[:3]
-            if no_timestamp_header and len(row) >= 1:
-                try:
-                    float(row[0])
-                except ValueError:
-                    continue  # header row
-            events.append(row)
-            if len(row) >= 3:
-                if row[1] == "TIMESTAMP":
-                    rock_ref, pc_ref = float(row[2]), float(row[0])
-                elif row[2] == "TIMESTAMP":  # badly formatted synchronisation event
-                    rock_ref, pc_ref = float(row[1]), float(row[0])
-                elif no_timestamp_header:
-                    rock_ref = pc_ref = float(row[0])
-                no_timestamp_header = False
+    with open(path, "rb") as raw_fh:
+        text = decode_event_text(raw_fh.read())
+    fh = io.StringIO(text)
+    no_timestamp_header = True
+    for row in csv.reader(fh):
+        row = [cell.strip("'").strip() for cell in row]  # Vizia used to insert quotes in event types
+        if len(row) > 3:
+            row[2] = ",".join(row[2:])
+            row = row[:3]
+        if no_timestamp_header and len(row) >= 1:
+            try:
+                float(row[0])
+            except ValueError:
+                continue  # header row
+        events.append(row)
+        if len(row) >= 3:
+            if row[1] == "TIMESTAMP":
+                rock_ref, pc_ref = float(row[2]), float(row[0])
+            elif row[2] == "TIMESTAMP":  # badly formatted synchronisation event
+                rock_ref, pc_ref = float(row[1]), float(row[0])
+            elif no_timestamp_header:
+                rock_ref = pc_ref = float(row[0])
+            no_timestamp_header = False
     _correct_timestamps(rock_ref, pc_ref, events)
     if events and (events[0][1] == "TIMESTAMP" or (len(events[0]) > 2 and events[0][2] == "TIMESTAMP")):
         events.remove(events[0])

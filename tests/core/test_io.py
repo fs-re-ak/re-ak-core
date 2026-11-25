@@ -114,6 +114,24 @@ def test_raw_events_from_vizia_file(session_copy):
     assert [round(e[0] - events[0][0], 3) for e in events[2:]] == [30.0, 75.0, 120.0]
 
 
+def test_raw_events_cp1252_preserves_french_accents(tmp_path):
+    """Windows locale writes used to emit cp1252; accents must survive (survey intensité)."""
+    from reak_core.io.events import read_raw_events
+
+    raw_dir = tmp_path / "rawData"
+    raw_dir.mkdir()
+    line = (
+        "1.0,SURVEY_Q1b_ANSWERS,"
+        "{creation : 1, intensité : 7, familiarité : 2}\n"
+    ).encode("cp1252")
+    (raw_dir / "rawEvents.csv").write_bytes(line)
+
+    events = read_raw_events(str(raw_dir / "rawEvents.csv"))
+    assert events is not None and len(events) == 1
+    assert "intensité" in events[0][2]
+    assert "familiarité" in events[0][2]
+
+
 @pytest.mark.parametrize(
     "case, duration",
     [
