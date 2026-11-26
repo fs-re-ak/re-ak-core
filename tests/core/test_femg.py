@@ -27,8 +27,8 @@ from reak_core.models import (
 
 
 def test_default_model_and_aliases():
-    assert resolve_key(None) == DEFAULT_MODEL == "classical-emotion-2.12.0"
-    assert resolve_key("standard-latest") == "classical-emotion-2.12.0"
+    assert resolve_key(None) == DEFAULT_MODEL == "classical-emotion-2.13.0"
+    assert resolve_key("standard-latest") == "classical-emotion-2.13.0"
     assert resolve_key("classical-emotion") == "classical-emotion-2.5.0"
     assert {
         "classical-emotion-2.5.0",

@@ -4,7 +4,7 @@
 **Entry point:** `compute_emotions(session_root, model=None)`  
 **Primary output:** `results/Emotions.csv`
 
-Moment-to-moment emotion intensities from the 8-channel Hermes EXG recording. The default model is the alias `standard-latest`, which resolves to **classical-emotion 2.12.0**. `classical-emotion` remains the alias for 2.5.0. Selectable releases also include **2.5.0–2.11.0** and **2.13.0**. All are loaded from `reak_core.models.releases` after their manifest checksums match. Their README and INTEGRATION files still describe copying the release folder into another project; that text is part of the checksummed release and is not the install path.
+Moment-to-moment emotion intensities from the 8-channel Hermes EXG recording. The default model is the alias `standard-latest`, which resolves to **classical-emotion 2.13.0**. `classical-emotion` remains the alias for 2.5.0. Selectable releases also include **2.5.0–2.12.0**. All are loaded from `reak_core.models.releases` after their manifest checksums match. Their README and INTEGRATION files still describe copying the release folder into another project; that text is part of the checksummed release and is not the install path.
 
 ## Input and invalid samples
 
@@ -22,8 +22,8 @@ Preparation, in `reak_core.femg.signal`:
 
 | Release | Filter | `Emotions.csv` cells | Notes |
 |---|---|---|---|
-| classical-emotion 2.12.0 (default) | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Calibration-free RMS L2 unit vector (19 features) on the 2.10.0 sample policy. Fear is emitted. Do not apply NLMS |
-| classical-emotion 2.13.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Same as 2.12.0, with non-NEUTRAL training windows below Neutral Q3 mean RMS dropped. Fear is emitted. Do not apply NLMS |
+| classical-emotion 2.12.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Calibration-free RMS L2 unit vector (19 features) on the 2.10.0 sample policy. Fear is emitted. Do not apply NLMS |
+| classical-emotion 2.13.0 (default) | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Same as 2.12.0, with non-NEUTRAL training windows below Neutral Q3 mean RMS dropped. Fear is emitted. Do not apply NLMS |
 | classical-emotion 2.11.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Same calibration-free RMS L2 unit vector as 2.7.0 (19 features), with fear emitted and FS002 sessions in training. Do not apply NLMS |
 | classical-emotion 2.10.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Same session-neutral recipe as 2.9.0 with an adjusted training set (FS002 sessions added; extra subject exclusions). Fear is emitted. Do not apply NLMS |
 | classical-emotion 2.9.0 | 60 Hz notch, then 20–110 Hz | One-hot of the emitted label: 1 and 0 | Session-neutral log RMS (25 features): `N = w * p20 + (1 - w) * prior`. Fear is emitted. Loaded with `SessionNeutralModel`, not `Predictor`. Do not apply NLMS |

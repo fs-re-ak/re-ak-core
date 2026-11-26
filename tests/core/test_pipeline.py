@@ -72,7 +72,7 @@ def test_default_pipeline_runs_and_writes_processing_json(session_copy, no_netwo
     assert [s.name for s in result.steps] == DEFAULT_STEPS + ["export:emotions_report"] and result.ok
     with open(os.path.join(root, "results", "processing.json"), encoding="utf-8") as fh:
         doc = json.load(fh)
-    assert doc["core_version"] == reak_core.__version__ and doc["emotion_model"] == "classical-emotion-2.12.0"
+    assert doc["core_version"] == reak_core.__version__ and doc["emotion_model"] == "classical-emotion-2.13.0"
     assert doc["quality"]["exg"]["samples"] == 37500 and doc["quality"]["emotions"]["null_windows"] == 0
     assert doc["quality"]["uwb"] is None
     for rel in ("results/Emotions.csv", "results/Cognition.csv", "results/Arousal.csv", "results/HeartDynamics.csv"):

@@ -19,8 +19,9 @@ listed under "Fixed" with the affected files.
 
 ### Changed
 
-- Alias `standard-latest` (and `DEFAULT_MODEL`) now resolves to **classical-emotion 2.12.0**. Exact
-  release keys still select that release; `classical-emotion` remains 2.5.0.
+- Alias `standard-latest` (and `DEFAULT_MODEL`) now resolves to **classical-emotion 2.13.0**
+  (was 2.12.0 in 1.4.0). Exact release keys still select that release; `classical-emotion`
+  remains 2.5.0.
 
 ## 1.3.0
 

@@ -8,9 +8,9 @@ Built-in releases live in ``reak_core/models/releases/<key>/`` (``manifest.json`
 ``reak_core.models`` entry point group: each entry point is a callable ``factory(key) -> EmotionModel``
 registered under the model key.
 
-Aliases: ``standard-latest`` is the default model of the core (classical-emotion 2.12.0);
+Aliases: ``standard-latest`` is the default model of the core (classical-emotion 2.13.0);
 ``classical-emotion`` is the historical NucleusKit alias for 2.5.0. Built-in releases also
-include 2.5.0–2.11.0 and 2.13.0 as selectable keys.
+include 2.5.0–2.12.0 as selectable keys.
 
 Author(s):
     RE-AK Technologies Inc., Fall 2026
@@ -30,7 +30,7 @@ from reak_core.models.base import EmotionModel, PostprocessSpec, PreprocessSpec
 logger = logging.getLogger(__name__)
 
 RELEASES_DIR = Path(__file__).parent / "releases"
-DEFAULT_MODEL = "classical-emotion-2.12.0"
+DEFAULT_MODEL = "classical-emotion-2.13.0"
 ALIASES: dict[str, str] = {
     "standard-latest": DEFAULT_MODEL,
     "classical-emotion": "classical-emotion-2.5.0",
