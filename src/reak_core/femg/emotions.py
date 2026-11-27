@@ -125,7 +125,7 @@ def compute_emotions(
 ) -> EmotionRun | None:
     """Compute and write the emotion outputs of a session.
 
-    ``model`` is a model key or alias (default ``standard-latest`` → 2.13.0) or a loaded model.
+    ``model`` is a model key or alias (default ``standard-latest`` → 2.14.0) or a loaded model.
     The post-processing parameters override the release defaults (decision D8). Existing outputs
     produced by the same model are kept unless ``force`` is set. Returns ``None`` when the session
     has no usable EXG.

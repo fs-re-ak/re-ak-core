@@ -5,22 +5,25 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
-## 1.4.0
-
-- feat(models): add classical-emotion 2.12.0 and 2.13.0; default to 2.12.0
-
-## Unreleased
+## 1.5.0
 
 ### Added
 
-- classical-emotion **2.12.0** and **2.13.0** (`extended_nm_a_rmsunit`, 19 features, no session
-  calibration) as built-in releases. Both emit fear. 2.12.0 uses the 2.10.0 sample policy; 2.13.0
-  additionally drops non-NEUTRAL windows below Neutral Q3 mean RMS.
+- classical-emotion **2.14.0** (`extended_nm_a_rmsunit`, 19 features, no session calibration) as a
+  built-in release. Same family as 2.7.0 / 2.13.0; fear is emitted. Training sample rule: ANGER kept
+  if mean channel RMS ≥ Neutral Q2; other non-NEUTRAL ≥ Neutral Q3; all NEUTRAL kept. MB001 is
+  included; subject exclusions match 2.13.0 / 2.12.0 / 2.10.0.
 
 ### Changed
 
-- Alias `standard-latest` (and `DEFAULT_MODEL`) now resolves to **classical-emotion 2.13.0**
-  (was 2.12.0 in 1.4.0). Exact release keys still select that release; `classical-emotion`
+- Alias `standard-latest` (and `DEFAULT_MODEL`) now resolves to **classical-emotion 2.14.0**
+  (was 2.13.0). Exact release keys still select that release; `classical-emotion` remains 2.5.0.
+
+## 1.4.0
+
+- feat(models): add classical-emotion 2.12.0 and 2.13.0; default to 2.12.0
+- Alias `standard-latest` (and `DEFAULT_MODEL`) later resolved to **classical-emotion 2.13.0**
+  (was 2.12.0 in the 1.4.0 tag). Exact release keys still select that release; `classical-emotion`
   remains 2.5.0.
 
 ## 1.3.0
