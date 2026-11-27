@@ -27,8 +27,8 @@ from reak_core.models import (
 
 
 def test_default_model_and_aliases():
-    assert resolve_key(None) == DEFAULT_MODEL == "classical-emotion-2.13.0"
-    assert resolve_key("standard-latest") == "classical-emotion-2.13.0"
+    assert resolve_key(None) == DEFAULT_MODEL == "classical-emotion-2.14.0"
+    assert resolve_key("standard-latest") == "classical-emotion-2.14.0"
     assert resolve_key("classical-emotion") == "classical-emotion-2.5.0"
     assert {
         "classical-emotion-2.5.0",
@@ -40,6 +40,7 @@ def test_default_model_and_aliases():
         "classical-emotion-2.11.0",
         "classical-emotion-2.12.0",
         "classical-emotion-2.13.0",
+        "classical-emotion-2.14.0",
     } <= set(available_models())
 
 
@@ -55,6 +56,7 @@ def test_default_model_and_aliases():
         "classical-emotion-2.11.0",
         "classical-emotion-2.12.0",
         "classical-emotion-2.13.0",
+        "classical-emotion-2.14.0",
     ],
 )
 def test_releases_verify_and_declare_sklearn(key):
@@ -82,6 +84,7 @@ def test_release_preprocessing_and_postprocessing():
     m29, m210 = load_model("classical-emotion-2.9.0"), load_model("classical-emotion-2.10.0")
     m211 = load_model("classical-emotion-2.11.0")
     m212, m213 = load_model("classical-emotion-2.12.0"), load_model("classical-emotion-2.13.0")
+    m214 = load_model("classical-emotion-2.14.0")
     assert (m25.preprocess.bandpass_low, m25.preprocess.bandpass_high, m25.preprocess.notch_hz) == (15.0, 40.0, None)
     assert (m26.preprocess.bandpass_low, m26.preprocess.bandpass_high, m26.preprocess.notch_hz) == (20.0, 110.0, 60.0)
     assert (m27.preprocess.bandpass_low, m27.preprocess.bandpass_high, m27.preprocess.notch_hz) == (20.0, 110.0, 60.0)
@@ -107,6 +110,11 @@ def test_release_preprocessing_and_postprocessing():
         110.0,
         60.0,
     )
+    assert (m214.preprocess.bandpass_low, m214.preprocess.bandpass_high, m214.preprocess.notch_hz) == (
+        20.0,
+        110.0,
+        60.0,
+    )
     assert not m25.postprocess.one_hot and m25.postprocess.low_confidence_enabled
     assert m26.postprocess.one_hot and not m26.postprocess.low_confidence_enabled
     assert m27.postprocess.one_hot and not m27.postprocess.low_confidence_enabled
@@ -116,11 +124,12 @@ def test_release_preprocessing_and_postprocessing():
     assert m211.postprocess.one_hot and not m211.postprocess.low_confidence_enabled
     assert m212.postprocess.one_hot and not m212.postprocess.low_confidence_enabled
     assert m213.postprocess.one_hot and not m213.postprocess.low_confidence_enabled
+    assert m214.postprocess.one_hot and not m214.postprocess.low_confidence_enabled
     assert m25.postprocess.high_rms_threshold_uv == m26.postprocess.high_rms_threshold_uv == 200.0
     assert m27.postprocess.high_rms_threshold_uv == m28.postprocess.high_rms_threshold_uv == 200.0
     assert m29.postprocess.high_rms_threshold_uv == m210.postprocess.high_rms_threshold_uv == 200.0
     assert m211.postprocess.high_rms_threshold_uv == m212.postprocess.high_rms_threshold_uv == 200.0
-    assert m213.postprocess.high_rms_threshold_uv == 200.0
+    assert m213.postprocess.high_rms_threshold_uv == m214.postprocess.high_rms_threshold_uv == 200.0
     assert m27.info.feature_set == "extended_nm_a_rmsunit" and len(m27.feature_columns) == 19
     assert m28.info.feature_set == "extended_nm_a_floor" and len(m28.feature_columns) == 27
     assert m29.info.feature_set == "session_neutral_log_rms" and len(m29.feature_columns) == 25
@@ -128,8 +137,10 @@ def test_release_preprocessing_and_postprocessing():
     assert m211.info.feature_set == "extended_nm_a_rmsunit" and len(m211.feature_columns) == 19
     assert m212.info.feature_set == "extended_nm_a_rmsunit" and len(m212.feature_columns) == 19
     assert m213.info.feature_set == "extended_nm_a_rmsunit" and len(m213.feature_columns) == 19
+    assert m214.info.feature_set == "extended_nm_a_rmsunit" and len(m214.feature_columns) == 19
     assert m29.amplitude_calibration == m210.amplitude_calibration == "session_neutral_p20"
-    assert m211.amplitude_calibration == m212.amplitude_calibration == m213.amplitude_calibration == "none"
+    assert m211.amplitude_calibration == m212.amplitude_calibration == "none"
+    assert m213.amplitude_calibration == m214.amplitude_calibration == "none"
 
 
 def test_interpolation_only_bridges_channels_with_valid_samples():
@@ -159,10 +170,10 @@ def _run(session_copy, case, model, **kwargs):
 
 def test_outputs_and_schema(session_copy):
     root, run = _run(session_copy, "baseline", None)
-    assert run.model == "classical-emotion-2.12.0" and run.windows == 297 and run.null_windows == 0
+    assert run.model == "classical-emotion-2.14.0" and run.windows == 297 and run.null_windows == 0
     emotions = pd.read_csv(os.path.join(root, "results", "Emotions.csv"), na_values=["NULL"])
     assert list(emotions.columns) == ["Timestamp"] + EMOTION_COLUMNS
-    # one-hot per window for 2.12.0; snap_to_timebase keeps each row summing to 1
+    # one-hot per window for 2.14.0; snap_to_timebase keeps each row summing to 1
     np.testing.assert_allclose(emotions[EMOTION_COLUMNS].dropna().sum(axis=1), 1.0, atol=1e-9)
     inputs = pd.read_csv(os.path.join(root, "features", "emotions", "emotionClassifierInputs.csv"))
     assert list(inputs.columns[-9:]) == list(OUTPUT_RMS_COLUMNS) + ["HighRmsArtifact"]
@@ -173,9 +184,9 @@ def test_outputs_and_schema(session_copy):
     assert list(rms.columns) == ["Timestamp"] + list(OUTPUT_RMS_COLUMNS) and len(rms) == 297
     with open(os.path.join(root, "results", "emotion_model.json"), encoding="utf-8") as fh:
         assert json.load(fh) == {
-            "model": "classical-emotion-2.12.0",
+            "model": "classical-emotion-2.14.0",
             "model_name": "classical-emotion",
-            "model_version": "2.12.0",
+            "model_version": "2.14.0",
             "feature_set": "extended_nm_a_rmsunit",
             "kind": "classical",
         }
@@ -199,6 +210,7 @@ def test_existing_outputs_are_kept_unless_forced(session_copy):
         ("classical-emotion-2.11.0", "extended_nm_a_rmsunit", 19, True),
         ("classical-emotion-2.12.0", "extended_nm_a_rmsunit", 19, True),
         ("classical-emotion-2.13.0", "extended_nm_a_rmsunit", 19, True),
+        ("classical-emotion-2.14.0", "extended_nm_a_rmsunit", 19, True),
     ],
 )
 def test_outputs_and_schema_for_selectable_releases(session_copy, key, feature_set, n_features, emits_fear):

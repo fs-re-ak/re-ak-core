@@ -29,7 +29,7 @@ class RunContext:
     """Options shared by every step of one pipeline run."""
 
     emotion_model: str | None = None
-    """Model key or alias; ``None`` uses ``standard-latest`` (2.13.0)."""
+    """Model key or alias; ``None`` uses ``standard-latest`` (2.14.0)."""
     apply_nlms: bool = True
     """NLMS decorrelation before cognition (never applied to emotions)."""
     force: bool = False

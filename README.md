@@ -64,7 +64,7 @@ With the environment activated (`.\.venv\Scripts\Activate.ps1` in PowerShell, `s
 macOS / Linux), or by calling `.venv/Scripts/reak-core` / `.venv/bin/reak-core` directly:
 
 ```bash
-reak-core --session path/to/session            # default pipeline, model classical-emotion-2.13.0
+reak-core --session path/to/session            # default pipeline, model classical-emotion-2.14.0
 reak-core --session path/to/session --model classical-emotion-2.5.0 --force
 reak-core --list-models
 ```

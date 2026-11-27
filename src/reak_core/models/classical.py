@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 RE-AK Technologies Inc.
 """
-Classical-emotion releases (2.5.0 through 2.13.0) as :class:`EmotionModel`.
+Classical-emotion releases (2.5.0 through 2.14.0) as :class:`EmotionModel`.
 
 Each release ships its own ``exg_emotion`` runtime, and its ``pipeline.joblib`` references that
 package by name. Loading a release therefore puts its folder first on ``sys.path`` and evicts any
@@ -11,7 +11,7 @@ release code that runs is the code the model was exported with.
 Per-subject calibration depends on the release: 2.5.0 / 2.6.0 need :meth:`set_subject_context`
 before the first :meth:`predict`; 2.8.0 needs it for the floor baseline; 2.9.0 and 2.10.0 need it
 for the session-neutral p20 (their live path is the release's causal update, driven by
-``reak_core.online``); 2.7.0, 2.11.0, 2.12.0 and 2.13.0 are calibration-free. Call :meth:`reset`
+``reak_core.online``); 2.7.0, 2.11.0, 2.12.0, 2.13.0 and 2.14.0 are calibration-free. Call :meth:`reset`
 between recordings.
 
 Author(s):
@@ -170,7 +170,7 @@ class ClassicalReleaseModel(EmotionModel):
     @property
     def amplitude_calibration(self) -> str:
         """``"gated_prior"`` (2.6.0), ``"floor_baseline"`` (2.8.0), ``"session_neutral_p20"`` (2.9.0 / 2.10.0),
-        ``"none"`` (2.7.0 / 2.11.0 / 2.12.0 / 2.13.0), or ``"mean_std"``.
+        ``"none"`` (2.7.0 / 2.11.0 / 2.12.0 / 2.13.0 / 2.14.0), or ``"mean_std"``.
         """
         inner = self._predictor._model
         declared = getattr(inner, "_amplitude_calibration", None)
