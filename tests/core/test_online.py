@@ -235,6 +235,19 @@ def test_online_290_checkpoint_restores_neutral(session_copy):
     assert len(left._neutral_state["hist_end"]) > len(snapshot["session_neutral"]["hist_end"])
 
 
+def test_online_calibration_free_emotions_score_without_subject_stats():
+    """``amplitude_calibration: none`` (the default) emits a label on the first valid window."""
+    release = load_model()
+    assert release.amplitude_calibration == "none"
+    online = OnlineEmotionClassifier(release, min_calibration_windows=60)
+    data = np.random.default_rng(1).normal(scale=20.0, size=(8 * 250, 8))
+    results = _replay(online, data)
+    assert online.calibrated and online.n_calibration_windows == 0
+    assert results and all(r.status != "calibrating" for r in results)
+    assert any(r.status == "ok" and r.label for r in results)
+    assert release._predictor._model._subject_mean is None
+
+
 def test_online_emotions_checkpoint_round_trip(session_copy, model):
     data = load_exg(session_copy("baseline")).data[: 60 * 250]
     a = OnlineEmotionClassifier(model, min_calibration_windows=20)

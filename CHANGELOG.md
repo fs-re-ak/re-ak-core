@@ -5,6 +5,16 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
+## Unreleased
+
+### Fixed
+
+- Online emotion classification no longer withholds labels for 30 s when the release's
+  `amplitude_calibration` is `none` (2.7.0, 2.11.0–2.14.0, including `standard-latest`).
+  Those releases do not use subject stats. The first valid window after the 1 s filter warm-up
+  is scored, and `set_amplitude_stats` is not called. Releases that still need a subject context
+  keep the 60-window hold.
+
 ## 1.5.0
 
 ### Added

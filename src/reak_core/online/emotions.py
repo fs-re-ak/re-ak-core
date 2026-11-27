@@ -8,14 +8,16 @@ the offline computation, all forced by causality:
 
 - Filters: the release's notch and bandpass run forward only (``sosfilt`` with state) instead of
   zero-phase over the whole recording. RMS, WL and MDF depend on magnitude, so the change is small.
-- Calibration: for 2.5.0–2.8.0 the per-subject amplitude statistics come from a ring buffer of the
-  last ``calibration_windows`` valid windows (default 600 = 5 min at 2 Hz), recomputed at every window
-  with the release's own math (gated p95 + cold-start prior for 2.6.0, mean / std otherwise), instead
-  of every window of the recording. 2.9.0 / 2.10.0 do not use that buffer: each classifier keeps the
-  release's causal neutral (``advance_to`` the window start, predict, then ``push`` the finished
-  window) so two headsets can share one loaded model. No label is emitted until
-  ``min_calibration_windows`` windows (default 60 = 30 s) have been seen; session-neutral releases
-  still push those windows so the neutral is not left on the prior.
+- Calibration: releases with ``amplitude_calibration`` ``"none"`` (2.7.0, 2.11.0–2.14.0) do not
+  use subject stats. The first valid window after the filter warm-up is scored; nothing is buffered
+  and ``set_amplitude_stats`` is not called. Other releases keep a ring buffer of the last
+  ``calibration_windows`` valid windows (default 600 = 5 min at 2 Hz), recomputed at every window
+  with the release's own math (gated p95 + cold-start prior for 2.6.0, mean / std otherwise).
+  2.9.0 / 2.10.0 do not use that buffer: each classifier keeps the release's causal neutral
+  (``advance_to`` the window start, predict, then ``push`` the finished window) so two headsets can
+  share one loaded model. No label is emitted until ``min_calibration_windows`` windows (default
+  60 = 30 s) have been seen, except for ``"none"``; session-neutral releases still push those
+  windows so the neutral is not left on the prior.
 - High-RMS artifact rule: a window whose summed RMS exceeds the threshold takes the label of the latest
   clean window within ``max_gap`` windows **before** it (never after), otherwise Neutral.
 
@@ -111,6 +113,7 @@ class OnlineEmotionClassifier:
         self._filter = CausalSosFilter(self._sos, N_CHANNELS)
         self._windower = Windower(WINDOW_SAMPLES, STEP_SAMPLES, warmup=FILTER_WARMUP_SAMPLES)
         self._session_neutral = self.model.amplitude_calibration == "session_neutral_p20"
+        self._calibration_free = self.model.amplitude_calibration == "none"
         self.reset()
 
     # -- Lifecycle ----------------------------------------------------------------------------------
@@ -133,6 +136,8 @@ class OnlineEmotionClassifier:
 
     @property
     def calibrated(self) -> bool:
+        if self._calibration_free:
+            return True
         return len(self._rms) >= self.min_calibration_windows
 
     # -- Processing ---------------------------------------------------------------------------------
@@ -170,18 +175,21 @@ class OnlineEmotionClassifier:
         window = chunk.T.astype(np.float64, copy=True)  # (8, 500), offline layout
         rms = np.sqrt(np.mean(window**2, axis=1))
         wl = np.sum(np.abs(np.diff(window[self._emg], axis=1)), axis=1)
-        self._rms.append(rms)
-        self._wl.append(wl)
-        if self._session_neutral:
-            result = self._predict_session_neutral(window, start)
-            if result is None:
-                return OnlineEmotionResult(status="calibrating", channel_rms=rms, **base)
-        else:
-            if not self.calibrated:
-                return OnlineEmotionResult(status="calibrating", channel_rms=rms, **base)
-            self._update_stats()
-            self.model.set_amplitude_stats(*self._stats)
+        if self._calibration_free:
             result = self.model.predict(window)
+        else:
+            self._rms.append(rms)
+            self._wl.append(wl)
+            if self._session_neutral:
+                result = self._predict_session_neutral(window, start)
+                if result is None:
+                    return OnlineEmotionResult(status="calibrating", channel_rms=rms, **base)
+            else:
+                if not self.calibrated:
+                    return OnlineEmotionResult(status="calibrating", channel_rms=rms, **base)
+                self._update_stats()
+                self.model.set_amplitude_stats(*self._stats)
+                result = self.model.predict(window)
         label = result.label
         confidence = _confidence(result, self.post.one_hot)
         intensities = dict(zip(EMOTION_COLUMNS, _intensities(result, self.post.one_hot)))
