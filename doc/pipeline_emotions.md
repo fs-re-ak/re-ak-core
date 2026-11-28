@@ -46,10 +46,15 @@ Classifier rows sit on the window's median timestamp, about 0.5 s apart and not 
 | File | Contents |
 |---|---|
 | `results/Emotions.csv` | Intensities on the 2 Hz grid |
-| `results/emotion_model.json` | Model key, name, version, feature set and kind. This is the only sidecar. `features/emotions/model_info.json` is removed if a previous run left one |
+| `results/emotion_model.json` | Model key, name, version, feature set and kind. This is the only sidecar in `results/`. `features/emotions/model_info.json` is removed if a previous run left one |
 | `features/emotions/rmsSignals.csv` | Raw per-channel RMS of every window, µV. Null windows are missing. Always written |
 | `features/emotions/emotionClassifierInputs.csv` | Features, raw label, confidence, raw `HEAD_*_RMS` columns, `HighRmsArtifact` |
+| `features/emotions/feature_set.json` | Descriptor of the feature columns of `emotionClassifierInputs.csv`: `signature`, `modality`, `name`, `columns`, `dimension`, `window_ms`, `hop_ms`, `extraction`, `producer`. See below |
 | `features/emotions/avgRms.csv`, `relabeled-samples.csv` | Heuristic diagnostics |
 | `features/emotions/report_*.png` | Emotions report, from the pipeline exporter |
 
-The step is skipped when those outputs already exist and `emotion_model.json` names the same model. Pass `force=True` to recompute.
+The step is skipped when those outputs already exist and `emotion_model.json` names the same model. Pass `force=True` to recompute. A skipped step still writes `feature_set.json` if it is missing.
+
+### Feature-set signature
+
+`feature_set.json` identifies the feature vectors by how they are computed, not by the `feature_set` name, which has meant different values across releases. `extraction` holds the sample rate, band-pass and notch, the amplitude calibration, the input and dropped channels, NLMS, and the checksums of the release's feature code (`exg_emotion/models/`, `exg_emotion/analysis/`, from its manifest). `signature` is the SHA-256 of the canonical JSON of `modality`, `columns`, `window_ms`, `hop_ms` and `extraction`. Models with the same signature produce interchangeable vectors: 2.11.0 to 2.14.0 share one. `name` and `producer` (re-ak-core version, model key) do not enter the signature. A model without a release manifest has its key in `extraction`, so its vectors are never mixed with another model's. Prime uploads the vectors with this descriptor to the RE-AK CAS feature store.

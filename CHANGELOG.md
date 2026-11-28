@@ -7,6 +7,14 @@ listed under "Fixed" with the affected files.
 
 ## Unreleased
 
+### Added
+
+- `features/emotions/feature_set.json`, written by `compute_emotions` (also when the step is skipped
+  and the file is missing): the descriptor of the feature columns of `emotionClassifierInputs.csv`,
+  with a `signature` that identifies the vectors by how they are computed. New function
+  `reak_core.femg.feature_set.feature_set_descriptor(model)`. Used by Prime to upload feature
+  vectors to the RE-AK CAS feature store.
+
 ### Fixed
 
 - Online emotion classification no longer withholds labels for 30 s when the release's
