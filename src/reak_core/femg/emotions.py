@@ -14,6 +14,8 @@ Outputs (decision D10):
 - ``features/emotions/avgRms.csv`` and ``relabeled-samples.csv``: heuristic diagnostics.
 - ``features/emotions/feature_set.json``: descriptor of the feature columns of
   ``emotionClassifierInputs.csv`` (:func:`reak_core.femg.feature_set.feature_set_descriptor`).
+- ``features/emotions/scoring_model.json``: what a server needs to equalize the stored vectors and
+  score them again (:func:`reak_core.femg.equalizer.scoring_spec`), when the model supports it.
 - ``results/emotion_model.json``: the model that produced the outputs (the only sidecar).
 
 Author(s):
@@ -32,6 +34,7 @@ import pandas as pd
 
 from reak_core.constants import N_CHANNELS, OUTPUT_RMS_COLUMNS
 from reak_core.femg import heuristics
+from reak_core.femg.equalizer import scoring_spec
 from reak_core.femg.feature_set import feature_set_descriptor
 from reak_core.femg.signal import prepare, windows
 from reak_core.io.exg import load_exg
@@ -49,6 +52,7 @@ RMS_SIGNALS = os.path.join(EMOTIONS_DIR, "rmsSignals.csv")
 AVG_RMS = os.path.join(EMOTIONS_DIR, "avgRms.csv")
 RELABELED = os.path.join(EMOTIONS_DIR, "relabeled-samples.csv")
 FEATURE_SET = os.path.join(EMOTIONS_DIR, "feature_set.json")
+SCORING_MODEL = os.path.join(EMOTIONS_DIR, "scoring_model.json")
 _LEGACY_SIDECAR = os.path.join(EMOTIONS_DIR, "model_info.json")
 
 RMS_COLUMNS = list(OUTPUT_RMS_COLUMNS)
@@ -123,6 +127,19 @@ def write_feature_set(session_root: str, model: EmotionModel) -> None:
         json.dump(feature_set_descriptor(model), fh, indent=2)
 
 
+def write_scoring_model(session_root: str, model: EmotionModel) -> None:
+    """Write the equalizer scoring spec of ``model``, or remove a stale one when it has none."""
+    path = os.path.join(session_root, SCORING_MODEL)
+    spec = scoring_spec(model)
+    if spec is None:
+        if os.path.isfile(path):
+            os.remove(path)
+        return
+    os.makedirs(os.path.join(session_root, EMOTIONS_DIR), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(spec, fh, indent=2)
+
+
 def compute_emotions(
     session_root: str,
     model: str | EmotionModel | None = None,
@@ -154,6 +171,8 @@ def compute_emotions(
         logger.info("Emotion outputs of %s already present, skipping", model.info.key)
         if not os.path.isfile(os.path.join(session_root, FEATURE_SET)):
             write_feature_set(session_root, model)
+        if not os.path.isfile(os.path.join(session_root, SCORING_MODEL)):
+            write_scoring_model(session_root, model)
         return EmotionRun(model.info.key, 0, 0, 0, 0, skipped=True)
 
     recording = load_exg(session_root)
@@ -229,6 +248,7 @@ def compute_emotions(
     snap_to_timebase(emo_df).to_csv(os.path.join(session_root, EMOTIONS_CSV), na_rep="NULL", index=False)
     write_sidecar(session_root, model)
     write_feature_set(session_root, model)
+    write_scoring_model(session_root, model)
 
     n_null = sum(1 for w in all_windows if w.is_null)
     reasons = relabeled["RelabelReason"] if "RelabelReason" in relabeled else pd.Series(dtype=str)
