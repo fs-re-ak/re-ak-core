@@ -13,6 +13,7 @@ import pytest
 
 from reak_core.constants import FULL_SCALE_UV, OUTPUT_RMS_COLUMNS
 from reak_core.femg import compute_emotions, interpolate_invalid, prepare, windows
+from reak_core.femg.feature_set import feature_set_descriptor
 from reak_core.io import Session, invalid_mask, load_exg
 from reak_core.models import (
     DEFAULT_MODEL,
@@ -198,6 +199,37 @@ def test_existing_outputs_are_kept_unless_forced(session_copy):
     assert compute_emotions(root).skipped
     assert not compute_emotions(root, force=True).skipped
     assert not compute_emotions(root, "classical-emotion-2.5.0").skipped  # other model: recomputed
+
+
+def test_feature_set_sidecar_matches_classifier_inputs(session_copy):
+    root, _ = _run(session_copy, "baseline", None)
+    with open(os.path.join(root, "features", "emotions", "feature_set.json"), encoding="utf-8") as fh:
+        descriptor = json.load(fh)
+    inputs = pd.read_csv(os.path.join(root, "features", "emotions", "emotionClassifierInputs.csv"))
+    assert list(inputs.columns[1 : 1 + descriptor["dimension"]]) == descriptor["columns"]
+    assert descriptor["dimension"] == 19 and descriptor["name"] == "extended_nm_a_rmsunit"
+    assert descriptor["modality"] == "femg" and (descriptor["window_ms"], descriptor["hop_ms"]) == (2000, 500)
+    assert descriptor["signature"] == feature_set_descriptor(load_model("standard-latest"))["signature"]
+
+
+def test_feature_set_sidecar_is_added_to_existing_outputs(session_copy):
+    root, _ = _run(session_copy, "baseline", None)
+    sidecar = os.path.join(root, "features", "emotions", "feature_set.json")
+    os.remove(sidecar)  # outputs written before feature_set.json existed
+    assert compute_emotions(root).skipped
+    assert os.path.isfile(sidecar)
+
+
+_RELEASES = ("2.5.0", "2.6.0", "2.7.0", "2.9.0", "2.10.0", "2.11.0", "2.12.0", "2.13.0", "2.14.0")
+
+
+def test_feature_set_signature_tracks_extraction_not_name():
+    sig = {k: feature_set_descriptor(load_model(f"classical-emotion-{k}"))["signature"] for k in _RELEASES}
+    assert sig["2.11.0"] == sig["2.12.0"] == sig["2.13.0"] == sig["2.14.0"]  # same feature code and filters
+    assert sig["2.7.0"] != sig["2.11.0"]  # same name, different feature code
+    assert sig["2.5.0"] != sig["2.6.0"]  # same name, different filters and calibration
+    assert sig["2.9.0"] != sig["2.10.0"]  # different session-neutral calibration code
+    assert feature_set_descriptor(load_model("classical-emotion-2.14.0"))["signature"] == sig["2.14.0"]
 
 
 @pytest.mark.parametrize(
