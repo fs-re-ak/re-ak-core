@@ -14,6 +14,11 @@ listed under "Fixed" with the affected files.
   with a `signature` that identifies the vectors by how they are computed. New function
   `reak_core.femg.feature_set.feature_set_descriptor(model)`. Used by Prime to upload feature
   vectors to the RE-AK CAS feature store.
+- RMS equalizer support: `reak_core.femg.equalizer` (`scoring_spec`, `apply_channel_eq`, `score`).
+  `compute_emotions` writes `features/emotions/scoring_model.json` for models whose stored
+  feature vectors can be equalized per channel and scored again without the raw signal
+  (2.11.0 to 2.14.0). Ships the training Neutral channel profile of 2.14.0
+  (`femg/eq_reference/classical-emotion-2.14.0.json`).
 
 ### Fixed
 
