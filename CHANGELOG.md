@@ -5,6 +5,12 @@ that is not backward compatible in the public API or in the output format (files
 major version. A bug fix that corrects output values without changing their format is a patch release, and is
 listed under "Fixed" with the affected files.
 
+## 1.6.0
+
+- feat(femg): add an equalizer scoring spec for stored emotion feature vectors
+- feat(femg): describe emotion feature vectors with a signed feature-set sidecar
+- fix(online): score calibration-free emotion models immediately
+
 ## Unreleased
 
 ### Added
